@@ -8,7 +8,7 @@ tools:
   - name: ruff
     version: "0.1.9"
   - name: mypy
-    version: "1.8.0"
+    version: "1.14.1"
 
 artifacts:
   - file: "pytest-results.json"
@@ -38,6 +38,13 @@ artifacts:
     description: "Mypy type checker errors"
     parsers: ["extractLinterOutput"]
     coverage_target: "validators/linter-validator.ts"
+
+  - file: "mypy-results.json"
+    type: mypy-json
+    format: json
+    description: "Mypy JSON: type checking errors in JSON format"
+    parsers: []
+    coverage_target: "validators/mypy-validator.ts"
 
 commands:
   generate: "docker-compose up --build"

@@ -11,7 +11,9 @@ services:
       pytest -v --html=/output/pytest-report.html --self-contained-html 2>/dev/null || true &&
       echo 'Running ruff...' &&
       ruff check src/ 2>&1 > /output/ruff-output.txt || true &&
-      echo 'Running mypy...' &&
+      echo 'Running mypy (text)...' &&
       mypy src/ 2>&1 > /output/mypy-output.txt || true &&
+      echo 'Running mypy (JSON)...' &&
+      mypy src/ --output json 2>/dev/null > /output/mypy-results.json || true &&
       echo 'Python artifact generation complete!'
       "

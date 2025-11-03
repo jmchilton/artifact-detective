@@ -10,6 +10,7 @@ export type ArtifactType =
   | "checkstyle-xml"
   | "spotbugs-xml"
   | "eslint-json"
+  | "mypy-json"
   | "eslint-txt"
   | "tsc-txt"
   | "ruff-txt"

@@ -154,29 +154,48 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
 
 function detectJsonType(content: string, lowerContent: string): ArtifactType {
   try {
-    // Clippy JSON: newline-delimited JSON with "reason" field
-    // Check lines for clippy pattern (compiler-message, compiler-artifact, build-finished)
+    // NDJSON formats: Check each line for specific patterns
     const lines = content.split("\n");
-    for (const line of lines) {
-      if (!line.trim().startsWith("{")) continue; // Skip non-JSON lines
+    const firstJsonLine = lines
+      .find((line) => line.trim().startsWith("{"))
+      ?.trim();
+
+    if (firstJsonLine) {
       try {
-        const obj = JSON.parse(line);
+        const firstObj = JSON.parse(firstJsonLine);
+
+        // Clippy JSON: newline-delimited JSON with "reason" field
         if (
-          obj.reason &&
+          firstObj.reason &&
           ["compiler-message", "compiler-artifact", "build-finished"].includes(
-            obj.reason,
+            firstObj.reason,
           )
         ) {
           return "clippy-json";
         }
+
+        // Mypy JSON: newline-delimited JSON with "file", "line", "message", "code" fields
+        if (
+          typeof firstObj.file === "string" &&
+          typeof firstObj.line === "number" &&
+          typeof firstObj.message === "string" &&
+          typeof firstObj.code === "string"
+        ) {
+          return "mypy-json";
+        }
       } catch {
         // Line isn't valid JSON, continue
-        continue;
       }
     }
 
-    // Try to parse JSON to inspect structure
-    const data = JSON.parse(content);
+    // Try to parse JSON to inspect structure (for single-object JSON)
+    let data: unknown;
+    try {
+      data = JSON.parse(content);
+    } catch {
+      // Invalid JSON, fall through to unknown
+      return "unknown";
+    }
 
     // ESLint JSON: Array with objects containing "filePath", "messages" fields
     if (
@@ -189,30 +208,36 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
       return "eslint-json";
     }
 
-    // Playwright JSON: Has "config", "suites" with specific structure
-    if (data.config && data.suites && Array.isArray(data.suites)) {
-      // Check for Playwright-specific fields
-      if (
-        data.config.rootDir !== undefined ||
-        data.config.version !== undefined
-      ) {
-        return "playwright-json";
+    // Safely cast to Record for property access
+    if (typeof data === "object" && data !== null) {
+      const obj = data as Record<string, unknown>;
+
+      // Playwright JSON: Has "config", "suites" with specific structure
+      if (obj.config && obj.suites && Array.isArray(obj.suites)) {
+        // Check for Playwright-specific fields
+        const config = obj.config as Record<string, unknown>;
+        if (config.rootDir !== undefined || config.version !== undefined) {
+          return "playwright-json";
+        }
       }
-    }
 
-    // Jest JSON: Has "testResults" array with specific structure
-    if (data.testResults && Array.isArray(data.testResults)) {
-      return "jest-json";
-    }
+      // Jest JSON: Has "testResults" array with specific structure
+      if (obj.testResults && Array.isArray(obj.testResults)) {
+        return "jest-json";
+      }
 
-    // pytest JSON: Common format has "tests" array or "report" structure
-    if (data.tests && Array.isArray(data.tests)) {
-      return "pytest-json";
+      // pytest JSON: Common format has "tests" array or "report" structure
+      if (obj.tests && Array.isArray(obj.tests)) {
+        return "pytest-json";
+      }
     }
 
     // Check content for framework mentions as fallback
     if (lowerContent.includes("eslint")) {
       return "eslint-json";
+    }
+    if (lowerContent.includes("mypy")) {
+      return "mypy-json";
     }
     if (lowerContent.includes("playwright")) {
       return "playwright-json";
