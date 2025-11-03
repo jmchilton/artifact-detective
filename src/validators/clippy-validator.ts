@@ -78,14 +78,27 @@ export function validateClippyJSON(content: string): ValidationResult {
  * - "warning:" or "error:" lines with file paths
  * - Code span indicators like "--> src/lib.rs:7:5"
  * - Warning/error count summary
+ * - Clippy-specific markers like "rust-clippy" URLs
+ * - Must NOT be JSON format (including newline-delimited JSON)
  */
 export function validateClippyText(content: string): ValidationResult {
+  // Reject newline-delimited JSON format by checking if any line contains clippy JSON structure
+  const hasCompilerMessageJSON = /"reason":\s*"compiler-message"/.test(content);
+  if (hasCompilerMessageJSON) {
+    return {
+      valid: false,
+      error: "Content is JSON format, not text format",
+    };
+  }
+
   // Check for clippy-specific patterns
   const warningPattern = /(warning|error):/i.test(content);
   const spanPattern = /-->\s+\S+\.rs:\d+:\d+/.test(content);
+  const clippyMarker = /rust-clippy|clippy::/i.test(content);
   const summaryPattern = /\d+\s+warnings?\s+emitted/i.test(content);
 
-  if ((warningPattern && spanPattern) || summaryPattern) {
+  // Must have clippy-specific markers (URL or lint name)
+  if (clippyMarker && ((warningPattern && spanPattern) || summaryPattern)) {
     return { valid: true };
   }
 

@@ -3,8 +3,7 @@ import type { ValidationResult } from "./types.js";
 /**
  * Validates rustfmt check output format
  * Expected patterns:
- * - Diff output showing formatting differences
- * - File paths with "Diff in..." lines
+ * - Diff output showing formatting differences with "Diff in" marker
  * - Empty output is valid (no formatting issues)
  */
 export function validateRustfmtOutput(content: string): ValidationResult {
@@ -13,12 +12,10 @@ export function validateRustfmtOutput(content: string): ValidationResult {
     return { valid: true };
   }
 
-  // Check for diff patterns
-  const diffPattern = /Diff\s+in\s+\S+\.rs/i.test(content);
-  const filePattern = /\S+\.rs/i.test(content);
+  // rustfmt --check outputs diffs with specific "Diff in" marker
+  const diffPattern = /Diff\s+in\s+\S+\.rs\s+at\s+line/i.test(content);
 
-  // rustfmt --check outputs diffs or file names
-  if (diffPattern || filePattern) {
+  if (diffPattern) {
     return { valid: true };
   }
 

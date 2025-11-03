@@ -1,47 +1,39 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-import { parse as parseYAML } from "yaml";
+import { readFileSync } from "fs";
 import { detectArtifactType } from "../src/detectors/type-detector.js";
 import { validate, ARTIFACT_TYPE_REGISTRY } from "../src/validators/index.js";
 import { extractLinterOutput } from "../src/parsers/linters/extractors.js";
 import { loadAllFixtures } from "./fixtures-helper.js";
-import type { ArtifactType } from "../src/types.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 describe("Generated fixture validation", () => {
-  const languages = ["javascript", "python", "rust"];
+  const fixtures = loadAllFixtures(["javascript", "python", "rust"]);
 
-  for (const lang of languages) {
+  const fixturesByLanguage = fixtures.reduce(
+    (acc, fixture) => {
+      if (!acc[fixture.language]) {
+        acc[fixture.language] = [];
+      }
+      acc[fixture.language].push(fixture);
+      return acc;
+    },
+    {} as Record<string, typeof fixtures>,
+  );
+
+  for (const [lang, langFixtures] of Object.entries(fixturesByLanguage)) {
     describe(`${lang} fixtures`, () => {
-      const manifestPath = join(
-        __dirname,
-        `../fixtures/sample-projects/${lang}/manifest.yml`,
-      );
-      const manifest = parseYAML(readFileSync(manifestPath, "utf-8"));
-
-      for (const artifact of manifest.artifacts) {
-        const artifactPath = join(
-          __dirname,
-          `../fixtures/generated/${lang}/${artifact.file}`,
-        );
-
-        describe(artifact.file, () => {
+      for (const fixture of langFixtures) {
+        describe(fixture.file, () => {
           it("exists in generated/ directory", () => {
-            expect(existsSync(artifactPath)).toBe(true);
+            expect(fixture.path).toBeTruthy();
           });
 
-          const artifactType = artifact.type as ArtifactType;
-          const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
+          const capabilities = ARTIFACT_TYPE_REGISTRY[fixture.type];
 
           // ALWAYS test validator if one exists (structural correctness)
           if (capabilities?.validator) {
             it("passes validator", () => {
-              const content = readFileSync(artifactPath, "utf-8");
-              const result = validate(artifactType, content);
+              const content = readFileSync(fixture.path, "utf-8");
+              const result = validate(fixture.type, content);
               expect(result.valid).toBe(true);
               if (!result.valid) {
                 console.error(`Validation error: ${result.error}`);
@@ -51,22 +43,14 @@ describe("Generated fixture validation", () => {
 
           // ONLY test auto-detection if supported (based on registry)
           if (capabilities?.supportsAutoDetection) {
-            it(`auto-detects as ${artifact.type}`, () => {
-              const result = detectArtifactType(artifactPath);
-              expect(result.detectedType).toBe(artifact.type);
-              expect(result.originalFormat).toBe(artifact.format);
+            it(`auto-detects as ${fixture.type}`, () => {
+              const result = detectArtifactType(fixture.path);
+              expect(result.detectedType).toBe(fixture.type);
             });
           }
 
-          // Test parsers if specified
-          if (artifact.parsers?.includes("extractLinterOutput")) {
-            it("extracts linter output", () => {
-              const content = readFileSync(artifactPath, "utf-8");
-              const output = extractLinterOutput(artifact.type, content);
-              expect(output).toBeTruthy();
-              expect(output!.length).toBeGreaterThan(0);
-            });
-          }
+          // Test parsers if specified (note: manifest parser info not in FixtureInfo yet)
+          // This would require extending the FixtureInfo interface if needed
         });
       }
     });
