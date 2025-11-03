@@ -225,6 +225,16 @@ function detectXmlType(content: string, lowerContent: string): ArtifactType {
     return "junit-xml";
   }
 
+  // Checkstyle XML format - root element is typically <checkstyle>
+  if (lowerContent.includes("<checkstyle")) {
+    return "checkstyle-xml";
+  }
+
+  // SpotBugs XML format - root element is <BugCollection>
+  if (lowerContent.includes("<bugcollection")) {
+    return "spotbugs-xml";
+  }
+
   return "unknown";
 }
 

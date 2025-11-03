@@ -5,6 +5,10 @@ export { detectArtifactType } from "./detectors/type-detector.js";
 export { extractPlaywrightJSON } from "./parsers/html/playwright-html.js";
 export { extractPytestJSON } from "./parsers/html/pytest-html.js";
 
+// XML parsers
+export { extractCheckstyleXML } from "./parsers/xml/checkstyle-parser.js";
+export { extractSpotBugsXML } from "./parsers/xml/spotbugs-parser.js";
+
 // Linter extractors
 export {
   extractLinterOutput,
@@ -26,4 +30,9 @@ export type {
   PlaywrightTest,
   PlaywrightSuite,
   PlaywrightReport,
+  CheckstyleViolation,
+  CheckstyleFile,
+  CheckstyleReport,
+  SpotBugsBug,
+  SpotBugsReport,
 } from "./types.js";

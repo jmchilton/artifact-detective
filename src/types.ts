@@ -7,6 +7,8 @@ export type ArtifactType =
   | "pytest-json"
   | "pytest-html"
   | "junit-xml"
+  | "checkstyle-xml"
+  | "spotbugs-xml"
   | "eslint-txt"
   | "tsc-txt"
   | "ruff-txt"
@@ -114,5 +116,54 @@ export interface PlaywrightReport {
     passed: number;
     failed: number;
     skipped: number;
+  };
+}
+
+// Checkstyle-specific types
+export interface CheckstyleViolation {
+  line: number;
+  column: number;
+  severity: "error" | "warning" | "info";
+  message: string;
+  source: string;
+}
+
+export interface CheckstyleFile {
+  name: string;
+  violations: CheckstyleViolation[];
+}
+
+export interface CheckstyleReport {
+  files: CheckstyleFile[];
+  summary: {
+    totalFiles: number;
+    filesWithViolations: number;
+    totalViolations: number;
+    errors: number;
+    warnings: number;
+  };
+}
+
+// SpotBugs-specific types
+export interface SpotBugsBug {
+  type: string;
+  priority: number;
+  abbrev: string;
+  category: string;
+  instanceLine: number;
+  instanceMessage: string;
+  sourceFile: string;
+  sourceLanguage?: string;
+  classname?: string;
+  methodname?: string;
+}
+
+export interface SpotBugsReport {
+  bugs: SpotBugsBug[];
+  summary: {
+    totalBugs: number;
+    highPriority: number;
+    mediumPriority: number;
+    lowPriority: number;
   };
 }

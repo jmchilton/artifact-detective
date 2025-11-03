@@ -5,6 +5,8 @@ import { validatePlaywrightJSON } from "./playwright-validator.js";
 import { validatePlaywrightHTML } from "./playwright-html-validator.js";
 import { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 import { validateJUnitXML } from "./junit-validator.js";
+import { validateCheckstyleXML } from "./checkstyle-validator.js";
+import { validateSpotBugsXML } from "./spotbugs-validator.js";
 import {
   validateESLintOutput,
   validateTSCOutput,
@@ -21,6 +23,8 @@ export { validatePlaywrightJSON } from "./playwright-validator.js";
 export { validatePlaywrightHTML } from "./playwright-html-validator.js";
 export { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 export { validateJUnitXML } from "./junit-validator.js";
+export { validateCheckstyleXML } from "./checkstyle-validator.js";
+export { validateSpotBugsXML } from "./spotbugs-validator.js";
 export {
   validateESLintOutput,
   validateTSCOutput,
@@ -67,6 +71,14 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   "junit-xml": {
     supportsAutoDetection: true,
     validator: validateJUnitXML,
+  },
+  "checkstyle-xml": {
+    supportsAutoDetection: true,
+    validator: validateCheckstyleXML,
+  },
+  "spotbugs-xml": {
+    supportsAutoDetection: true,
+    validator: validateSpotBugsXML,
   },
   "eslint-txt": {
     supportsAutoDetection: false,
