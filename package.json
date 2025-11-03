@@ -1,6 +1,5 @@
 {
   "name": "artifact-detective",
-  "version": "0.1.0",
   "description": "Detect and parse CI artifact types for test frameworks and linters",
   "type": "module",
   "main": "./dist/index.js",
@@ -55,12 +54,16 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.6",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^24.9.2",
     "@vitest/coverage-v8": "^4.0.6",
     "eslint": "^9.39.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
+    "semantic-release": "^24.2.9",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
     "vitest": "^4.0.6",
