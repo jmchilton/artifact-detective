@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/jmchilton/artifact-detective/compare/v1.0.0...v1.1.0) (2025-11-03)
+
+
+### Features
+
+* add /setup-fixture-project command for automated sample project creation ([7d8504f](https://github.com/jmchilton/artifact-detective/commit/7d8504f08fd5426b9dedb22c7ea88475eca056ad))
+
 # 1.0.0 (2025-11-03)
 
 
