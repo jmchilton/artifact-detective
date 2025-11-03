@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/jmchilton/artifact-detective/compare/v1.1.0...v1.2.0) (2025-11-03)
+
+
+### Features
+
+* add Java maven sample project for fixture generation ([70a6ecc](https://github.com/jmchilton/artifact-detective/commit/70a6ecc00df3703173fefef162a286b507a54791))
+
 # [1.1.0](https://github.com/jmchilton/artifact-detective/compare/v1.0.0...v1.1.0) (2025-11-03)
 
 
