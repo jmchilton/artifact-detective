@@ -7,6 +7,8 @@ import type { ArtifactType } from "../src/types.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+export const FIXTURES_DIR = join(__dirname, "../fixtures");
+
 export interface FixtureInfo {
   type: ArtifactType;
   path: string;

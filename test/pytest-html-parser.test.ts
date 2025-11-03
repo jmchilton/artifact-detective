@@ -1,11 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
 import { extractPytestJSON } from "../src/parsers/html/pytest-html.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const FIXTURES_DIR = join(__dirname, "../fixtures");
+import { FIXTURES_DIR } from "./fixtures-helper.js";
 
 describe("extractPytestJSON", () => {
   describe("Generated fixtures", () => {

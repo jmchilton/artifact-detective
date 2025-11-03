@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { join } from "path";
 import { readFileSync } from "fs";
 import { detectArtifactType } from "../src/detectors/type-detector.js";
 import { validate, ARTIFACT_TYPE_REGISTRY } from "../src/validators/index.js";
@@ -8,10 +7,7 @@ import {
   extractCheckstyleXML,
   extractSpotBugsXML,
 } from "../src/index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const FIXTURES_DIR = join(__dirname, "../fixtures");
+import { FIXTURES_DIR } from "./fixtures-helper.js";
 
 describe("Java Artifact Detection and Validation", () => {
   describe("Checkstyle XML", () => {
