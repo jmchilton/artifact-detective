@@ -14,23 +14,26 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/) w
 <footer>
 ```
 
-### Types
+### Types (0.x.y versioning)
 
-- **feat**: New feature (triggers minor version bump)
-- **fix**: Bug fix (triggers patch version bump)
-- **docs**: Documentation only
-- **style**: Code style changes (formatting, no code change)
-- **refactor**: Code refactoring (no feature/fix)
-- **perf**: Performance improvement
-- **test**: Adding/updating tests
-- **chore**: Build/tooling changes
+- **feat**: New feature (triggers 0.minor.0 bump)
+- **fix**: Bug fix (triggers 0.x.patch bump)
+- **perf**: Performance improvement (triggers 0.x.patch bump)
+- **docs**: Documentation only (no release)
+- **style**: Code style changes (no release)
+- **refactor**: Code refactoring (no release)
+- **test**: Adding/updating tests (no release)
+- **chore**: Build/tooling changes (no release)
 
-### Breaking Changes
+### Breaking Changes (0.x versioning)
 
-Add `!` after type or `BREAKING CHANGE:` in footer for major version bump:
+In 0.x releases, breaking changes trigger minor bump (0.minor.0):
 ```
-feat!: change API signature
+feat!: change API signature → 0.2.0
+BREAKING CHANGE: API redesign → 0.2.0
 ```
+
+Once ready for stable 1.0.0, update .releaserc.json release rules.
 
 ### Examples
 
@@ -63,12 +66,15 @@ chore: upgrade cheerio to v1.1.2
 
 ## Release Process
 
-Automated via semantic-release:
+Automated via semantic-release (0.x versioning):
 1. Push conventional commits to main
 2. CI runs tests/lint
 3. semantic-release analyzes commits
-4. Version bumped, CHANGELOG updated
-5. Published to npm automatically
-6. GitHub release created
+4. Version bumped (feat→0.minor.0, fix→0.x.patch)
+5. CHANGELOG updated automatically
+6. Published to npm automatically
+7. GitHub release created
 
 No manual `npm version` or `npm publish` needed.
+
+First release will be 0.1.0, subsequent features bump minor (0.2.0, 0.3.0, etc).
