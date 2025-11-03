@@ -82,7 +82,6 @@ export interface PytestTest {
 
 export interface PytestReport {
   created: number;
-  duration: number;
   exitCode: number;
   root: string;
   environment?: Record<string, string>;
