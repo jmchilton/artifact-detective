@@ -22,9 +22,15 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:coverage
+      - name: Run tests
+        run: npm test
+
+      - name: Run tests with coverage (Node 19+)
+        if: matrix.node-version != '18'
+        run: npm run test:coverage
 
       - uses: codecov/codecov-action@v4
+        if: matrix.node-version != '18'
         with:
           files: ./coverage/coverage-final.json
           flags: unittests
