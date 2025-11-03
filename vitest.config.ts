@@ -16,10 +16,10 @@ export default defineConfig({
         '**/parsers/linters/extractors.ts', // CI log extraction tested via integration
       ],
       thresholds: {
-        lines: 70,
-        functions: 70,
+        lines: 85,
+        functions: 95,
         branches: 70,
-        statements: 70,
+        statements: 85,
       },
     },
   },

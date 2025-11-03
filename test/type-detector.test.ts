@@ -101,6 +101,13 @@ describe('detectArtifactType', () => {
       expect(result.originalFormat).toBe('binary');
       expect(result.isBinary).toBe(true);
     });
+
+    it('detects BAM (unregistered binary) as unknown', () => {
+      const result = detectArtifactType('/path/to/1.bam');
+      expect(result.detectedType).toBe('unknown');
+      expect(result.originalFormat).toBe('binary');
+      expect(result.isBinary).toBe(true);
+    });
   });
 
   describe('Edge cases', () => {
