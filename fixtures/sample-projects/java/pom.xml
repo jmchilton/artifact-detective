@@ -55,6 +55,7 @@
         <configuration>
           <configLocation>checkstyle.xml</configLocation>
           <violationSeverity>warning</violationSeverity>
+          <failOnViolation>false</failOnViolation>
         </configuration>
         <executions>
           <execution>

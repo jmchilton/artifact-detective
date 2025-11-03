@@ -5,3 +5,7 @@ services:
     build: .
     volumes:
       - ../../generated/java:/output
+      - maven-cache:/root/.m2
+
+volumes:
+  maven-cache:
