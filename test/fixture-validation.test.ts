@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "fs";
 import { detectArtifactType } from "../src/detectors/type-detector.js";
 import { validate, ARTIFACT_TYPE_REGISTRY } from "../src/validators/index.js";
-import { extractLinterOutput } from "../src/parsers/linters/extractors.js";
 import { loadAllFixtures } from "./fixtures-helper.js";
 
 describe("Generated fixture validation", () => {

@@ -43,14 +43,6 @@ describe("detectArtifactType", () => {
         "html",
       );
     });
-
-    it("detects playwright-html by content", () => {
-      testArtifact(
-        join(FIXTURES_DIR, "html/playwright-html-sample.html"),
-        "playwright-html",
-        "html",
-      );
-    });
   });
 
   describe("JSON detection", () => {

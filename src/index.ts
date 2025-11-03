@@ -2,7 +2,6 @@
 export { detectArtifactType } from "./detectors/type-detector.js";
 
 // HTML parsers
-export { extractPlaywrightJSON } from "./parsers/html/playwright-html.js";
 export { extractPytestJSON } from "./parsers/html/pytest-html.js";
 
 // XML parsers

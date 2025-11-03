@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import {
   validateJestJSON,
   validatePlaywrightJSON,
-  validatePlaywrightHTML,
   validatePytestJSON,
   validatePytestHTML,
   validateJUnitXML,
@@ -49,11 +48,6 @@ describe("Validator error paths", () => {
   });
 
   describe("HTML validators", () => {
-    it("playwright HTML rejects non-HTML", () => {
-      const result = validatePlaywrightHTML("not html");
-      expect(result.valid).toBe(false);
-    });
-
     it("pytest HTML rejects non-HTML", () => {
       const result = validatePytestHTML("not html");
       expect(result.valid).toBe(false);

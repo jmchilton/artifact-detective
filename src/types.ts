@@ -1,7 +1,6 @@
 // Core artifact type definitions
 export type ArtifactType =
   | "playwright-json"
-  | "playwright-html"
   | "jest-json"
   | "jest-html"
   | "pytest-json"

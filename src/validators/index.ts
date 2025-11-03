@@ -2,7 +2,6 @@ import type { ArtifactType } from "../types.js";
 import type { ArtifactTypeCapabilities, ValidationResult } from "./types.js";
 import { validateJestJSON } from "./jest-validator.js";
 import { validatePlaywrightJSON } from "./playwright-validator.js";
-import { validatePlaywrightHTML } from "./playwright-html-validator.js";
 import { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 import { validateJUnitXML } from "./junit-validator.js";
 import { validateCheckstyleXML } from "./checkstyle-validator.js";
@@ -22,7 +21,6 @@ import { validateRustfmtOutput } from "./rustfmt-validator.js";
 
 export { validateJestJSON } from "./jest-validator.js";
 export { validatePlaywrightJSON } from "./playwright-validator.js";
-export { validatePlaywrightHTML } from "./playwright-html-validator.js";
 export { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 export { validateJUnitXML } from "./junit-validator.js";
 export { validateCheckstyleXML } from "./checkstyle-validator.js";
@@ -55,10 +53,6 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   "playwright-json": {
     supportsAutoDetection: true,
     validator: validatePlaywrightJSON,
-  },
-  "playwright-html": {
-    supportsAutoDetection: true,
-    validator: validatePlaywrightHTML,
   },
   "jest-html": {
     supportsAutoDetection: true,

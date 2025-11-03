@@ -127,20 +127,6 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
     return "pytest-html";
   }
 
-  // Playwright HTML reporter: Look for Playwright-specific markers
-  // Playwright's HTML reporter includes distinctive elements like:
-  // - "playwright-report" class or id
-  // - "Playwright Test Report" title
-  // - "@playwright/test" or "playwright.dev" references
-  if (
-    lowerContent.includes("playwright test report") ||
-    lowerContent.includes("playwright-report") ||
-    lowerContent.includes("playwright.dev") ||
-    lowerContent.includes("@playwright/test")
-  ) {
-    return "playwright-html";
-  }
-
   // Jest HTML reporters often include "jest" in generator or have jest-html classes
   if (
     lowerContent.includes("jest-html") ||
