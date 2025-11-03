@@ -7,6 +7,7 @@ You are adding a new artifact type to an existing sample project to generate tes
 ## User Input
 
 The user will describe an artifact type, for example:
+
 - "eslint json output"
 - "prettier output"
 - "golangci-lint json"
@@ -20,6 +21,7 @@ Add the new artifact type to the appropriate existing sample project, generate t
 ### 1. Analyze Artifact Type
 
 From user prompt, determine:
+
 - **Tool name**: eslint, prettier, vitest, jest, golangci-lint, etc.
 - **Output format**: json, xml, html, txt
 - **Language ecosystem**: javascript, python, java, rust, go
@@ -29,6 +31,7 @@ From user prompt, determine:
 ### 2. Find Target Sample Project
 
 Determine which existing sample project to extend:
+
 - JavaScript tools → `fixtures/sample-projects/javascript/`
 - Python tools → `fixtures/sample-projects/python/`
 - Java tools → `fixtures/sample-projects/java/`
@@ -40,6 +43,7 @@ If no appropriate sample project exists, stop and tell user to run `/setup-fixtu
 ### 3. Read Current Configuration
 
 Read the target sample project's:
+
 - `manifest.yml` - Current artifacts and tool versions
 - `package.json`/`pom.xml`/`Cargo.toml`/etc - Dependencies
 - `Dockerfile` - Build commands
@@ -48,12 +52,14 @@ Read the target sample project's:
 ### 4. Update Sample Project
 
 **Add tool dependency** (if not already present):
+
 - JavaScript: Add to `package.json` with pinned version
 - Python: Add to `pyproject.toml`
 - Java: Add to `pom.xml`
 - Rust: Add to `Cargo.toml`
 
 **Update docker-compose.yml command**:
+
 - Add command to generate new artifact type
 - Redirect output to `/output/{artifact-name}.{ext}`
 - Use `2>&1 | tee` for text outputs
@@ -61,6 +67,7 @@ Read the target sample project's:
 - Ensure command runs even if it fails (use `|| true` or `;` separator)
 
 **Update manifest.yml**:
+
 - Add new artifact entry with:
   - `file`: Output filename
   - `type`: New artifact type name
@@ -70,6 +77,7 @@ Read the target sample project's:
   - `coverage_target`: Source file to be covered
 
 **Update source code** (if needed):
+
 - Add code that triggers violations/warnings for the new tool
 - Aim for 4-8 violations to ensure tool actually runs
 
@@ -88,10 +96,12 @@ Verify new artifact appears in `fixtures/generated/{language}/`
 ### 6. Update Type System
 
 **Add to `src/types.ts`**:
+
 - Add `"{tool}-{format}"` to `ArtifactType` union
 - Create interfaces for structured output if needed (e.g., for JSON/XML with parsing)
 
 **Update `src/detectors/type-detector.ts`**:
+
 - Add detection logic if auto-detection feasible
 - For JSON: Check for unique fields/structure
 - For XML: Check for unique root elements/attributes
@@ -99,18 +109,21 @@ Verify new artifact appears in `fixtures/generated/{language}/`
 - For txt: Usually skip (can't reliably auto-detect)
 
 **Create validator** (if feasible):
+
 - Create `src/validators/{tool}-validator.ts`
 - Export `validate{Tool}{Format}` function
 - Check for structural markers
 - Return `ValidationResult`
 
 **Create parser** (if needed):
+
 - Create `src/parsers/{format}/{tool}-parser.ts` if extracting structured data
 - Export `extract{Tool}{Format}` function
 - Parse and return typed results
 - OR extend existing linter extractor in `src/parsers/linters/extractors.ts`
 
 **Register in `src/validators/index.ts`**:
+
 - Import validator
 - Export validator
 - Add to `ARTIFACT_TYPE_REGISTRY`:
@@ -122,16 +135,19 @@ Verify new artifact appears in `fixtures/generated/{language}/`
   ```
 
 **Export from `src/index.ts`** (if adding parser):
+
 - Export parser function
 - Export types
 
 ### 7. Create/Update Tests
 
 **Create test file** (if new tool category):
+
 - Create `test/{language}-{tool}.test.ts`
 - Or extend existing test file for that language
 
 **Add test cases**:
+
 ```typescript
 describe("{Tool} {Format}", () => {
   const artifactPath = join(
@@ -175,6 +191,7 @@ npm run lint
 ```
 
 If tests fail:
+
 - Fix type system implementation
 - Update validators/parsers
 - Regenerate artifacts if needed
@@ -183,6 +200,7 @@ If tests fail:
 ### 9. Commit Changes
 
 Create conventional commit:
+
 ```
 feat: add {tool}-{format} artifact type support
 
@@ -199,6 +217,7 @@ Enables automated detection of {tool} output from {language} projects.
 ## Tool-Specific Patterns
 
 ### ESLint JSON
+
 - Tool: eslint
 - Format: json
 - Command: `eslint . --format json --output-file /output/eslint-output.json || true`
@@ -206,6 +225,7 @@ Enables automated detection of {tool} output from {language} projects.
 - Parser: Direct JSON consumption or linter extractor
 
 ### Prettier Output
+
 - Tool: prettier
 - Format: txt
 - Command: `prettier --check . 2>&1 | tee /output/prettier-output.txt || true`
@@ -213,6 +233,7 @@ Enables automated detection of {tool} output from {language} projects.
 - Parser: Text pattern matching
 
 ### Vitest JSON
+
 - Tool: vitest
 - Format: json
 - Command: `vitest run --reporter=json --outputFile=/output/vitest-results.json || true`
@@ -220,6 +241,7 @@ Enables automated detection of {tool} output from {language} projects.
 - Parser: Direct JSON consumption, similar to Jest structure
 
 ### Jest HTML
+
 - Tool: jest
 - Format: html
 - Command: `jest --reporters=jest-html-reporter || true` (requires jest-html-reporter package)
@@ -227,6 +249,7 @@ Enables automated detection of {tool} output from {language} projects.
 - Parser: Cheerio-based HTML extraction
 
 ### Golangci-lint JSON
+
 - Tool: golangci-lint
 - Format: json
 - Command: `golangci-lint run --out-format json > /output/golangci-output.json || true`
@@ -236,6 +259,7 @@ Enables automated detection of {tool} output from {language} projects.
 ## Output Format
 
 Provide user with:
+
 1. Summary of artifact type added
 2. Sample project extended
 3. Type system changes made

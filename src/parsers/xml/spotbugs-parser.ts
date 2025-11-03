@@ -1,10 +1,10 @@
-import { readFileSync } from "fs";
-import * as cheerio from "cheerio";
-import type { SpotBugsReport, SpotBugsBug } from "../../types.js";
+import { readFileSync } from 'fs';
+import * as cheerio from 'cheerio';
+import type { SpotBugsReport, SpotBugsBug } from '../../types.js';
 
 export function extractSpotBugsXML(filePath: string): SpotBugsReport | null {
   try {
-    const xml = readFileSync(filePath, "utf-8");
+    const xml = readFileSync(filePath, 'utf-8');
     const $ = cheerio.load(xml, { xmlMode: true });
 
     const report: SpotBugsReport = {
@@ -18,25 +18,25 @@ export function extractSpotBugsXML(filePath: string): SpotBugsReport | null {
     };
 
     // Parse each <BugInstance> element
-    $("BugInstance").each((_index, elem) => {
-      const type = $(elem).attr("type") || "";
-      const priority = parseInt($(elem).attr("priority") || "3", 10);
-      const abbrev = $(elem).attr("abbrev") || "";
-      const category = $(elem).attr("category") || "";
+    $('BugInstance').each((_index, elem) => {
+      const type = $(elem).attr('type') || '';
+      const priority = parseInt($(elem).attr('priority') || '3', 10);
+      const abbrev = $(elem).attr('abbrev') || '';
+      const category = $(elem).attr('category') || '';
 
       // Get the message from LongMessage or ShortMessage
-      let instanceMessage = "";
-      const longMsg = $(elem).find("LongMessage").first().text();
-      const shortMsg = $(elem).find("ShortMessage").first().text();
-      instanceMessage = longMsg || shortMsg || "";
+      let instanceMessage = '';
+      const longMsg = $(elem).find('LongMessage').first().text();
+      const shortMsg = $(elem).find('ShortMessage').first().text();
+      instanceMessage = longMsg || shortMsg || '';
 
       // Get source file from SourceLine element
-      let sourceFile = "";
+      let sourceFile = '';
       let instanceLine = 0;
       const sourceLine = $(elem).find("SourceLine[primary='true']").first();
       if (sourceLine.length > 0) {
-        sourceFile = sourceLine.attr("sourcefile") || "";
-        const lineNum = sourceLine.attr("start");
+        sourceFile = sourceLine.attr('sourcefile') || '';
+        const lineNum = sourceLine.attr('start');
         if (lineNum) {
           instanceLine = parseInt(lineNum, 10);
         }
@@ -44,10 +44,10 @@ export function extractSpotBugsXML(filePath: string): SpotBugsReport | null {
 
       // Get class and method names if available
       const classElem = $(elem).find("Class[primary='true']");
-      const classname = classElem.attr("classname") || "";
+      const classname = classElem.attr('classname') || '';
 
       const methodElem = $(elem).find("Method[primary='true']");
-      const methodname = methodElem.attr("name") || "";
+      const methodname = methodElem.attr('name') || '';
 
       const bug: SpotBugsBug = {
         type,

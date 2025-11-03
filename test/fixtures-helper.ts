@@ -1,13 +1,13 @@
-import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-import { parse as parseYAML } from "yaml";
-import type { ArtifactType } from "../src/types.js";
+import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { parse as parseYAML } from 'yaml';
+import type { ArtifactType } from '../src/types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const FIXTURES_DIR = join(__dirname, "../fixtures");
+export const FIXTURES_DIR = join(__dirname, '../fixtures');
 
 export interface FixtureInfo {
   type: ArtifactType;
@@ -22,30 +22,24 @@ export interface FixtureInfo {
  * @returns Array of fixture info objects
  */
 export function loadAllFixtures(
-  languages: string[] = ["javascript", "python", "rust", "java"],
+  languages: string[] = ['javascript', 'python', 'rust', 'java'],
 ): FixtureInfo[] {
   const allFixtures: FixtureInfo[] = [];
 
   for (const lang of languages) {
-    const manifestPath = join(
-      __dirname,
-      `../fixtures/sample-projects/${lang}/manifest.yml`,
-    );
+    const manifestPath = join(__dirname, `../fixtures/sample-projects/${lang}/manifest.yml`);
 
     if (!existsSync(manifestPath)) {
       continue;
     }
 
     try {
-      const manifest = parseYAML(readFileSync(manifestPath, "utf-8")) as {
+      const manifest = parseYAML(readFileSync(manifestPath, 'utf-8')) as {
         artifacts: Array<{ file: string; type: string }>;
       };
 
       for (const artifact of manifest.artifacts) {
-        const fixturePath = join(
-          __dirname,
-          `../fixtures/generated/${lang}/${artifact.file}`,
-        );
+        const fixturePath = join(__dirname, `../fixtures/generated/${lang}/${artifact.file}`);
 
         if (!existsSync(fixturePath)) {
           continue;

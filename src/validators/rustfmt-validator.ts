@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 /**
  * Validates rustfmt check output format
@@ -8,7 +8,7 @@ import type { ValidationResult } from "./types.js";
  */
 export function validateRustfmtOutput(content: string): ValidationResult {
   // Empty output is valid (no formatting issues)
-  if (content.trim() === "") {
+  if (content.trim() === '') {
     return { valid: true };
   }
 
@@ -21,6 +21,6 @@ export function validateRustfmtOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match rustfmt output format",
+    error: 'Does not match rustfmt output format',
   };
 }

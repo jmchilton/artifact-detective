@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 export function validatePytestJSON(content: string): ValidationResult {
   try {
@@ -7,7 +7,7 @@ export function validatePytestJSON(content: string): ValidationResult {
     if (!data.tests || !Array.isArray(data.tests)) {
       return {
         valid: false,
-        error: "Missing or invalid tests array",
+        error: 'Missing or invalid tests array',
       };
     }
 
@@ -21,7 +21,7 @@ export function validatePytestJSON(content: string): ValidationResult {
 }
 
 export function validatePytestHTML(content: string): ValidationResult {
-  if (!content.includes("pytest-html")) {
+  if (!content.includes('pytest-html')) {
     return {
       valid: false,
       error: 'Missing pytest-html marker (link to "pytest-html" package)',

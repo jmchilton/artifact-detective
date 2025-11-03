@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 export function validateESLintOutput(content: string): ValidationResult {
   // ESLint output patterns:
@@ -17,7 +17,7 @@ export function validateESLintOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match ESLint output format",
+    error: 'Does not match ESLint output format',
   };
 }
 
@@ -33,7 +33,7 @@ export function validateTSCOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match TypeScript compiler output format",
+    error: 'Does not match TypeScript compiler output format',
   };
 }
 
@@ -53,7 +53,7 @@ export function validateFlake8Output(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match flake8 output format",
+    error: 'Does not match flake8 output format',
   };
 }
 
@@ -74,7 +74,7 @@ export function validateRuffOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match ruff output format",
+    error: 'Does not match ruff output format',
   };
 }
 
@@ -94,7 +94,6 @@ export function validateMypyOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match mypy output format",
+    error: 'Does not match mypy output format',
   };
 }
-

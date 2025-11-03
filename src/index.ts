@@ -1,19 +1,19 @@
 // Type detector
-export { detectArtifactType } from "./detectors/type-detector.js";
+export { detectArtifactType } from './detectors/type-detector.js';
 
 // HTML parsers
-export { extractPytestJSON } from "./parsers/html/pytest-html.js";
+export { extractPytestJSON } from './parsers/html/pytest-html.js';
 
 // XML parsers
-export { extractCheckstyleXML } from "./parsers/xml/checkstyle-parser.js";
-export { extractSpotBugsXML } from "./parsers/xml/spotbugs-parser.js";
+export { extractCheckstyleXML } from './parsers/xml/checkstyle-parser.js';
+export { extractSpotBugsXML } from './parsers/xml/spotbugs-parser.js';
 
 // Linter extractors
 export {
   extractLinterOutput,
   detectLinterType,
   LINTER_PATTERNS,
-} from "./parsers/linters/extractors.js";
+} from './parsers/linters/extractors.js';
 
 // Types
 export type {
@@ -34,4 +34,4 @@ export type {
   CheckstyleReport,
   SpotBugsBug,
   SpotBugsReport,
-} from "./types.js";
+} from './types.js';

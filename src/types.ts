@@ -1,28 +1,28 @@
 // Core artifact type definitions
 export type ArtifactType =
-  | "playwright-json"
-  | "jest-json"
-  | "jest-html"
-  | "pytest-json"
-  | "pytest-html"
-  | "junit-xml"
-  | "checkstyle-xml"
-  | "spotbugs-xml"
-  | "eslint-json"
-  | "mypy-json"
-  | "eslint-txt"
-  | "tsc-txt"
-  | "ruff-txt"
-  | "mypy-txt"
-  | "flake8-txt"
-  | "cargo-test-txt"
-  | "clippy-json"
-  | "clippy-txt"
-  | "rustfmt-txt"
-  | "binary"
-  | "unknown";
+  | 'playwright-json'
+  | 'jest-json'
+  | 'jest-html'
+  | 'pytest-json'
+  | 'pytest-html'
+  | 'junit-xml'
+  | 'checkstyle-xml'
+  | 'spotbugs-xml'
+  | 'eslint-json'
+  | 'mypy-json'
+  | 'eslint-txt'
+  | 'tsc-txt'
+  | 'ruff-txt'
+  | 'mypy-txt'
+  | 'flake8-txt'
+  | 'cargo-test-txt'
+  | 'clippy-json'
+  | 'clippy-txt'
+  | 'rustfmt-txt'
+  | 'binary'
+  | 'unknown';
 
-export type OriginalFormat = "json" | "xml" | "html" | "txt" | "binary";
+export type OriginalFormat = 'json' | 'xml' | 'html' | 'txt' | 'binary';
 
 // Detection result from type detector
 export interface DetectionResult {
@@ -66,20 +66,16 @@ export interface LinterMatch {
 export interface PytestTest {
   nodeid: string;
   outcome: string;
-  duration: number;
   log?: string; // Captured output, stack traces, error messages
   extras?: Array<Record<string, unknown>>; // Media attachments (screenshots, videos, etc.)
   setup?: {
-    duration: number;
     outcome: string;
   };
   call?: {
-    duration: number;
     outcome: string;
     longrepr?: string;
   };
   teardown?: {
-    duration: number;
     outcome: string;
   };
 }
@@ -124,7 +120,7 @@ export interface PlaywrightReport {
 export interface CheckstyleViolation {
   line: number;
   column: number;
-  severity: "error" | "warning" | "info";
+  severity: 'error' | 'warning' | 'info';
   message: string;
   source: string;
 }

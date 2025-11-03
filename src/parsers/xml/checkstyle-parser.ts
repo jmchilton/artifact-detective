@@ -1,10 +1,10 @@
-import { readFileSync } from "fs";
-import * as cheerio from "cheerio";
-import type { CheckstyleReport, CheckstyleViolation } from "../../types.js";
+import { readFileSync } from 'fs';
+import * as cheerio from 'cheerio';
+import type { CheckstyleReport, CheckstyleViolation } from '../../types.js';
 
 export function extractCheckstyleXML(filePath: string): CheckstyleReport | null {
   try {
-    const xml = readFileSync(filePath, "utf-8");
+    const xml = readFileSync(filePath, 'utf-8');
     const $ = cheerio.load(xml, { xmlMode: true });
 
     const report: CheckstyleReport = {
@@ -21,24 +21,24 @@ export function extractCheckstyleXML(filePath: string): CheckstyleReport | null 
     const filesWithViolations = new Set<string>();
 
     // Parse each <file> element
-    $("file").each((_index, elem) => {
-      const fileName = $(elem).attr("name");
+    $('file').each((_index, elem) => {
+      const fileName = $(elem).attr('name');
       if (!fileName) return;
 
       const violations: CheckstyleViolation[] = [];
 
       // Parse each <error> element within the file
       $(elem)
-        .find("error")
+        .find('error')
         .each((_errorIndex, errorElem) => {
-          const line = parseInt($(errorElem).attr("line") || "0", 10);
-          const column = parseInt($(errorElem).attr("column") || "0", 10);
-          const severity = ($(errorElem).attr("severity") || "warning") as
-            | "error"
-            | "warning"
-            | "info";
-          const message = $(errorElem).attr("message") || "";
-          const source = $(errorElem).attr("source") || "";
+          const line = parseInt($(errorElem).attr('line') || '0', 10);
+          const column = parseInt($(errorElem).attr('column') || '0', 10);
+          const severity = ($(errorElem).attr('severity') || 'warning') as
+            | 'error'
+            | 'warning'
+            | 'info';
+          const message = $(errorElem).attr('message') || '';
+          const source = $(errorElem).attr('source') || '';
 
           violations.push({
             line,
@@ -49,9 +49,9 @@ export function extractCheckstyleXML(filePath: string): CheckstyleReport | null 
           });
 
           report.summary.totalViolations++;
-          if (severity === "error") {
+          if (severity === 'error') {
             report.summary.errors++;
-          } else if (severity === "warning") {
+          } else if (severity === 'warning') {
             report.summary.warnings++;
           }
         });

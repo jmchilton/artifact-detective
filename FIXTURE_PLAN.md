@@ -67,49 +67,49 @@ Each `manifest.yml` describes expected artifacts and parsers to test:
 
 ```yaml
 language: javascript
-node_version: "20.11.0"      # Pinned in Dockerfile
+node_version: '20.11.0' # Pinned in Dockerfile
 tools:
   - name: jest
-    version: "29.7.0"
-  - name: "@playwright/test"
-    version: "1.40.0"
+    version: '29.7.0'
+  - name: '@playwright/test'
+    version: '1.40.0'
   - name: eslint
-    version: "8.56.0"
+    version: '8.56.0'
   - name: typescript
-    version: "5.3.3"
+    version: '5.3.3'
 
 artifacts:
-  - file: "jest-results.json"
+  - file: 'jest-results.json'
     type: jest-json
     format: json
-    description: "Jest JSON reporter: 5 pass, 2 fail, 1 skip"
-    parsers: []                       # No parser (direct JSON consumption)
-    coverage_target: "validators/jest-validator.ts"
+    description: 'Jest JSON reporter: 5 pass, 2 fail, 1 skip'
+    parsers: [] # No parser (direct JSON consumption)
+    coverage_target: 'validators/jest-validator.ts'
 
-  - file: "playwright-results.json"
+  - file: 'playwright-results.json'
     type: playwright-json
     format: json
-    description: "Playwright JSON: 3 pass, 1 fail"
+    description: 'Playwright JSON: 3 pass, 1 fail'
     parsers: []
-    coverage_target: "validators/playwright-validator.ts"
+    coverage_target: 'validators/playwright-validator.ts'
 
-  - file: "eslint-output.txt"
+  - file: 'eslint-output.txt'
     type: eslint-txt
     format: txt
-    description: "ESLint output with violations"
-    parsers: ["extractLinterOutput"]  # Used by linter-collector
-    coverage_target: "validators/linter-validator.ts"
+    description: 'ESLint output with violations'
+    parsers: ['extractLinterOutput'] # Used by linter-collector
+    coverage_target: 'validators/linter-validator.ts'
 
-  - file: "tsc-output.txt"
+  - file: 'tsc-output.txt'
     type: tsc-txt
     format: txt
-    description: "TypeScript compiler errors"
-    parsers: ["extractLinterOutput"]
-    coverage_target: "validators/linter-validator.ts"
+    description: 'TypeScript compiler errors'
+    parsers: ['extractLinterOutput']
+    coverage_target: 'validators/linter-validator.ts'
 
 commands:
-  generate: "docker-compose up --build"
-  clean: "docker-compose down -v && rm -rf ../../generated/javascript"
+  generate: 'docker-compose up --build'
+  clean: 'docker-compose down -v && rm -rf ../../generated/javascript'
 ```
 
 **Key Concepts:**
@@ -132,6 +132,7 @@ Type system capabilities are now tracked in code via `ARTIFACT_TYPE_REGISTRY`, n
   - Auto-detection tests only run if `supportsAutoDetection: true`
 
 This separation means:
+
 - Manifest describes **test data** (what files exist, what they contain)
 - Code defines **type system** (what types support, how to validate them)
 
@@ -194,68 +195,68 @@ Manifest-based validation tests ensure 100% parser coverage. Tests always run va
 
 ```typescript
 // test/fixture-validation.test.ts
-import { readFileSync, existsSync } from 'fs'
-import { join } from 'path'
-import { parse as parseYAML } from 'yaml'
-import { detectArtifactType } from '../src/detectors/type-detector.js'
-import * as validators from '../src/validators/index.js'
-import { extractLinterOutput } from '../src/parsers/linters/extractors.js'
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
+import { parse as parseYAML } from 'yaml';
+import { detectArtifactType } from '../src/detectors/type-detector.js';
+import * as validators from '../src/validators/index.js';
+import { extractLinterOutput } from '../src/parsers/linters/extractors.js';
 
 describe('Generated fixture validation', () => {
-  const languages = ['javascript'] // Expand to ['javascript', 'python'] later
+  const languages = ['javascript']; // Expand to ['javascript', 'python'] later
 
   for (const lang of languages) {
     describe(`${lang} fixtures`, () => {
-      const manifestPath = `fixtures/sample-projects/${lang}/manifest.yml`
-      const manifest = parseYAML(readFileSync(manifestPath, 'utf-8'))
+      const manifestPath = `fixtures/sample-projects/${lang}/manifest.yml`;
+      const manifest = parseYAML(readFileSync(manifestPath, 'utf-8'));
 
       for (const artifact of manifest.artifacts) {
-        const artifactPath = join('fixtures/generated', lang, artifact.file)
+        const artifactPath = join('fixtures/generated', lang, artifact.file);
 
         describe(artifact.file, () => {
           it('exists in generated/ directory', () => {
-            expect(existsSync(artifactPath)).toBe(true)
-          })
+            expect(existsSync(artifactPath)).toBe(true);
+          });
 
           // ALWAYS test validator (structural correctness)
           it('passes validator', () => {
-            const content = readFileSync(artifactPath, 'utf-8')
-            const validator = validators[artifact.validator]
-            expect(validator).toBeDefined()
-            const result = validator(content)
-            expect(result.valid).toBe(true)
-          })
+            const content = readFileSync(artifactPath, 'utf-8');
+            const validator = validators[artifact.validator];
+            expect(validator).toBeDefined();
+            const result = validator(content);
+            expect(result.valid).toBe(true);
+          });
 
           // ONLY test auto-detection if supported
           if (artifact.supports_auto_detection) {
             it(`auto-detects as ${artifact.type}`, () => {
-              const result = detectArtifactType(artifactPath)
-              expect(result.detectedType).toBe(artifact.type)
-              expect(result.originalFormat).toBe(artifact.format)
-            })
+              const result = detectArtifactType(artifactPath);
+              expect(result.detectedType).toBe(artifact.type);
+              expect(result.originalFormat).toBe(artifact.format);
+            });
           }
 
           // Test parsers if specified
           if (artifact.parsers?.includes('extractLinterOutput')) {
             it('extracts linter output', () => {
-              const content = readFileSync(artifactPath, 'utf-8')
-              const output = extractLinterOutput(artifact.type, content)
-              expect(output).toBeTruthy()
-              expect(output!.length).toBeGreaterThan(0)
-            })
+              const content = readFileSync(artifactPath, 'utf-8');
+              const output = extractLinterOutput(artifact.type, content);
+              expect(output).toBeTruthy();
+              expect(output!.length).toBeGreaterThan(0);
+            });
           }
-        })
+        });
       }
-    })
+    });
   }
-})
+});
 ```
 
 ### Coverage Validation
 
 ```typescript
 // test/coverage-check.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest';
 
 describe('Parser coverage', () => {
   it('all parsers covered by generated fixtures', () => {
@@ -263,8 +264,8 @@ describe('Parser coverage', () => {
     // Extract all coverage_target values
     // Verify each parser file is mentioned
     // Ensure 100% of parsing logic exercised
-  })
-})
+  });
+});
 ```
 
 ## Sample Test Content
@@ -274,79 +275,80 @@ describe('Parser coverage', () => {
 ```javascript
 describe('Sample tests', () => {
   it('passes basic assertion', () => {
-    expect(1 + 1).toBe(2)
-  })
+    expect(1 + 1).toBe(2);
+  });
 
   it('fails deliberately', () => {
-    expect(1 + 1).toBe(3) // Deliberate failure
-  })
+    expect(1 + 1).toBe(3); // Deliberate failure
+  });
 
   it.skip('skipped test', () => {
-    expect(true).toBe(false)
-  })
+    expect(true).toBe(false);
+  });
 
   it('another pass', () => {
-    expect('hello').toMatch(/ello/)
-  })
+    expect('hello').toMatch(/ello/);
+  });
 
   it('async failure', async () => {
-    await Promise.resolve()
-    throw new Error('Async test failed')
-  })
-})
+    await Promise.resolve();
+    throw new Error('Async test failed');
+  });
+});
 ```
 
 ### JavaScript: test/e2e.spec.ts (Playwright)
 
 ```typescript
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test('simple navigation pass', async ({ page }) => {
-  await page.goto('https://example.com')
-  await expect(page).toHaveTitle(/Example/)
-})
+  await page.goto('https://example.com');
+  await expect(page).toHaveTitle(/Example/);
+});
 
 test('deliberate failure', async ({ page }) => {
-  await page.goto('https://example.com')
-  await expect(page).toHaveTitle(/NonExistent/) // Fails
-})
+  await page.goto('https://example.com');
+  await expect(page).toHaveTitle(/NonExistent/); // Fails
+});
 
 test('screenshot test', async ({ page }) => {
-  await page.goto('https://example.com')
-  await page.screenshot({ path: 'example.png' })
-})
+  await page.goto('https://example.com');
+  await page.screenshot({ path: 'example.png' });
+});
 ```
 
 ### JavaScript: src/sample.js (ESLint violations)
 
 ```javascript
-var unused = 1 // eslint: no-unused-vars, prefer-const
+var unused = 1; // eslint: no-unused-vars, prefer-const
 
 function noReturn() {
-  console.log('missing return type')
+  console.log('missing return type');
 } // eslint: consistent-return
 
 const obj = {
   duplicateKey: 1,
-  duplicateKey: 2 // eslint: no-dupe-keys
-}
+  duplicateKey: 2, // eslint: no-dupe-keys
+};
 
-eval('dangerous') // eslint: no-eval
+eval('dangerous'); // eslint: no-eval
 ```
 
 ### JavaScript: src/sample.ts (TypeScript errors)
 
 ```typescript
-function badTypes(x): string { // Missing param type
-  return x + 1 // Type error: number returned, expected string
+function badTypes(x): string {
+  // Missing param type
+  return x + 1; // Type error: number returned, expected string
 }
 
 const obj: { name: string } = {
   name: 'test',
-  extra: 'property' // Type error: excess property
-}
+  extra: 'property', // Type error: excess property
+};
 
-let val: string = 42 // Type error: number to string
+let val: string = 42; // Type error: number to string
 ```
 
 ## Coverage Targets
@@ -354,6 +356,7 @@ let val: string = 42 // Type error: number to string
 Goal: 100% coverage of all parsing and conversion logic.
 
 ### Phase 1: JavaScript (CURRENT)
+
 - **jest-json**: Detection only (no parser) ✓ test/fixture-validation.test.ts
 - **playwright-json**: Detection only (no parser) ✓ test/fixture-validation.test.ts
 - **playwright-html**: Detection + extractPlaywrightJSON parser ✓ src/parsers/html/playwright-html.ts
@@ -361,12 +364,14 @@ Goal: 100% coverage of all parsing and conversion logic.
 - **tsc-txt**: Detection + linter extraction ✓ src/parsers/linters/extractors.ts
 
 ### Phase 2: Python (✅ COMPLETED)
+
 - **pytest-json**: Detection only ✓ test/fixture-validation.test.ts
 - **pytest-html**: Detection + extractPytestJSON parser ✓ src/parsers/html/pytest-html.ts
 - **ruff-txt**: Validation + linter extraction ✓ src/parsers/linters/extractors.ts
 - **mypy-txt**: Validation + linter extraction ✓ src/parsers/linters/extractors.ts
 
 ### Deferred (Not currently supported)
+
 - **Java**: JUnit XML
 - **Go**: go test JSON
 - **Rust**: cargo test JSON
@@ -378,6 +383,7 @@ Goal: 100% coverage of all parsing and conversion logic.
 **Status**: Successfully implemented and tested. Generated 4 artifacts, 18/21 tests passing (3 failures due to existing extractor bugs).
 
 **Completed Tasks**:
+
 1. ✅ Setup sample project structure
    - Created `fixtures/sample-projects/javascript/`
    - Added Dockerfile with pinned Node 20.11.0
@@ -410,11 +416,13 @@ Goal: 100% coverage of all parsing and conversion logic.
    - Existing tests still pass (type-detector.test.ts)
 
 **Bugs Found**:
+
 - `extractTSCOutput` requires "tsc" trigger in content (doesn't handle clean output)
 - `extractESLintOutput` has extraction issues with clean output
 - Both documented in manifest.yml
 
 **Artifacts Generated**:
+
 - `jest-results.json` (8.8 KB)
 - `playwright-results.json` (11.6 KB)
 - `eslint-output.txt` (650 B)
@@ -425,6 +433,7 @@ Goal: 100% coverage of all parsing and conversion logic.
 **Status**: Successfully implemented. Generated 4 artifacts, 34/34 tests passing.
 
 **Completed Tasks**:
+
 1. ✅ Setup sample project structure
    - Created `fixtures/sample-projects/python/`
    - Added Dockerfile with pinned Python 3.11.7
@@ -453,6 +462,7 @@ Goal: 100% coverage of all parsing and conversion logic.
    - All Python artifacts have validators
 
 **Artifacts Generated**:
+
 - `pytest-results.json` (4.8 KB)
 - `pytest-report.html` (35 KB)
 - `ruff-output.txt` (510 B)
@@ -463,6 +473,7 @@ Goal: 100% coverage of all parsing and conversion logic.
 **Status**: Successfully implemented. Generated 4 artifacts, 46/46 tests passing (71 total including previous phases).
 
 **Completed Tasks**:
+
 1. ✅ Setup sample project structure
    - Created `fixtures/sample-projects/rust/`
    - Added Dockerfile with Rust 1.75.0
@@ -495,12 +506,14 @@ Goal: 100% coverage of all parsing and conversion logic.
    - All Rust artifacts have validators
 
 **Artifacts Generated**:
+
 - `cargo-test-output.txt` (648 B) - 4 passed, 1 ignored test results
 - `clippy-output.json` (12 KB) - Newline-delimited JSON with 5 warnings
 - `clippy-output.txt` (2.1 KB) - Human-readable warning output with 5 warnings
 - `rustfmt-output.txt` (671 B) - 3 formatting diffs
 
 **Rust-Specific Patterns Learned**:
+
 - Clippy JSON uses `--message-format=json` producing newline-delimited JSON
 - Each JSON line has `reason` field: "compiler-message", "compiler-artifact", or "build-finished"
 - Cargo test has no stable JSON format yet (libtest-json experimental, targeted for 2025)

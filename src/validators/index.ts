@@ -1,132 +1,132 @@
-import type { ArtifactType } from "../types.js";
-import type { ArtifactTypeCapabilities, ValidationResult } from "./types.js";
-import { validateJestJSON } from "./jest-validator.js";
-import { validatePlaywrightJSON } from "./playwright-validator.js";
-import { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
-import { validateJUnitXML } from "./junit-validator.js";
-import { validateCheckstyleXML } from "./checkstyle-validator.js";
-import { validateSpotBugsXML } from "./spotbugs-validator.js";
-import { validateEslintJSON } from "./eslint-validator.js";
-import { validateMypyJSON } from "./mypy-validator.js";
+import type { ArtifactType } from '../types.js';
+import type { ArtifactTypeCapabilities, ValidationResult } from './types.js';
+import { validateJestJSON } from './jest-validator.js';
+import { validatePlaywrightJSON } from './playwright-validator.js';
+import { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
+import { validateJUnitXML } from './junit-validator.js';
+import { validateCheckstyleXML } from './checkstyle-validator.js';
+import { validateSpotBugsXML } from './spotbugs-validator.js';
+import { validateEslintJSON } from './eslint-validator.js';
+import { validateMypyJSON } from './mypy-validator.js';
 import {
   validateESLintOutput,
   validateTSCOutput,
   validateFlake8Output,
   validateRuffOutput,
   validateMypyOutput,
-} from "./linter-validator.js";
-import { validateCargoTestOutput } from "./cargo-validator.js";
-import { validateClippyJSON, validateClippyText } from "./clippy-validator.js";
-import { validateRustfmtOutput } from "./rustfmt-validator.js";
+} from './linter-validator.js';
+import { validateCargoTestOutput } from './cargo-validator.js';
+import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
+import { validateRustfmtOutput } from './rustfmt-validator.js';
 
-export { validateJestJSON } from "./jest-validator.js";
-export { validatePlaywrightJSON } from "./playwright-validator.js";
-export { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
-export { validateJUnitXML } from "./junit-validator.js";
-export { validateCheckstyleXML } from "./checkstyle-validator.js";
-export { validateSpotBugsXML } from "./spotbugs-validator.js";
-export { validateEslintJSON } from "./eslint-validator.js";
-export { validateMypyJSON } from "./mypy-validator.js";
+export { validateJestJSON } from './jest-validator.js';
+export { validatePlaywrightJSON } from './playwright-validator.js';
+export { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
+export { validateJUnitXML } from './junit-validator.js';
+export { validateCheckstyleXML } from './checkstyle-validator.js';
+export { validateSpotBugsXML } from './spotbugs-validator.js';
+export { validateEslintJSON } from './eslint-validator.js';
+export { validateMypyJSON } from './mypy-validator.js';
 export {
   validateESLintOutput,
   validateTSCOutput,
   validateFlake8Output,
   validateRuffOutput,
   validateMypyOutput,
-} from "./linter-validator.js";
-export { validateCargoTestOutput } from "./cargo-validator.js";
-export { validateClippyJSON, validateClippyText } from "./clippy-validator.js";
-export { validateRustfmtOutput } from "./rustfmt-validator.js";
-export type { ValidationResult, ValidatorFunction, ArtifactTypeCapabilities } from "./types.js";
+} from './linter-validator.js';
+export { validateCargoTestOutput } from './cargo-validator.js';
+export { validateClippyJSON, validateClippyText } from './clippy-validator.js';
+export { validateRustfmtOutput } from './rustfmt-validator.js';
+export type { ValidationResult, ValidatorFunction, ArtifactTypeCapabilities } from './types.js';
 
 /**
  * Registry of artifact type capabilities and validators.
- * 
+ *
  * - supportsAutoDetection: true if the type has unique structural markers for reliable auto-detection
  * - validator: function to validate content matches expected format (null if no validator)
  */
 export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabilities> = {
-  "jest-json": {
+  'jest-json': {
     supportsAutoDetection: true,
     validator: validateJestJSON,
   },
-  "playwright-json": {
+  'playwright-json': {
     supportsAutoDetection: true,
     validator: validatePlaywrightJSON,
   },
-  "jest-html": {
+  'jest-html': {
     supportsAutoDetection: true,
     validator: null,
   },
-  "pytest-json": {
+  'pytest-json': {
     supportsAutoDetection: true,
     validator: validatePytestJSON,
   },
-  "pytest-html": {
+  'pytest-html': {
     supportsAutoDetection: true,
     validator: validatePytestHTML,
   },
-  "junit-xml": {
+  'junit-xml': {
     supportsAutoDetection: true,
     validator: validateJUnitXML,
   },
-  "checkstyle-xml": {
+  'checkstyle-xml': {
     supportsAutoDetection: true,
     validator: validateCheckstyleXML,
   },
-  "spotbugs-xml": {
+  'spotbugs-xml': {
     supportsAutoDetection: true,
     validator: validateSpotBugsXML,
   },
-  "eslint-json": {
+  'eslint-json': {
     supportsAutoDetection: true,
     validator: validateEslintJSON,
   },
-  "mypy-json": {
+  'mypy-json': {
     supportsAutoDetection: true,
     validator: validateMypyJSON,
   },
-  "eslint-txt": {
+  'eslint-txt': {
     supportsAutoDetection: false,
     validator: validateESLintOutput,
   },
-  "tsc-txt": {
+  'tsc-txt': {
     supportsAutoDetection: false,
     validator: validateTSCOutput,
   },
-  "flake8-txt": {
+  'flake8-txt': {
     supportsAutoDetection: false,
     validator: validateFlake8Output,
   },
-  "ruff-txt": {
+  'ruff-txt': {
     supportsAutoDetection: false,
     validator: validateRuffOutput,
   },
-  "mypy-txt": {
+  'mypy-txt': {
     supportsAutoDetection: false,
     validator: validateMypyOutput,
   },
-  "cargo-test-txt": {
+  'cargo-test-txt': {
     supportsAutoDetection: false,
     validator: validateCargoTestOutput,
   },
-  "clippy-json": {
+  'clippy-json': {
     supportsAutoDetection: true,
     validator: validateClippyJSON,
   },
-  "clippy-txt": {
+  'clippy-txt': {
     supportsAutoDetection: false,
     validator: validateClippyText,
   },
-  "rustfmt-txt": {
+  'rustfmt-txt': {
     supportsAutoDetection: false,
     validator: validateRustfmtOutput,
   },
-  "binary": {
+  binary: {
     supportsAutoDetection: true,
     validator: null,
   },
-  "unknown": {
+  unknown: {
     supportsAutoDetection: false,
     validator: null,
   },
@@ -134,27 +134,27 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
 
 /**
  * Central validation entry point. Dispatches to appropriate validator based on artifact type.
- * 
+ *
  * @param type - The artifact type to validate
  * @param content - The file content as a string
  * @returns ValidationResult indicating if content is valid for the given type
  */
 export function validate(type: ArtifactType, content: string): ValidationResult {
   const capabilities = ARTIFACT_TYPE_REGISTRY[type];
-  
+
   if (!capabilities) {
     return {
       valid: false,
       error: `Unknown artifact type: ${type}`,
     };
   }
-  
+
   if (!capabilities.validator) {
     return {
       valid: false,
       error: `No validator available for type: ${type}`,
     };
   }
-  
+
   return capabilities.validator(content);
 }

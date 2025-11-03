@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 /**
  * Validates clippy JSON output format
@@ -8,15 +8,15 @@ import type { ValidationResult } from "./types.js";
  */
 export function validateClippyJSON(content: string): ValidationResult {
   try {
-    const lines = content.trim().split("\n");
+    const lines = content.trim().split('\n');
     let foundValidJson = false;
 
     // Each line should be valid JSON (skip non-JSON lines like cargo output)
     for (const line of lines) {
-      if (line.trim() === "") continue;
+      if (line.trim() === '') continue;
 
       // Skip lines that don't look like JSON (e.g., cargo status messages)
-      if (!line.trim().startsWith("{")) continue;
+      if (!line.trim().startsWith('{')) continue;
 
       try {
         const obj = JSON.parse(line);
@@ -27,11 +27,7 @@ export function validateClippyJSON(content: string): ValidationResult {
         }
 
         // Valid reason values
-        const validReasons = [
-          "compiler-message",
-          "compiler-artifact",
-          "build-finished",
-        ];
+        const validReasons = ['compiler-message', 'compiler-artifact', 'build-finished'];
         if (!validReasons.includes(obj.reason)) {
           return {
             valid: false,
@@ -40,11 +36,11 @@ export function validateClippyJSON(content: string): ValidationResult {
         }
 
         // If it's a compiler message, verify structure
-        if (obj.reason === "compiler-message") {
+        if (obj.reason === 'compiler-message') {
           if (!obj.message || !obj.message.level || !obj.message.spans) {
             return {
               valid: false,
-              error: "Compiler message missing required fields",
+              error: 'Compiler message missing required fields',
             };
           }
         }
@@ -59,7 +55,7 @@ export function validateClippyJSON(content: string): ValidationResult {
     if (!foundValidJson) {
       return {
         valid: false,
-        error: "No valid clippy JSON messages found",
+        error: 'No valid clippy JSON messages found',
       };
     }
 
@@ -87,7 +83,7 @@ export function validateClippyText(content: string): ValidationResult {
   if (hasCompilerMessageJSON) {
     return {
       valid: false,
-      error: "Content is JSON format, not text format",
+      error: 'Content is JSON format, not text format',
     };
   }
 
@@ -103,12 +99,12 @@ export function validateClippyText(content: string): ValidationResult {
   }
 
   // Empty output is valid (no warnings/errors)
-  if (content.trim() === "") {
+  if (content.trim() === '') {
     return { valid: true };
   }
 
   return {
     valid: false,
-    error: "Does not match clippy text output format",
+    error: 'Does not match clippy text output format',
   };
 }

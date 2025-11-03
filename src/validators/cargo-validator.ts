@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 /**
  * Validates cargo test text output format
@@ -15,9 +15,7 @@ export function validateCargoTestOutput(content: string): ValidationResult {
   const resultPattern = /test result:\s+(ok|FAILED)\./i.test(content);
 
   // Check for individual test lines
-  const testLinePattern = /test\s+\S+\s+\.\.\.\s+(ok|FAILED|ignored)/i.test(
-    content,
-  );
+  const testLinePattern = /test\s+\S+\s+\.\.\.\s+(ok|FAILED|ignored)/i.test(content);
 
   if ((runningPattern && resultPattern) || testLinePattern) {
     return { valid: true };
@@ -25,6 +23,6 @@ export function validateCargoTestOutput(content: string): ValidationResult {
 
   return {
     valid: false,
-    error: "Does not match cargo test output format",
+    error: 'Does not match cargo test output format',
   };
 }

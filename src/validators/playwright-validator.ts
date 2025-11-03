@@ -1,4 +1,4 @@
-import type { ValidationResult } from "./types.js";
+import type { ValidationResult } from './types.js';
 
 export function validatePlaywrightJSON(content: string): ValidationResult {
   try {
@@ -8,14 +8,14 @@ export function validatePlaywrightJSON(content: string): ValidationResult {
     if (!data.config) {
       return {
         valid: false,
-        error: "Missing config object",
+        error: 'Missing config object',
       };
     }
 
     if (!data.suites || !Array.isArray(data.suites)) {
       return {
         valid: false,
-        error: "Missing or invalid suites array",
+        error: 'Missing or invalid suites array',
       };
     }
 

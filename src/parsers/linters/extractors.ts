@@ -7,21 +7,18 @@ export interface LinterMatch {
 
 // Pattern to detect linter types from job names or log content
 export const LINTER_PATTERNS = [
-  { type: "eslint", patterns: [/eslint/i, /npm run lint/i] },
-  { type: "prettier", patterns: [/prettier/i, /npm run format/i] },
-  { type: "ruff", patterns: [/ruff check/i, /ruff\s/i] },
-  { type: "flake8", patterns: [/flake8/i] },
-  { type: "isort", patterns: [/isort/i] },
-  { type: "black", patterns: [/black --check/i, /black\s/i] },
-  { type: "tsc", patterns: [/tsc --noEmit/i, /npm run type-check/i] },
-  { type: "mypy", patterns: [/mypy/i] },
-  { type: "pylint", patterns: [/pylint/i] },
+  { type: 'eslint', patterns: [/eslint/i, /npm run lint/i] },
+  { type: 'prettier', patterns: [/prettier/i, /npm run format/i] },
+  { type: 'ruff', patterns: [/ruff check/i, /ruff\s/i] },
+  { type: 'flake8', patterns: [/flake8/i] },
+  { type: 'isort', patterns: [/isort/i] },
+  { type: 'black', patterns: [/black --check/i, /black\s/i] },
+  { type: 'tsc', patterns: [/tsc --noEmit/i, /npm run type-check/i] },
+  { type: 'mypy', patterns: [/mypy/i] },
+  { type: 'pylint', patterns: [/pylint/i] },
 ];
 
-export function detectLinterType(
-  jobName: string,
-  logContent: string,
-): string | null {
+export function detectLinterType(jobName: string, logContent: string): string | null {
   const combined = `${jobName}\n${logContent.slice(0, 1000)}`; // Check first 1000 chars
 
   for (const { type, patterns } of LINTER_PATTERNS) {
@@ -33,44 +30,41 @@ export function detectLinterType(
   return null;
 }
 
-export function extractLinterOutput(
-  linterType: string,
-  logContent: string,
-): string | null {
+export function extractLinterOutput(linterType: string, logContent: string): string | null {
   // Map artifact types to linter types (eslint-txt -> eslint, tsc-txt -> tsc)
-  const normalizedType = linterType.replace(/-txt$/, "").replace(/-json$/, "");
+  const normalizedType = linterType.replace(/-txt$/, '').replace(/-json$/, '');
 
-  const lines = logContent.split("\n");
+  const lines = logContent.split('\n');
 
   switch (normalizedType) {
-    case "eslint":
+    case 'eslint':
       return extractESLintOutput(lines);
 
-    case "prettier":
+    case 'prettier':
       return extractPrettierOutput(lines);
 
-    case "ruff":
-    case "flake8":
-    case "pylint":
+    case 'ruff':
+    case 'flake8':
+    case 'pylint':
       return extractPythonLinterOutput(lines, normalizedType);
 
-    case "tsc":
+    case 'tsc':
       return extractTSCOutput(lines);
 
-    case "isort":
-    case "black":
+    case 'isort':
+    case 'black':
       return extractFormatterOutput(lines, normalizedType);
 
-    case "mypy":
+    case 'mypy':
       return extractMypyOutput(lines);
 
-    case "clippy":
+    case 'clippy':
       return extractClippyOutput(lines);
 
-    case "cargo-test":
-    case "rustfmt":
+    case 'cargo-test':
+    case 'rustfmt':
       // Raw output files, no extraction needed
-      return lines.join("\n").trim();
+      return lines.join('\n').trim();
 
     default:
       return null;
@@ -80,12 +74,11 @@ export function extractLinterOutput(
 function extractESLintOutput(lines: string[]): string | null {
   // If this looks like raw ESLint output (not embedded in logs), return as-is
   const hasEslintPattern = lines.some(
-    (line) =>
-      /\d+:\d+\s+(error|warning)/.test(line) || /\d+\s+problem/.test(line),
+    (line) => /\d+:\d+\s+(error|warning)/.test(line) || /\d+\s+problem/.test(line),
   );
 
   if (hasEslintPattern) {
-    return lines.join("\n").trim();
+    return lines.join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -94,10 +87,7 @@ function extractESLintOutput(lines: string[]): string | null {
 
   for (const line of lines) {
     // Start of eslint output (usually after command line)
-    if (
-      line.match(/eslint.*\.(js|ts|jsx|tsx)/i) ||
-      line.includes("npm run lint")
-    ) {
+    if (line.match(/eslint.*\.(js|ts|jsx|tsx)/i) || line.includes('npm run lint')) {
       inOutput = true;
       continue;
     }
@@ -116,7 +106,7 @@ function extractESLintOutput(lines: string[]): string | null {
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
 function extractPrettierOutput(lines: string[]): string | null {
@@ -124,7 +114,7 @@ function extractPrettierOutput(lines: string[]): string | null {
   let inOutput = false;
 
   for (const line of lines) {
-    if (line.includes("prettier") || line.includes("npm run format")) {
+    if (line.includes('prettier') || line.includes('npm run format')) {
       inOutput = true;
       continue;
     }
@@ -142,20 +132,15 @@ function extractPrettierOutput(lines: string[]): string | null {
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
-function extractPythonLinterOutput(
-  lines: string[],
-  linterType: string,
-): string | null {
+function extractPythonLinterOutput(lines: string[], linterType: string): string | null {
   // If this looks like raw linter output (not embedded in logs), return as-is
-  const hasLinterPattern = lines.some((line) =>
-    /^[a-zA-Z0-9_\-/.]+\.py:\d+/.test(line),
-  );
+  const hasLinterPattern = lines.some((line) => /^[a-zA-Z0-9_\-/.]+\.py:\d+/.test(line));
 
   if (hasLinterPattern) {
-    return lines.join("\n").trim();
+    return lines.join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -185,17 +170,15 @@ function extractPythonLinterOutput(
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
 function extractTSCOutput(lines: string[]): string | null {
   // If this looks like raw TSC output (not embedded in logs), return as-is
-  const hasTSCPattern = lines.some((line) =>
-    /\.tsx?\(\d+,\d+\):\s+error\s+TS\d+/.test(line),
-  );
+  const hasTSCPattern = lines.some((line) => /\.tsx?\(\d+,\d+\):\s+error\s+TS\d+/.test(line));
 
   if (hasTSCPattern) {
-    return lines.join("\n").trim();
+    return lines.join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -203,7 +186,7 @@ function extractTSCOutput(lines: string[]): string | null {
   let inOutput = false;
 
   for (const line of lines) {
-    if (line.includes("tsc ") || line.includes("type-check")) {
+    if (line.includes('tsc ') || line.includes('type-check')) {
       inOutput = true;
       continue;
     }
@@ -221,13 +204,10 @@ function extractTSCOutput(lines: string[]): string | null {
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
-function extractFormatterOutput(
-  lines: string[],
-  formatterType: string,
-): string | null {
+function extractFormatterOutput(lines: string[], formatterType: string): string | null {
   const outputLines: string[] = [];
   let inOutput = false;
 
@@ -239,10 +219,7 @@ function extractFormatterOutput(
 
     if (inOutput) {
       // Black/isort usually output "would reformat" or file names
-      if (
-        line.match(/would reformat/i) ||
-        line.match(/^[a-zA-Z0-9_\-/.]+\.py/)
-      ) {
+      if (line.match(/would reformat/i) || line.match(/^[a-zA-Z0-9_\-/.]+\.py/)) {
         outputLines.push(line);
       }
 
@@ -252,7 +229,7 @@ function extractFormatterOutput(
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
 function extractMypyOutput(lines: string[]): string | null {
@@ -262,7 +239,7 @@ function extractMypyOutput(lines: string[]): string | null {
   );
 
   if (hasMypyPattern) {
-    return lines.join("\n").trim();
+    return lines.join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -270,7 +247,7 @@ function extractMypyOutput(lines: string[]): string | null {
   let inOutput = false;
 
   for (const line of lines) {
-    if (line.includes("mypy")) {
+    if (line.includes('mypy')) {
       inOutput = true;
       continue;
     }
@@ -286,17 +263,17 @@ function extractMypyOutput(lines: string[]): string | null {
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
 
 function extractClippyOutput(lines: string[]): string | null {
   // If this looks like raw clippy output (not embedded in logs), return as-is
-  const hasClippyPattern = lines.some((line) =>
-    /^(warning|error):\s/.test(line) || /-->\s+\S+\.rs:\d+:\d+/.test(line),
+  const hasClippyPattern = lines.some(
+    (line) => /^(warning|error):\s/.test(line) || /-->\s+\S+\.rs:\d+:\d+/.test(line),
   );
 
   if (hasClippyPattern) {
-    return lines.join("\n").trim();
+    return lines.join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -304,17 +281,14 @@ function extractClippyOutput(lines: string[]): string | null {
   let inOutput = false;
 
   for (const line of lines) {
-    if (line.includes("clippy")) {
+    if (line.includes('clippy')) {
       inOutput = true;
       continue;
     }
 
     if (inOutput) {
       // Clippy warnings start with "warning:" or "error:"
-      if (
-        line.match(/^(warning|error):/) ||
-        line.match(/-->\s+\S+\.rs:\d+:\d+/)
-      ) {
+      if (line.match(/^(warning|error):/) || line.match(/-->\s+\S+\.rs:\d+:\d+/)) {
         outputLines.push(line);
       } else if (line.match(/\d+\s+warnings?\s+emitted/)) {
         outputLines.push(line);
@@ -323,5 +297,5 @@ function extractClippyOutput(lines: string[]): string | null {
     }
   }
 
-  return outputLines.length > 0 ? outputLines.join("\n") : null;
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
 }

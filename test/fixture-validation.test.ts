@@ -1,11 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { readFileSync } from "fs";
-import { detectArtifactType } from "../src/detectors/type-detector.js";
-import { validate, ARTIFACT_TYPE_REGISTRY } from "../src/validators/index.js";
-import { loadAllFixtures } from "./fixtures-helper.js";
+import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'fs';
+import { detectArtifactType } from '../src/detectors/type-detector.js';
+import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
+import { loadAllFixtures } from './fixtures-helper.js';
 
-describe("Generated fixture validation", () => {
-  const fixtures = loadAllFixtures(["javascript", "python", "rust"]);
+describe('Generated fixture validation', () => {
+  const fixtures = loadAllFixtures(['javascript', 'python', 'rust']);
 
   const fixturesByLanguage = fixtures.reduce(
     (acc, fixture) => {
@@ -22,7 +22,7 @@ describe("Generated fixture validation", () => {
     describe(`${lang} fixtures`, () => {
       for (const fixture of langFixtures) {
         describe(fixture.file, () => {
-          it("exists in generated/ directory", () => {
+          it('exists in generated/ directory', () => {
             expect(fixture.path).toBeTruthy();
           });
 
@@ -30,8 +30,8 @@ describe("Generated fixture validation", () => {
 
           // ALWAYS test validator if one exists (structural correctness)
           if (capabilities?.validator) {
-            it("passes validator", () => {
-              const content = readFileSync(fixture.path, "utf-8");
+            it('passes validator', () => {
+              const content = readFileSync(fixture.path, 'utf-8');
               const result = validate(fixture.type, content);
               expect(result.valid).toBe(true);
               if (!result.valid) {

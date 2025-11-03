@@ -7,6 +7,7 @@ You are setting up a new sample project to generate test fixtures following the 
 ## User Input
 
 The user will describe a project type, for example:
+
 - "A fairly typical Java maven project"
 - "A Go project"
 - "A JavaScript project that uses Yarn instead of npm directly"
@@ -19,6 +20,7 @@ Create a complete sample project in `fixtures/sample-projects/{language}/` that 
 ### 1. Analyze Requirements
 
 From user prompt, determine:
+
 - **Language**: javascript, python, java, go, rust, etc.
 - **Build tool**: npm, yarn, maven, gradle, poetry, pip, cargo, go mod, etc.
 - **Test framework**: jest, vitest, mocha, pytest, junit, go test, cargo test, etc.
@@ -94,11 +96,13 @@ commands:
 ### 6. Create Test Code
 
 Write minimal tests with deliberate outcomes:
+
 - **Passing tests**: 3-5 basic assertions
 - **Failing tests**: 1-2 with deliberate failures
 - **Skipped tests**: 1 skipped/ignored test
 
 Examples:
+
 - JavaScript/TypeScript: Jest or Vitest tests
 - Python: pytest with pass/fail/skip
 - Java: JUnit tests
@@ -108,6 +112,7 @@ Examples:
 ### 7. Create Source Code with Issues
 
 Write code with deliberate violations:
+
 - **Linter issues**: unused vars, style violations, complexity warnings
 - **Type errors**: (if applicable) missing types, type mismatches
 - **Formatter issues**: inconsistent formatting
@@ -117,6 +122,7 @@ Aim for 4-8 violations per tool.
 ### 8. Update Type System (if needed)
 
 If introducing new artifact types:
+
 - Add to `src/types.ts` ArtifactType union
 - Add to `ARTIFACT_TYPE_REGISTRY` in `src/validators/index.ts`
 - Set `supportsAutoDetection` appropriately
@@ -136,6 +142,7 @@ Commit generated artifacts to `fixtures/generated/{language}/`
 ### 10. Update Tests
 
 Extend `test/fixture-validation.test.ts`:
+
 - Add language to `languages` array if new
 - Tests auto-run based on manifest.yml
 - Verify all artifacts generated
@@ -155,6 +162,7 @@ Verify all tests pass and coverage targets met.
 ## Output Format
 
 Provide the user with:
+
 1. Summary of what was created
 2. List of artifacts generated
 3. Test results (X/Y passing)
@@ -165,18 +173,22 @@ Provide the user with:
 ## Examples
 
 ### JavaScript/npm project
+
 - jest, playwright, eslint, typescript
 - 4 artifacts: jest-json, playwright-json, eslint-txt, tsc-txt
 
 ### Python project
+
 - pytest, pytest-html, ruff, mypy
 - 4 artifacts: pytest-json, pytest-html, ruff-txt, mypy-txt
 
 ### Java maven project
+
 - junit, checkstyle, spotbugs
 - 3 artifacts: junit-xml, checkstyle-xml, spotbugs-xml
 
 ### Go project
+
 - go test, golangci-lint, go vet
 - 3 artifacts: gotest-json, golangci-json, govet-txt
 

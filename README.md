@@ -73,12 +73,14 @@ if (linterType) {
 ## Supported Formats
 
 ### Test Frameworks
+
 - **Playwright**: JSON, HTML
 - **Jest**: JSON
 - **pytest**: JSON, HTML (via pytest-html)
 - **JUnit**: XML
 
 ### Linters
+
 - **ESLint**: text output
 - **Prettier**: text output
 - **Ruff**: text output
@@ -88,12 +90,13 @@ if (linterType) {
 - **black**: text output
 
 ### Type Checkers
+
 - **TypeScript (tsc)**: text output
 - **mypy**: text output
 
 ## Usage
 
-See the `gh-ci-artifacts` for how this package should be used - the 
+See the `gh-ci-artifacts` for how this package should be used - the
 API is rapidly changing but once the upstream project stabilizes it will
 make sense to harden and document the interface here.
 
