@@ -1,5 +1,10 @@
 # artifact-detective
 
+[![CI](https://github.com/jmchilton/artifact-detective/workflows/Test/badge.svg)](https://github.com/jmchilton/artifact-detective/actions)
+[![npm version](https://badge.fury.io/js/artifact-detective.svg)](https://www.npmjs.com/package/artifact-detective)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/node/v/artifact-detective.svg)](https://nodejs.org)
+
 Detect and parse CI artifact types for test frameworks and linters.
 
 ## Overview

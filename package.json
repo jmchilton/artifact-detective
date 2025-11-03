@@ -13,7 +13,9 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsc --listFiles 2>&1 | grep 'src/types.ts' || tsc",
@@ -23,7 +25,8 @@
     "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "keywords": [
     "ci",
@@ -42,6 +45,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jmchilton/artifact-detective.git"
+  },
+  "homepage": "https://github.com/jmchilton/artifact-detective#readme",
+  "bugs": {
+    "url": "https://github.com/jmchilton/artifact-detective/issues"
   },
   "engines": {
     "node": ">=20.0.0"
