@@ -178,6 +178,17 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
     // Try to parse JSON to inspect structure
     const data = JSON.parse(content);
 
+    // ESLint JSON: Array with objects containing "filePath", "messages" fields
+    if (
+      Array.isArray(data) &&
+      data.length > 0 &&
+      data[0].filePath !== undefined &&
+      data[0].messages !== undefined &&
+      Array.isArray(data[0].messages)
+    ) {
+      return "eslint-json";
+    }
+
     // Playwright JSON: Has "config", "suites" with specific structure
     if (data.config && data.suites && Array.isArray(data.suites)) {
       // Check for Playwright-specific fields
@@ -200,6 +211,9 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
     }
 
     // Check content for framework mentions as fallback
+    if (lowerContent.includes("eslint")) {
+      return "eslint-json";
+    }
     if (lowerContent.includes("playwright")) {
       return "playwright-json";
     }

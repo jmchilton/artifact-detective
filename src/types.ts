@@ -9,6 +9,7 @@ export type ArtifactType =
   | "junit-xml"
   | "checkstyle-xml"
   | "spotbugs-xml"
+  | "eslint-json"
   | "eslint-txt"
   | "tsc-txt"
   | "ruff-txt"

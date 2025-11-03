@@ -9,8 +9,10 @@ services:
       npm run test:jest -- --json --outputFile=/output/jest-results.json 2>/dev/null || true &&
       echo 'Running Playwright tests (JSON)...' &&
       npx playwright test --reporter=json > /output/playwright-results.json 2>&1 || true &&
-      echo 'Running ESLint...' &&
+      echo 'Running ESLint (text)...' &&
       npx eslint src/ 2>&1 > /output/eslint-output.txt || true &&
+      echo 'Running ESLint (JSON)...' &&
+      npx eslint src/ --format json --output-file /output/eslint-results.json || true &&
       echo 'Running TypeScript compiler...' &&
       npx tsc --noEmit 2>&1 > /output/tsc-output.txt || true &&
       echo 'Artifact generation complete!'

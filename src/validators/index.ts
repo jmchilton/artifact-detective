@@ -7,6 +7,7 @@ import { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 import { validateJUnitXML } from "./junit-validator.js";
 import { validateCheckstyleXML } from "./checkstyle-validator.js";
 import { validateSpotBugsXML } from "./spotbugs-validator.js";
+import { validateEslintJSON } from "./eslint-validator.js";
 import {
   validateESLintOutput,
   validateTSCOutput,
@@ -25,6 +26,7 @@ export { validatePytestJSON, validatePytestHTML } from "./pytest-validator.js";
 export { validateJUnitXML } from "./junit-validator.js";
 export { validateCheckstyleXML } from "./checkstyle-validator.js";
 export { validateSpotBugsXML } from "./spotbugs-validator.js";
+export { validateEslintJSON } from "./eslint-validator.js";
 export {
   validateESLintOutput,
   validateTSCOutput,
@@ -79,6 +81,10 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   "spotbugs-xml": {
     supportsAutoDetection: true,
     validator: validateSpotBugsXML,
+  },
+  "eslint-json": {
+    supportsAutoDetection: true,
+    validator: validateEslintJSON,
   },
   "eslint-txt": {
     supportsAutoDetection: false,

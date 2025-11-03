@@ -32,6 +32,13 @@ artifacts:
     parsers: ["extractLinterOutput"]
     coverage_target: "validators/linter-validator.ts"
 
+  - file: "eslint-results.json"
+    type: eslint-json
+    format: json
+    description: "ESLint JSON: reports linting violations"
+    parsers: []
+    coverage_target: "validators/eslint-validator.ts"
+
   - file: "tsc-output.txt"
     type: tsc-txt
     format: txt
