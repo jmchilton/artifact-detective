@@ -1,0 +1,38 @@
+language: java
+java_version: "21"
+
+tools:
+  - name: maven
+    version: "3.9.6"
+  - name: junit
+    version: "4.13.2"
+  - name: checkstyle
+    version: "10.12.5"
+  - name: spotbugs
+    version: "4.7.3"
+
+artifacts:
+  - file: "TEST-com.example.CalculatorTest.xml"
+    type: junit-xml
+    format: xml
+    description: "JUnit test results: 6 passed, 1 failed, 1 skipped"
+    parsers: []
+    coverage_target: ""
+
+  - file: "checkstyle-report.txt"
+    type: checkstyle-txt
+    format: txt
+    description: "Checkstyle linting violations (unused vars, method length, complexity, missing braces)"
+    parsers: []
+    coverage_target: ""
+
+  - file: "spotbugs-report.txt"
+    type: spotbugs-txt
+    format: txt
+    description: "SpotBugs analysis (potential null pointer, division by zero)"
+    parsers: []
+    coverage_target: ""
+
+commands:
+  generate: "docker-compose up --build --abort-on-container-exit"
+  clean: "docker-compose down -v && rm -rf ../../generated/java"

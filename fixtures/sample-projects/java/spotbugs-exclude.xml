@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <!-- Exclude test files from spotbugs -->
+  <Match>
+    <Class name="~.*Test" />
+  </Match>
+</FindBugsFilter>
