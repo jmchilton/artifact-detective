@@ -3,6 +3,8 @@ node_version: "20.11.0"
 tools:
   - name: jest
     version: "29.7.0"
+  - name: jest-html-reporter
+    version: "3.10.2"
   - name: "@playwright/test"
     version: "1.40.0"
   - name: eslint
@@ -15,6 +17,12 @@ artifacts:
     type: jest-json
     format: json
     description: "Jest JSON reporter: 5 pass, 2 fail, 1 skip"
+    coverage_target: "validators/jest-validator.ts"
+
+  - file: "jest-report.html"
+    type: jest-html
+    format: html
+    description: "Jest HTML reporter: test summary with details"
     coverage_target: "validators/jest-validator.ts"
 
   - file: "playwright-results.json"

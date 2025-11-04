@@ -127,6 +127,7 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
   // Jest HTML reporters often include "jest" in generator or have jest-html classes
   if (
     lowerContent.includes('jest-html') ||
+    lowerContent.includes('jesthtml-content') ||
     (lowerContent.includes('jest') && lowerContent.includes('test results'))
   ) {
     return 'jest-html';
