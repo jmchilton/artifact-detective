@@ -262,3 +262,58 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 
   return capabilities.validator(content);
 }
+
+/**
+ * Check if a detected artifact is already in JSON format
+ *
+ * @param result - The detection result from detectArtifactType
+ * @returns true if the artifact type is natively JSON
+ */
+export function isJSON(result: { detectedType: ArtifactType }): boolean {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[result.detectedType];
+  return capabilities?.isJSON ?? false;
+}
+
+/**
+ * Check if a detected artifact can be converted to JSON format
+ *
+ * @param result - The detection result from detectArtifactType
+ * @returns true if artifact is JSON or has a normalize function
+ */
+export function canConvertToJSON(result: { detectedType: ArtifactType }): boolean {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[result.detectedType];
+  return (capabilities?.isJSON ?? false) || capabilities?.normalize !== null;
+}
+
+/**
+ * Convert a detected artifact to JSON format
+ *
+ * @param result - The detection result from detectArtifactType
+ * @param filePath - Path to the artifact file
+ * @returns JSON string if conversion is possible, null otherwise
+ */
+export function convertToJSON(
+  result: { detectedType: ArtifactType },
+  filePath: string,
+): string | null {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[result.detectedType];
+
+  // If already JSON, read and return as-is
+  if (capabilities?.isJSON) {
+    try {
+      const content = readFileSync(filePath, 'utf-8');
+      // Validate it's valid JSON
+      JSON.parse(content);
+      return content;
+    } catch {
+      return null;
+    }
+  }
+
+  // If has normalize function, use it
+  if (capabilities?.normalize) {
+    return capabilities.normalize(filePath);
+  }
+
+  return null;
+}

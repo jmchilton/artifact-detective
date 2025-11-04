@@ -44,15 +44,11 @@ console.log(result);
 ### Parse HTML Reports
 
 ```typescript
-import { extractPytestJSON, extractPlaywrightJSON } from 'artifact-detective';
+import { extractPytestJSON } from 'artifact-detective';
 
 // pytest-html → structured JSON
 const pytestReport = extractPytestJSON('./pytest-report.html');
 console.log(pytestReport.tests);
-
-// Playwright HTML → structured JSON
-const playwrightReport = extractPlaywrightJSON('./playwright-report.html');
-```
 
 ### Extract Linter Output
 

@@ -1,6 +1,9 @@
 // Type detector
 export { detectArtifactType } from './detectors/type-detector.js';
 
+// JSON conversion utilities
+export { isJSON, canConvertToJSON, convertToJSON } from './validators/index.js';
+
 // HTML parsers
 export { extractPytestJSON } from './parsers/html/pytest-html.js';
 
