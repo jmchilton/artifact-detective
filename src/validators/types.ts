@@ -5,9 +5,16 @@ export interface ValidationResult {
 
 export type ValidatorFunction = (content: string) => ValidationResult;
 
+export type ExtractFunction = (artifactType: string, filePath: string) => string | null;
+
+export type NormalizeFunction = (filePath: string) => string | null;
+
 export interface ArtifactTypeCapabilities {
   supportsAutoDetection: boolean;
   validator: ValidatorFunction | null;
+  extract: ExtractFunction | null;
+  normalize: NormalizeFunction | null;
+  isJSON: boolean;
 }
 
 /**

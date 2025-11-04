@@ -13,28 +13,24 @@ artifacts:
     type: cargo-test-txt
     format: txt
     description: "Cargo test text output: 4 pass, 1 panic, 1 ignored"
-    parsers: []
     coverage_target: "validators/cargo-validator.ts"
 
   - file: "clippy-output.json"
     type: clippy-json
     format: json
     description: "Clippy JSON output with 5+ warnings"
-    parsers: []
     coverage_target: "validators/clippy-validator.ts"
 
   - file: "clippy-output.txt"
     type: clippy-txt
     format: txt
     description: "Clippy text output with warnings"
-    parsers: ["extractLinterOutput"]
     coverage_target: "validators/linter-validator.ts"
 
   - file: "rustfmt-output.txt"
     type: rustfmt-txt
     format: txt
     description: "Rustfmt check output"
-    parsers: []
     coverage_target: "validators/rustfmt-validator.ts"
 
 commands:

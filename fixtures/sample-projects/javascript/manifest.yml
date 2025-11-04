@@ -15,35 +15,30 @@ artifacts:
     type: jest-json
     format: json
     description: "Jest JSON reporter: 5 pass, 2 fail, 1 skip"
-    parsers: []
     coverage_target: "validators/jest-validator.ts"
 
   - file: "playwright-results.json"
     type: playwright-json
     format: json
     description: "Playwright JSON: 3 pass, 1 fail"
-    parsers: []
     coverage_target: "validators/playwright-validator.ts"
 
   - file: "eslint-output.txt"
     type: eslint-txt
     format: txt
     description: "ESLint output with violations"
-    parsers: ["extractLinterOutput"]
     coverage_target: "validators/linter-validator.ts"
 
   - file: "eslint-results.json"
     type: eslint-json
     format: json
     description: "ESLint JSON: reports linting violations"
-    parsers: []
     coverage_target: "validators/eslint-validator.ts"
 
   - file: "tsc-output.txt"
     type: tsc-txt
     format: txt
     description: "TypeScript compiler errors"
-    parsers: ["extractLinterOutput"]
     coverage_target: "validators/linter-validator.ts"
 
 commands:

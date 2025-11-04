@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs';
 import type { ArtifactType } from '../types.js';
 import type { ArtifactTypeCapabilities, ValidationResult } from './types.js';
 import { validateJestJSON } from './jest-validator.js';
@@ -18,6 +19,8 @@ import {
 import { validateCargoTestOutput } from './cargo-validator.js';
 import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
+import { extractLinterOutput } from '../parsers/linters/extractors.js';
+import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 
 export { validateJestJSON } from './jest-validator.js';
 export { validatePlaywrightJSON } from './playwright-validator.js';
@@ -37,98 +40,199 @@ export {
 export { validateCargoTestOutput } from './cargo-validator.js';
 export { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 export { validateRustfmtOutput } from './rustfmt-validator.js';
-export type { ValidationResult, ValidatorFunction, ArtifactTypeCapabilities } from './types.js';
+export type {
+  ValidationResult,
+  ValidatorFunction,
+  ArtifactTypeCapabilities,
+  ExtractFunction,
+  NormalizeFunction,
+} from './types.js';
+
+/**
+ * Extract function for linter output artifacts
+ * Extracts structured output from linter logs
+ */
+function extractLinterText(artifactType: string, filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const linterType = artifactType.replace(/-txt$/, '').replace(/-json$/, '');
+    return extractLinterOutput(linterType, content);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalize function for pytest HTML artifacts
+ * Converts HTML report to JSON by extracting embedded test data
+ */
+function normalizePytestHTML(filePath: string): string | null {
+  try {
+    const report = extractPytestJSON(filePath);
+    return report ? JSON.stringify(report) : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Registry of artifact type capabilities and validators.
  *
  * - supportsAutoDetection: true if the type has unique structural markers for reliable auto-detection
  * - validator: function to validate content matches expected format (null if no validator)
+ * - extract: function to extract content from artifact file (null if no extraction needed)
+ * - normalize: function to normalize content to JSON (null if no normalization needed)
+ * - isJSON: true if the artifact type is already in JSON format
+ *
+ * Artifacts support JSON export if: isJSON is true OR normalize function exists
  */
 export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabilities> = {
   'jest-json': {
     supportsAutoDetection: true,
     validator: validateJestJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'playwright-json': {
     supportsAutoDetection: true,
     validator: validatePlaywrightJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'jest-html': {
     supportsAutoDetection: true,
     validator: null,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   'pytest-json': {
     supportsAutoDetection: true,
     validator: validatePytestJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'pytest-html': {
     supportsAutoDetection: true,
     validator: validatePytestHTML,
+    extract: null,
+    normalize: normalizePytestHTML,
+    isJSON: false,
   },
   'junit-xml': {
     supportsAutoDetection: true,
     validator: validateJUnitXML,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   'checkstyle-xml': {
     supportsAutoDetection: true,
     validator: validateCheckstyleXML,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   'spotbugs-xml': {
     supportsAutoDetection: true,
     validator: validateSpotBugsXML,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   'eslint-json': {
     supportsAutoDetection: true,
     validator: validateEslintJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'mypy-json': {
     supportsAutoDetection: true,
     validator: validateMypyJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'eslint-txt': {
     supportsAutoDetection: false,
     validator: validateESLintOutput,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'tsc-txt': {
     supportsAutoDetection: false,
     validator: validateTSCOutput,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'flake8-txt': {
     supportsAutoDetection: false,
     validator: validateFlake8Output,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'ruff-txt': {
     supportsAutoDetection: false,
     validator: validateRuffOutput,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'mypy-txt': {
     supportsAutoDetection: false,
     validator: validateMypyOutput,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'cargo-test-txt': {
     supportsAutoDetection: false,
     validator: validateCargoTestOutput,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   'clippy-json': {
     supportsAutoDetection: true,
     validator: validateClippyJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'clippy-txt': {
     supportsAutoDetection: false,
     validator: validateClippyText,
+    extract: extractLinterText,
+    normalize: null,
+    isJSON: false,
   },
   'rustfmt-txt': {
     supportsAutoDetection: false,
     validator: validateRustfmtOutput,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   binary: {
     supportsAutoDetection: true,
     validator: null,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
   unknown: {
     supportsAutoDetection: false,
     validator: null,
+    extract: null,
+    normalize: null,
+    isJSON: false,
   },
 };
 

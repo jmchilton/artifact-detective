@@ -48,8 +48,22 @@ describe('Generated fixture validation', () => {
             });
           }
 
-          // Test parsers if specified (note: manifest parser info not in FixtureInfo yet)
-          // This would require extending the FixtureInfo interface if needed
+          // Test extraction if an extract function exists
+          if (capabilities?.extract) {
+            it('extracts successfully', () => {
+              const extracted = capabilities.extract(fixture.type, fixture.path);
+              expect(extracted).toBeTruthy();
+            });
+          }
+
+          // Test normalization if a normalize function exists
+          if (capabilities?.normalize) {
+            it('normalizes to JSON', () => {
+              const json = capabilities.normalize(fixture.path);
+              expect(json).toBeTruthy();
+              expect(() => JSON.parse(json!)).not.toThrow();
+            });
+          }
         });
       }
     });
