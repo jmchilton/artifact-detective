@@ -76,11 +76,15 @@ if (linterType) {
 | mypy-json | Mypy JSON: type checking errors in JSON format | — | already is | `fixtures/generated/python/mypy-results.json` |
 | eslint-json | ESLint JSON: reports linting violations | — | already is | `fixtures/generated/javascript/eslint-results.json` |
 | clippy-json | Clippy JSON output with 5+ warnings | — | already is | `fixtures/generated/rust/clippy-output.json` |
+| go-test-json | Go test NDJSON: 7 pass, 1 skip | — | can convert | `fixtures/generated/go/go-test.json` |
+| golangci-lint-json | golangci-lint JSON: linting violations | — | already is | `fixtures/generated/go/golangci-lint.json` |
+| checkstyle-sarif-json | Checkstyle SARIF violations | — | already is | `fixtures/generated/java/checkstyle-result.sarif` |
 | pytest-html | Pytest HTML report with test details | — | can convert | `fixtures/generated/python/pytest-report.html` |
+| jest-html | Jest HTML report with test details | — | can convert | `fixtures/generated/javascript/jest-report.html` |
+| surefire-html | Maven Surefire HTML test report | — | todo | `fixtures/generated/java/surefire-report.html` |
 | junit-xml | JUnit test results: 6 passed, 1 failed, 1 skipped | — | todo | `fixtures/generated/java/TEST-com.example.CalculatorTest.xml` |
 | checkstyle-xml | Checkstyle violations | — | todo | `fixtures/generated/java/checkstyle-result.xml` |
 | spotbugs-xml | SpotBugs analysis | — | todo | `fixtures/generated/java/spotbugsXml.xml` |
-| jest-html | Jest HTML report | — | todo | — |
 | eslint-txt | ESLint output with violations | ✓ | todo | `fixtures/generated/javascript/eslint-output.txt` |
 | tsc-txt | TypeScript compiler errors | ✓ | todo | `fixtures/generated/javascript/tsc-output.txt` |
 | mypy-txt | Mypy type checker errors | ✓ | todo | `fixtures/generated/python/mypy-output.txt` |
