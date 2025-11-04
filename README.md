@@ -72,27 +72,27 @@ if (linterType) {
 
 ## Supported Formats
 
-### Test Frameworks
-
-- **Playwright**: JSON, HTML
-- **Jest**: JSON
-- **pytest**: JSON, HTML (via pytest-html)
-- **JUnit**: XML
-
-### Linters
-
-- **ESLint**: text output
-- **Prettier**: text output
-- **Ruff**: text output
-- **flake8**: text output
-- **pylint**: text output
-- **isort**: text output
-- **black**: text output
-
-### Type Checkers
-
-- **TypeScript (tsc)**: text output
-- **mypy**: text output
+| Type | Description | Extract | JSON | Example Fixture |
+|------|-------------|---------|------|-----------------|
+| jest-json | Jest JSON reporter: 5 pass, 2 fail, 1 skip | — | already is | `fixtures/generated/javascript/jest-results.json` |
+| playwright-json | Playwright JSON: 3 pass, 1 fail | — | already is | `fixtures/generated/javascript/playwright-results.json` |
+| pytest-json | Pytest JSON: 5 pass, 2 fail, 1 skip | — | already is | `fixtures/generated/python/pytest-results.json` |
+| mypy-json | Mypy JSON: type checking errors in JSON format | — | already is | `fixtures/generated/python/mypy-results.json` |
+| eslint-json | ESLint JSON: reports linting violations | — | already is | `fixtures/generated/javascript/eslint-results.json` |
+| clippy-json | Clippy JSON output with 5+ warnings | — | already is | `fixtures/generated/rust/clippy-output.json` |
+| pytest-html | Pytest HTML report with test details | — | can convert | `fixtures/generated/python/pytest-report.html` |
+| junit-xml | JUnit test results: 6 passed, 1 failed, 1 skipped | — | todo | `fixtures/generated/java/TEST-com.example.CalculatorTest.xml` |
+| checkstyle-xml | Checkstyle violations | — | todo | `fixtures/generated/java/checkstyle-result.xml` |
+| spotbugs-xml | SpotBugs analysis | — | todo | `fixtures/generated/java/spotbugsXml.xml` |
+| jest-html | Jest HTML report | — | todo | — |
+| eslint-txt | ESLint output with violations | ✓ | todo | `fixtures/generated/javascript/eslint-output.txt` |
+| tsc-txt | TypeScript compiler errors | ✓ | todo | `fixtures/generated/javascript/tsc-output.txt` |
+| mypy-txt | Mypy type checker errors | ✓ | todo | `fixtures/generated/python/mypy-output.txt` |
+| ruff-txt | Ruff linter output with violations | ✓ | todo | `fixtures/generated/python/ruff-output.txt` |
+| clippy-txt | Clippy text output with warnings | ✓ | todo | `fixtures/generated/rust/clippy-output.txt` |
+| flake8-txt | flake8 linter output | ✓ | todo | — |
+| cargo-test-txt | Cargo test text output: 4 pass, 1 panic, 1 ignored | — | todo | `fixtures/generated/rust/cargo-test-output.txt` |
+| rustfmt-txt | Rustfmt check output | — | todo | `fixtures/generated/rust/rustfmt-output.txt` |
 
 ## Usage
 
