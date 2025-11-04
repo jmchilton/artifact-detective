@@ -10,6 +10,8 @@ tools:
     version: "10.12.5"
   - name: maven-checkstyle-plugin
     version: "3.4.0"
+  - name: maven-surefire-report-plugin
+    version: "3.0.0"
   - name: spotbugs
     version: "4.7.3"
 
@@ -18,6 +20,12 @@ artifacts:
     type: junit-xml
     format: xml
     description: "JUnit test results: 6 passed, 1 failed, 1 skipped"
+    coverage_target: ""
+
+  - file: "surefire-report.html"
+    type: surefire-html
+    format: html
+    description: "Maven surefire aggregated test report in HTML format"
     coverage_target: ""
 
   - file: "checkstyle-result.xml"

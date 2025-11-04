@@ -15,10 +15,14 @@ CMD ["sh", "-c", "\
   \
   echo '=== Copying Artifacts ===' && \
   echo 'Available artifacts in target/:' && \
-  find target -type f | grep -E '\\.xml$|\\.sarif$' || true && \
+  find target -type f | grep -E '\\.xml$|\\.sarif$|\\.html$' || true && \
   echo '' && \
   echo 'Copying test reports...' && \
   cp -v target/surefire-reports/TEST-*.xml /output/ 2>/dev/null || echo 'No test reports found in target/surefire-reports' && \
+  echo 'Generating surefire HTML report...' && \
+  mvn surefire-report:report-only -DexcludeJunitInformationReportingPackages='java.,javax.,sun.,com.sun.' -DskipTests=true 2>/dev/null || true && \
+  echo 'Copying surefire HTML report...' && \
+  cp -v target/site/surefire-report.html /output/surefire-report.html 2>/dev/null || echo 'No surefire HTML report found' && \
   echo 'Copying checkstyle XML report...' && \
   cp -v target/checkstyle-result.xml /output/ 2>/dev/null || echo 'No checkstyle XML report found' && \
   echo 'Copying checkstyle SARIF report...' && \

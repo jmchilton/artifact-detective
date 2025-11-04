@@ -133,6 +133,14 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
     return 'jest-html';
   }
 
+  // Surefire HTML: Look for maven surefire report markers
+  if (
+    lowerContent.includes('surefire') ||
+    (lowerContent.includes('maven') && lowerContent.includes('test') && lowerContent.includes('report'))
+  ) {
+    return 'surefire-html';
+  }
+
   return 'unknown';
 }
 

@@ -9,6 +9,7 @@ export type ArtifactType =
   | 'checkstyle-xml'
   | 'checkstyle-sarif-json'
   | 'spotbugs-xml'
+  | 'surefire-html'
   | 'eslint-json'
   | 'mypy-json'
   | 'eslint-txt'

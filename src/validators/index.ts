@@ -7,6 +7,7 @@ import { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
 import { validateJUnitXML } from './junit-validator.js';
 import { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-validator.js';
 import { validateSpotBugsXML } from './spotbugs-validator.js';
+import { validateSurefireHTML } from './surefire-validator.js';
 import { validateEslintJSON } from './eslint-validator.js';
 import { validateMypyJSON } from './mypy-validator.js';
 import {
@@ -29,6 +30,7 @@ export { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
 export { validateJUnitXML } from './junit-validator.js';
 export { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-validator.js';
 export { validateSpotBugsXML } from './spotbugs-validator.js';
+export { validateSurefireHTML } from './surefire-validator.js';
 export { validateEslintJSON } from './eslint-validator.js';
 export { validateMypyJSON } from './mypy-validator.js';
 export {
@@ -218,6 +220,13 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   'spotbugs-xml': {
     supportsAutoDetection: true,
     validator: validateSpotBugsXML,
+    extract: null,
+    normalize: null,
+    isJSON: false,
+  },
+  'surefire-html': {
+    supportsAutoDetection: true,
+    validator: validateSurefireHTML,
     extract: null,
     normalize: null,
     isJSON: false,
