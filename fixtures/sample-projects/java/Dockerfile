@@ -15,12 +15,14 @@ CMD ["sh", "-c", "\
   \
   echo '=== Copying Artifacts ===' && \
   echo 'Available artifacts in target/:' && \
-  find target -type f -name '*.xml' 2>/dev/null || true && \
+  find target -type f | grep -E '\\.xml$|\\.sarif$' || true && \
   echo '' && \
   echo 'Copying test reports...' && \
   cp -v target/surefire-reports/TEST-*.xml /output/ 2>/dev/null || echo 'No test reports found in target/surefire-reports' && \
-  echo 'Copying checkstyle report...' && \
-  cp -v target/checkstyle-result.xml /output/ 2>/dev/null || echo 'No checkstyle report found' && \
+  echo 'Copying checkstyle XML report...' && \
+  cp -v target/checkstyle-result.xml /output/ 2>/dev/null || echo 'No checkstyle XML report found' && \
+  echo 'Copying checkstyle SARIF report...' && \
+  cp -v target/checkstyle-result.sarif /output/ 2>/dev/null || echo 'No checkstyle SARIF report found' && \
   echo 'Copying spotbugs report...' && \
   cp -v target/spotbugsXml.xml /output/ 2>/dev/null || echo 'No spotbugs report found' && \
   echo '' && \

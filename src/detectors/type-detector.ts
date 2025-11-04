@@ -192,6 +192,24 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
     if (typeof data === 'object' && data !== null) {
       const obj = data as Record<string, unknown>;
 
+      // SARIF JSON: Has "version" and "runs" array
+      // Check for checkstyle specifically
+      if (obj.version && Array.isArray(obj.runs) && obj.runs.length > 0) {
+        const run = obj.runs[0] as Record<string, unknown>;
+        if (run.tool) {
+          const tool = run.tool as Record<string, unknown>;
+          if (tool.driver) {
+            const driver = tool.driver as Record<string, unknown>;
+            if (
+              typeof driver.name === 'string' &&
+              driver.name.toLowerCase().includes('checkstyle')
+            ) {
+              return 'checkstyle-sarif-json';
+            }
+          }
+        }
+      }
+
       // Playwright JSON: Has "config", "suites" with specific structure
       if (obj.config && obj.suites && Array.isArray(obj.suites)) {
         // Check for Playwright-specific fields

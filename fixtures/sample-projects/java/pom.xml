@@ -51,7 +51,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>3.4.0</version>
         <configuration>
           <configLocation>checkstyle.xml</configLocation>
           <violationSeverity>warning</violationSeverity>
@@ -59,11 +59,26 @@
         </configuration>
         <executions>
           <execution>
-            <id>validate</id>
+            <id>validate-xml</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
+            <configuration>
+              <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
+              <outputFileFormat>xml</outputFileFormat>
+            </configuration>
+          </execution>
+          <execution>
+            <id>validate-sarif</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <outputFile>${project.build.directory}/checkstyle-result.sarif</outputFile>
+              <outputFileFormat>sarif</outputFileFormat>
+            </configuration>
           </execution>
         </executions>
       </plugin>

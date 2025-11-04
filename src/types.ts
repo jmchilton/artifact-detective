@@ -7,6 +7,7 @@ export type ArtifactType =
   | 'pytest-html'
   | 'junit-xml'
   | 'checkstyle-xml'
+  | 'checkstyle-sarif-json'
   | 'spotbugs-xml'
   | 'eslint-json'
   | 'mypy-json'

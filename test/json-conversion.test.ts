@@ -73,6 +73,7 @@ describe('JSON conversion utilities', () => {
         'playwright-json',
         'pytest-json',
         'eslint-json',
+        'checkstyle-sarif-json',
       ];
 
       for (const type of jsonTypes) {
@@ -218,6 +219,23 @@ describe('JSON conversion utilities', () => {
 
       expect(json).toBeTruthy();
       expect(() => JSON.parse(json!)).not.toThrow();
+    });
+
+    it('returns valid JSON for checkstyle-sarif-json', () => {
+      const fixture = fixtures.find((f) => f.type === 'checkstyle-sarif-json');
+      if (!fixture) {
+        throw new Error('checkstyle-sarif-json fixture not found');
+      }
+
+      const result = { detectedType: 'checkstyle-sarif-json' as ArtifactType };
+      const json = convertToJSON(result, fixture.path);
+
+      expect(json).toBeTruthy();
+      expect(() => JSON.parse(json!)).not.toThrow();
+      const parsed = JSON.parse(json!);
+      expect(parsed.version).toBe('2.1.0');
+      expect(Array.isArray(parsed.runs)).toBe(true);
+      expect(parsed.runs[0].tool.driver.name).toBe('Checkstyle');
     });
 
     it('returns JSON array for mypy-json (NDJSON converted to array)', () => {

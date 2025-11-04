@@ -8,6 +8,8 @@ tools:
     version: "4.13.2"
   - name: checkstyle
     version: "10.12.5"
+  - name: maven-checkstyle-plugin
+    version: "3.4.0"
   - name: spotbugs
     version: "4.7.3"
 
@@ -18,10 +20,16 @@ artifacts:
     description: "JUnit test results: 6 passed, 1 failed, 1 skipped"
     coverage_target: ""
 
-  - file: "checkstyle-report.txt"
-    type: checkstyle-txt
-    format: txt
-    description: "Checkstyle linting violations (unused vars, method length, complexity, missing braces)"
+  - file: "checkstyle-result.xml"
+    type: checkstyle-xml
+    format: xml
+    description: "Checkstyle XML report with linting violations"
+    coverage_target: ""
+
+  - file: "checkstyle-result.sarif"
+    type: checkstyle-sarif-json
+    format: json
+    description: "Checkstyle SARIF JSON report with linting violations in standardized format"
     coverage_target: ""
 
   - file: "spotbugs-report.txt"

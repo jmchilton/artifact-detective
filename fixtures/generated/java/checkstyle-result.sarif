@@ -1,0 +1,304 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "downloadUri": "https://github.com/checkstyle/checkstyle/releases/",
+          "fullName": "Checkstyle",
+          "informationUri": "https://checkstyle.org/",
+          "language": "en",
+          "name": "Checkstyle",
+          "organization": "Checkstyle",
+          "rules": [
+          ],
+          "semanticVersion": "9.3",
+          "version": "9.3"
+        }
+      },
+      "results": [
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 14,
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "More than 7 parameters (found 8)."
+          },
+          "ruleId": "maxParam"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 43
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 45
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'else' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 3,
+                  "startLine": 50
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Cyclomatic Complexity is 11 (max allowed is 10)."
+          },
+          "ruleId": "cyclomaticComplexity"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 51
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 52
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 53
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 54
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 55
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 56
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 57
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 58
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 59
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/app/src/main/java/com/example/Calculator.java"
+                },
+                "region": {
+                  "startColumn": 5,
+                  "startLine": 60
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "'if' construct must use '{}'s."
+          },
+          "ruleId": "needBraces"
+        }
+      ]
+    }
+  ]
+}

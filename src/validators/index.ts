@@ -5,7 +5,7 @@ import { validateJestJSON } from './jest-validator.js';
 import { validatePlaywrightJSON } from './playwright-validator.js';
 import { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
 import { validateJUnitXML } from './junit-validator.js';
-import { validateCheckstyleXML } from './checkstyle-validator.js';
+import { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-validator.js';
 import { validateSpotBugsXML } from './spotbugs-validator.js';
 import { validateEslintJSON } from './eslint-validator.js';
 import { validateMypyJSON } from './mypy-validator.js';
@@ -27,7 +27,7 @@ export { validateJestJSON } from './jest-validator.js';
 export { validatePlaywrightJSON } from './playwright-validator.js';
 export { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
 export { validateJUnitXML } from './junit-validator.js';
-export { validateCheckstyleXML } from './checkstyle-validator.js';
+export { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-validator.js';
 export { validateSpotBugsXML } from './spotbugs-validator.js';
 export { validateEslintJSON } from './eslint-validator.js';
 export { validateMypyJSON } from './mypy-validator.js';
@@ -207,6 +207,13 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     extract: null,
     normalize: null,
     isJSON: false,
+  },
+  'checkstyle-sarif-json': {
+    supportsAutoDetection: true,
+    validator: validateCheckstyleSARIF,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   'spotbugs-xml': {
     supportsAutoDetection: true,
