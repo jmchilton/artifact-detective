@@ -1,3 +1,13 @@
+# [1.6.0](https://github.com/jmchilton/artifact-detective/compare/v1.5.0...v1.6.0) (2025-11-04)
+
+
+### Features
+
+* add checkstyle-sarif-json artifact type support ([4dc3723](https://github.com/jmchilton/artifact-detective/commit/4dc3723ed67db681f57d6131e1053c3626baf62e))
+* add jest-html fixture to JavaScript sample project ([06ddbd5](https://github.com/jmchilton/artifact-detective/commit/06ddbd56936d88969e5dc4464bb75f2f108a34f0))
+* add surefire-html artifact type support ([cbe3c93](https://github.com/jmchilton/artifact-detective/commit/cbe3c9373b9d629ddb1740165090c1e9cd62b51a))
+* implement jest-html to JSON converter ([ffcbc99](https://github.com/jmchilton/artifact-detective/commit/ffcbc99815defc4c1f16f40de917ca7c1f99d824))
+
 # [1.5.0](https://github.com/jmchilton/artifact-detective/compare/v1.4.0...v1.5.0) (2025-11-04)
 
 
