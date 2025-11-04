@@ -5,7 +5,7 @@ import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
 import { loadAllFixtures } from './fixtures-helper.js';
 
 describe('Generated fixture validation', () => {
-  const fixtures = loadAllFixtures(['javascript', 'python', 'rust']);
+  const fixtures = loadAllFixtures(['javascript', 'python', 'rust', 'java', 'go']);
 
   const fixturesByLanguage = fixtures.reduce(
     (acc, fixture) => {

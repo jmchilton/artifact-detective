@@ -22,7 +22,7 @@ export interface FixtureInfo {
  * @returns Array of fixture info objects
  */
 export function loadAllFixtures(
-  languages: string[] = ['javascript', 'python', 'rust', 'java'],
+  languages: string[] = ['javascript', 'python', 'rust', 'java', 'go'],
 ): FixtureInfo[] {
   const allFixtures: FixtureInfo[] = [];
 

@@ -73,7 +73,7 @@ function isBinaryFile(fileName: string): boolean {
 }
 
 function getOriginalFormat(fileName: string): OriginalFormat {
-  if (fileName.endsWith('.json')) return 'json';
+  if (fileName.endsWith('.json') || fileName.endsWith('.sarif')) return 'json';
   if (fileName.endsWith('.xml')) return 'xml';
   if (fileName.endsWith('.html') || fileName.endsWith('.htm')) return 'html';
   if (fileName.endsWith('.txt') || fileName.endsWith('.log')) return 'txt';
