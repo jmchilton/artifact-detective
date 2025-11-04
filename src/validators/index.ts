@@ -314,7 +314,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: true,
     validator: validateGoTestJSON,
     extract: null,
-    normalize: null,
+    normalize: normalizeNDJSON,
     isJSON: false,
   },
   'golangci-lint-json': {

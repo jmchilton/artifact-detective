@@ -59,7 +59,7 @@ describe('Go artifact types', () => {
       expect(capabilities.supportsAutoDetection).toBe(true);
       expect(capabilities.validator).toBeDefined();
       expect(capabilities.isJSON).toBe(false);
-      expect(capabilities.normalize).toBeNull();
+      expect(capabilities.normalize).toBeTruthy();
     });
 
     it('real go test JSON has expected structure', () => {
@@ -77,7 +77,7 @@ describe('Go artifact types', () => {
 
     it('go-test-json cannot be converted to JSON without normalization', () => {
       const result = canConvertToJSON({ detectedType: 'go-test-json' });
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
   });
 
