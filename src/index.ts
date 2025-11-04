@@ -6,6 +6,7 @@ export { isJSON, canConvertToJSON, convertToJSON } from './validators/index.js';
 
 // HTML parsers
 export { extractPytestJSON } from './parsers/html/pytest-html.js';
+export { extractJestJSON } from './parsers/html/jest-html.js';
 
 // XML parsers
 export { extractCheckstyleXML } from './parsers/xml/checkstyle-parser.js';

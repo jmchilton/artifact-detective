@@ -21,6 +21,7 @@ import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
 import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
+import { extractJestJSON } from '../parsers/html/jest-html.js';
 
 export { validateJestJSON } from './jest-validator.js';
 export { validatePlaywrightJSON } from './playwright-validator.js';
@@ -69,6 +70,19 @@ function extractLinterText(artifactType: string, filePath: string): string | nul
 function normalizePytestHTML(filePath: string): string | null {
   try {
     const report = extractPytestJSON(filePath);
+    return report ? JSON.stringify(report) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalize function for jest HTML artifacts
+ * Converts HTML report to JSON by parsing HTML structure
+ */
+function normalizeJestHTML(filePath: string): string | null {
+  try {
+    const report = extractJestJSON(filePath);
     return report ? JSON.stringify(report) : null;
   } catch {
     return null;
@@ -163,7 +177,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: true,
     validator: null,
     extract: null,
-    normalize: null,
+    normalize: normalizeJestHTML,
     isJSON: false,
   },
   'pytest-json': {

@@ -84,6 +84,7 @@ describe('JSON conversion utilities', () => {
     it('returns true for types with normalizers', () => {
       const normalizableTypes: ArtifactType[] = [
         'pytest-html',
+        'jest-html',
         'mypy-json',
         'clippy-json',
       ];
@@ -103,7 +104,6 @@ describe('JSON conversion utilities', () => {
         'junit-xml',
         'checkstyle-xml',
         'spotbugs-xml',
-        'jest-html',
         'cargo-test-txt',
         'rustfmt-txt',
       ];
@@ -176,6 +176,22 @@ describe('JSON conversion utilities', () => {
       expect(() => JSON.parse(json!)).not.toThrow();
       const parsed = JSON.parse(json!);
       expect(parsed).toHaveProperty('tests');
+    });
+
+    it('returns valid JSON for jest-html (via normalizer)', () => {
+      const fixture = fixtures.find((f) => f.type === 'jest-html');
+      if (!fixture) {
+        throw new Error('jest-html fixture not found');
+      }
+
+      const result = { detectedType: 'jest-html' as ArtifactType };
+      const json = convertToJSON(result, fixture.path);
+
+      expect(json).toBeTruthy();
+      expect(() => JSON.parse(json!)).not.toThrow();
+      const parsed = JSON.parse(json!);
+      expect(parsed).toHaveProperty('testResults');
+      expect(parsed).toHaveProperty('numTotalTests');
     });
 
     it('returns valid JSON for playwright-json', () => {
