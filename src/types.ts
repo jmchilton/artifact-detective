@@ -21,6 +21,8 @@ export type ArtifactType =
   | 'clippy-json'
   | 'clippy-txt'
   | 'rustfmt-txt'
+  | 'go-test-json'
+  | 'golangci-lint-json'
   | 'binary'
   | 'unknown';
 

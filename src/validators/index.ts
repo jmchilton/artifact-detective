@@ -20,6 +20,7 @@ import {
 import { validateCargoTestOutput } from './cargo-validator.js';
 import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
+import { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
 import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 import { extractJestJSON } from '../parsers/html/jest-html.js';
@@ -43,6 +44,7 @@ export {
 export { validateCargoTestOutput } from './cargo-validator.js';
 export { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 export { validateRustfmtOutput } from './rustfmt-validator.js';
+export { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
 export type {
   ValidationResult,
   ValidatorFunction,
@@ -307,6 +309,20 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     extract: null,
     normalize: null,
     isJSON: false,
+  },
+  'go-test-json': {
+    supportsAutoDetection: true,
+    validator: validateGoTestJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
+  },
+  'golangci-lint-json': {
+    supportsAutoDetection: true,
+    validator: validateGolangciLintJSON,
+    extract: null,
+    normalize: null,
+    isJSON: true,
   },
   binary: {
     supportsAutoDetection: true,

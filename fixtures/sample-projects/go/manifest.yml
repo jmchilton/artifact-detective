@@ -1,0 +1,27 @@
+language: go
+go_version: "1.23.0"
+
+tools:
+  - name: go
+    version: "1.23.0"
+  - name: golangci-lint
+    version: "1.59.1"
+
+artifacts:
+  - file: go-test.json
+    type: go-test-json
+    format: json
+    description: "Go test output with 8 total tests (7 passed, 1 skipped)"
+    parsers: []
+    coverage_target: "main.go"
+
+  - file: golangci-lint.json
+    type: golangci-lint-json
+    format: json
+    description: "golangci-lint linting report with style and logic violations"
+    parsers: []
+    coverage_target: "main.go"
+
+commands:
+  generate: "docker-compose up --build --abort-on-container-exit"
+  clean: "docker-compose down -v && rm -rf ../../generated/go"

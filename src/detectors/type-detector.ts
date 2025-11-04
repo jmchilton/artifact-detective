@@ -154,6 +154,15 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
       try {
         const firstObj = JSON.parse(firstJsonLine);
 
+        // Go test JSON: NDJSON with "Action", "Package" fields
+        if (
+          firstObj.Action &&
+          firstObj.Package &&
+          typeof firstObj.Time === 'string'
+        ) {
+          return 'go-test-json';
+        }
+
         // Clippy JSON: newline-delimited JSON with "reason" field
         if (
           firstObj.reason &&
@@ -199,6 +208,14 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
     // Safely cast to Record for property access
     if (typeof data === 'object' && data !== null) {
       const obj = data as Record<string, unknown>;
+
+      // golangci-lint JSON: Has "Issues" array or "Report" with "Linters" array
+      if (
+        (Array.isArray(obj.Issues) || (obj.Report && Array.isArray((obj.Report as Record<string, unknown>).Linters))) &&
+        obj.Report
+      ) {
+        return 'golangci-lint-json';
+      }
 
       // SARIF JSON: Has "version" and "runs" array
       // Check for checkstyle specifically

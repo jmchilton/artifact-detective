@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  generate:
+    build: .
+    volumes:
+      - ../../generated/go:/output
+    command: /bin/sh -c "
+      go test -v -json ./... > /output/go-test.json 2>&1 || true && \
+      golangci-lint run --out-format json ./... > /output/golangci-lint.json 2>&1 || true && \
+      echo '=== Artifacts Generated ===' && \
+      ls -lh /output/"
