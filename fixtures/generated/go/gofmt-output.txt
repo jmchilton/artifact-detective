@@ -1,0 +1,16 @@
+diff main.go.orig main.go
+--- main.go.orig
++++ main.go
+@@ -29,9 +29,9 @@
+ 
+ // Multiply performs multiplication with formatting issues
+ func (c *Calculator) Multiply(a, b float64) float64 {
+-	result:=a*b // missing spaces
+-	c.LastResult=result // missing spaces
+-	return   result // extra spaces
++	result := a * b       // missing spaces
++	c.LastResult = result // missing spaces
++	return result         // extra spaces
+ }
+ 
+ // Divide performs division with potential panic

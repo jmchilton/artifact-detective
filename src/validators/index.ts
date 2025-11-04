@@ -21,6 +21,7 @@ import { validateCargoTestOutput } from './cargo-validator.js';
 import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
 import { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
+import { validateGofmtOutput } from './gofmt-validator.js';
 import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 import { extractJestJSON } from '../parsers/html/jest-html.js';
@@ -45,6 +46,7 @@ export { validateCargoTestOutput } from './cargo-validator.js';
 export { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 export { validateRustfmtOutput } from './rustfmt-validator.js';
 export { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
+export { validateGofmtOutput } from './gofmt-validator.js';
 export type {
   ValidationResult,
   ValidatorFunction,
@@ -306,6 +308,13 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   'rustfmt-txt': {
     supportsAutoDetection: false,
     validator: validateRustfmtOutput,
+    extract: null,
+    normalize: null,
+    isJSON: false,
+  },
+  'gofmt-txt': {
+    supportsAutoDetection: false,
+    validator: validateGofmtOutput,
     extract: null,
     normalize: null,
     isJSON: false,

@@ -6,6 +6,8 @@ tools:
     version: "1.23.0"
   - name: golangci-lint
     version: "1.59.1"
+  - name: gofmt
+    version: "1.23.0"
 
 artifacts:
   - file: go-test.json
@@ -19,6 +21,13 @@ artifacts:
     type: golangci-lint-json
     format: json
     description: "golangci-lint linting report with style and logic violations"
+    parsers: []
+    coverage_target: "main.go"
+
+  - file: gofmt-output.txt
+    type: gofmt-txt
+    format: txt
+    description: "gofmt formatting differences (unified diff format)"
     parsers: []
     coverage_target: "main.go"
 

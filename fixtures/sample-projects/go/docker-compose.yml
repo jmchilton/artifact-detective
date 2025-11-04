@@ -8,5 +8,6 @@ services:
     command: /bin/sh -c "
       go test -v -json ./... > /output/go-test.json 2>&1 || true && \
       golangci-lint run --out-format json ./... > /output/golangci-lint.json 2>&1 || true && \
+      gofmt -d main.go 2>&1 | tee /output/gofmt-output.txt || true && \
       echo '=== Artifacts Generated ===' && \
       ls -lh /output/"

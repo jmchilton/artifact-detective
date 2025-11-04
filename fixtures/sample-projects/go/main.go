@@ -27,11 +27,11 @@ func (c *Calculator) Subtract(a, b float64) float64 {
 	return result
 }
 
-// Multiply performs multiplication with spacing issue
+// Multiply performs multiplication with formatting issues
 func (c *Calculator) Multiply(a, b float64) float64 {
-	result:=a*b // missing spaces around operator
-	c.LastResult = result
-	return result
+	result:=a*b // missing spaces
+	c.LastResult=result // missing spaces
+	return   result // extra spaces
 }
 
 // Divide performs division with potential panic
