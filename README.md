@@ -13,11 +13,12 @@ Detect and parse CI artifact types for test frameworks and linters.
 
 ## Features
 
+- **Type validation** by content inspection
 - **Automatic type detection** by content inspection
-- **HTML to JSON conversion** for pytest-html and Playwright HTML reports
+- **Many-to-JSON conversion** many artifact types can be converted to JSON for programmatic access
 - **Linter output extraction** from CI logs
-- **Zero dependencies** (except cheerio for HTML parsing)
 - **TypeScript** with full type definitions
+- **Fixture Generation Framework** we generate extensive test cases from real projects using various tooling in various languages
 
 ## Installation
 
