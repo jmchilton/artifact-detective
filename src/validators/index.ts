@@ -76,6 +76,35 @@ function normalizePytestHTML(filePath: string): string | null {
 }
 
 /**
+ * Normalize function for NDJSON (newline-delimited JSON) artifacts
+ * Converts each line of JSON into a JSON array, skipping non-JSON lines
+ */
+function normalizeNDJSON(filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const lines = content.trim().split('\n');
+    const objects: unknown[] = [];
+
+    for (const line of lines) {
+      if (!line.trim()) {
+        continue;
+      }
+
+      try {
+        objects.push(JSON.parse(line));
+      } catch {
+        // Skip lines that aren't valid JSON (e.g., compiler status messages)
+        continue;
+      }
+    }
+
+    return objects.length > 0 ? JSON.stringify(objects) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Registry of artifact type capabilities and validators.
  *
  * - supportsAutoDetection: true if the type has unique structural markers for reliable auto-detection
@@ -154,7 +183,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: true,
     validator: validateMypyJSON,
     extract: null,
-    normalize: null,
+    normalize: normalizeNDJSON,
     isJSON: false,
   },
   'eslint-txt': {
@@ -203,7 +232,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: true,
     validator: validateClippyJSON,
     extract: null,
-    normalize: null,
+    normalize: normalizeNDJSON,
     isJSON: false,
   },
   'clippy-txt': {
