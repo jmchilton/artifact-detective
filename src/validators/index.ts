@@ -155,7 +155,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateMypyJSON,
     extract: null,
     normalize: null,
-    isJSON: true,
+    isJSON: false,
   },
   'eslint-txt': {
     supportsAutoDetection: false,
@@ -204,7 +204,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateClippyJSON,
     extract: null,
     normalize: null,
-    isJSON: true,
+    isJSON: false,
   },
   'clippy-txt': {
     supportsAutoDetection: false,
