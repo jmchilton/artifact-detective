@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/jmchilton/artifact-detective/compare/v1.3.0...v1.4.0) (2025-11-04)
+
+
+### Features
+
+* add JSON export utility methods ([8e340e3](https://github.com/jmchilton/artifact-detective/commit/8e340e3bf2ffe3222f35a8d2d78f7d9903cc2149))
+* add NDJSON normalizer for mypy-json and clippy-json ([49e5097](https://github.com/jmchilton/artifact-detective/commit/49e509733a2a2815361c00bb79d3c5df6f8d6efc))
+
 # [1.3.0](https://github.com/jmchilton/artifact-detective/compare/v1.2.0...v1.3.0) (2025-11-03)
 
 
