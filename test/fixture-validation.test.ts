@@ -64,6 +64,15 @@ describe('Generated fixture validation', () => {
               expect(() => JSON.parse(json!)).not.toThrow();
             });
           }
+
+          // CRITICAL: Verify isJSON matches actual file format
+          if (capabilities?.isJSON) {
+            it('is valid JSON format (not NDJSON)', () => {
+              const content = readFileSync(fixture.path, 'utf-8');
+              // Should parse as single JSON object/array, not NDJSON
+              expect(() => JSON.parse(content)).not.toThrow();
+            });
+          }
         });
       }
     });

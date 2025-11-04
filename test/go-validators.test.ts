@@ -58,7 +58,7 @@ describe('Go artifact types', () => {
       expect(capabilities).toBeDefined();
       expect(capabilities.supportsAutoDetection).toBe(true);
       expect(capabilities.validator).toBeDefined();
-      expect(capabilities.isJSON).toBe(true);
+      expect(capabilities.isJSON).toBe(false);
       expect(capabilities.normalize).toBeNull();
     });
 
@@ -70,14 +70,14 @@ describe('Go artifact types', () => {
       expect(content.toLowerCase()).toContain('example.com/calculator');
     });
 
-    it('go-test-json is JSON format', () => {
+    it('go-test-json is NDJSON format (not JSON)', () => {
       const capabilities = ARTIFACT_TYPE_REGISTRY['go-test-json'];
-      expect(capabilities.isJSON).toBe(true);
+      expect(capabilities.isJSON).toBe(false);
     });
 
-    it('go-test-json can be converted to JSON', () => {
+    it('go-test-json cannot be converted to JSON without normalization', () => {
       const result = canConvertToJSON({ detectedType: 'go-test-json' });
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
   });
 
