@@ -7,13 +7,19 @@ export type ValidatorFunction = (content: string) => ValidationResult;
 
 export type ExtractFunction = (artifactType: string, filePath: string) => string | null;
 
+export type ExtractFromLogFunction = (logContents: string) => string | null;
+
 export type NormalizeFunction = (filePath: string) => string | null;
+
+export type ArtifactType = import('../types.js').ArtifactType;
 
 export interface ArtifactTypeCapabilities {
   supportsAutoDetection: boolean;
   validator: ValidatorFunction | null;
-  extract: ExtractFunction | null;
+  extract: ExtractFromLogFunction | null;
   normalize: NormalizeFunction | null;
+  normalizesTo: ArtifactType | null;
+  artificialType: boolean;
   isJSON: boolean;
 }
 

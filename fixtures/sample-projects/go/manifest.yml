@@ -11,9 +11,9 @@ tools:
 
 artifacts:
   - file: go-test.json
-    type: go-test-json
+    type: go-test-ndjson
     format: json
-    description: "Go test output with 8 total tests (7 passed, 1 skipped)"
+    description: "Go test output with 8 total tests (7 passed, 1 skipped) in NDJSON format"
     parsers: []
     coverage_target: "main.go"
 

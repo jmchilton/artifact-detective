@@ -74,10 +74,10 @@ if (linterType) {
 | jest-json | Jest JSON reporter: 5 pass, 2 fail, 1 skip | — | already is | `fixtures/generated/javascript/jest-results.json` |
 | playwright-json | Playwright JSON: 3 pass, 1 fail | — | already is | `fixtures/generated/javascript/playwright-results.json` |
 | pytest-json | Pytest JSON: 5 pass, 2 fail, 1 skip | — | already is | `fixtures/generated/python/pytest-results.json` |
-| mypy-json | Mypy JSON: type checking errors in JSON format | — | already is | `fixtures/generated/python/mypy-results.json` |
+| mypy-ndjson | Mypy NDJSON: type checking errors in newline-delimited JSON format | — | can convert | `fixtures/generated/python/mypy-results.json` |
 | eslint-json | ESLint JSON: reports linting violations | — | already is | `fixtures/generated/javascript/eslint-results.json` |
-| clippy-json | Clippy JSON output with 5+ warnings | — | already is | `fixtures/generated/rust/clippy-output.json` |
-| go-test-json | Go test NDJSON: 7 pass, 1 skip | — | can convert | `fixtures/generated/go/go-test.json` |
+| clippy-ndjson | Clippy NDJSON output with 5+ warnings | — | can convert | `fixtures/generated/rust/clippy-output.json` |
+| go-test-ndjson | Go test NDJSON: 7 pass, 1 skip | — | can convert | `fixtures/generated/go/go-test.json` |
 | golangci-lint-json | golangci-lint JSON: linting violations | — | already is | `fixtures/generated/go/golangci-lint.json` |
 | checkstyle-sarif-json | Checkstyle SARIF violations | — | already is | `fixtures/generated/java/checkstyle-result.sarif` |
 | pytest-html | Pytest HTML report with test details | — | can convert | `fixtures/generated/python/pytest-report.html` |
@@ -113,13 +113,15 @@ npm run build
 # Test
 npm test
 
+# Test with coverage report
+npm run test:coverage
+
+# Format code
+npm run format
+
 # Type check
 npm run lint
 ```
-
-## Future Work
-
-See [FIXTURE_PLAN.md](./FIXTURE_PLAN.md) for the planned fixture generation framework to create reproducible test artifacts from real tools.
 
 ## License
 

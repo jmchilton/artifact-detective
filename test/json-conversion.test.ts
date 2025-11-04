@@ -20,8 +20,8 @@ describe('JSON conversion utilities', () => {
       expect(isJSON(result)).toBe(true);
     });
 
-    it('returns false for mypy-json (NDJSON format, not single JSON)', () => {
-      const result = { detectedType: 'mypy-json' as ArtifactType };
+    it('returns false for mypy-ndjson (NDJSON format, not single JSON)', () => {
+      const result = { detectedType: 'mypy-ndjson' as ArtifactType };
       expect(isJSON(result)).toBe(false);
     });
 
@@ -30,8 +30,8 @@ describe('JSON conversion utilities', () => {
       expect(isJSON(result)).toBe(true);
     });
 
-    it('returns false for clippy-json (NDJSON format, not single JSON)', () => {
-      const result = { detectedType: 'clippy-json' as ArtifactType };
+    it('returns false for clippy-ndjson (NDJSON format, not single JSON)', () => {
+      const result = { detectedType: 'clippy-ndjson' as ArtifactType };
       expect(isJSON(result)).toBe(false);
     });
 
@@ -86,8 +86,8 @@ describe('JSON conversion utilities', () => {
       const normalizableTypes: ArtifactType[] = [
         'pytest-html',
         'jest-html',
-        'mypy-json',
-        'clippy-json',
+        'mypy-ndjson',
+        'clippy-ndjson',
       ];
 
       for (const type of normalizableTypes) {
@@ -238,13 +238,13 @@ describe('JSON conversion utilities', () => {
       expect(parsed.runs[0].tool.driver.name).toBe('Checkstyle');
     });
 
-    it('returns JSON array for mypy-json (NDJSON converted to array)', () => {
-      const fixture = fixtures.find((f) => f.type === 'mypy-json');
+    it('returns JSON array for mypy-ndjson (NDJSON converted to array)', () => {
+      const fixture = fixtures.find((f) => f.type === 'mypy-ndjson');
       if (!fixture) {
-        throw new Error('mypy-json fixture not found');
+        throw new Error('mypy-ndjson fixture not found');
       }
 
-      const result = { detectedType: 'mypy-json' as ArtifactType };
+      const result = { detectedType: 'mypy-ndjson' as ArtifactType };
       const json = convertToJSON(result, fixture.path);
 
       expect(json).toBeTruthy();
@@ -252,20 +252,20 @@ describe('JSON conversion utilities', () => {
       const parsed = JSON.parse(json!);
       expect(Array.isArray(parsed)).toBe(true);
       expect(parsed.length).toBeGreaterThan(0);
-      // Each item should have mypy-json structure
+      // Each item should have mypy-ndjson structure
       for (const item of parsed) {
         expect(item).toHaveProperty('file');
         expect(item).toHaveProperty('message');
       }
     });
 
-    it('returns JSON array for clippy-json (NDJSON converted to array)', () => {
-      const fixture = fixtures.find((f) => f.type === 'clippy-json');
+    it('returns JSON array for clippy-ndjson (NDJSON converted to array)', () => {
+      const fixture = fixtures.find((f) => f.type === 'clippy-ndjson');
       if (!fixture) {
-        throw new Error('clippy-json fixture not found');
+        throw new Error('clippy-ndjson fixture not found');
       }
 
-      const result = { detectedType: 'clippy-json' as ArtifactType };
+      const result = { detectedType: 'clippy-ndjson' as ArtifactType };
       const json = convertToJSON(result, fixture.path);
 
       expect(json).toBeTruthy();
@@ -273,7 +273,7 @@ describe('JSON conversion utilities', () => {
       const parsed = JSON.parse(json!);
       expect(Array.isArray(parsed)).toBe(true);
       expect(parsed.length).toBeGreaterThan(0);
-      // Each item should have clippy-json structure (compiler message)
+      // Each item should have clippy-ndjson structure (compiler message)
       for (const item of parsed) {
         expect(item).toHaveProperty('reason');
       }

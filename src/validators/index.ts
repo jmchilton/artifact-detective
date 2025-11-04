@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, unlinkSync } from 'fs';
 import type { ArtifactType } from '../types.js';
 import type { ArtifactTypeCapabilities, ValidationResult } from './types.js';
 import { validateJestJSON } from './jest-validator.js';
@@ -9,7 +9,7 @@ import { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-val
 import { validateSpotBugsXML } from './spotbugs-validator.js';
 import { validateSurefireHTML } from './surefire-validator.js';
 import { validateEslintJSON } from './eslint-validator.js';
-import { validateMypyJSON } from './mypy-validator.js';
+import { validateMypyNDJSON } from './mypy-validator.js';
 import {
   validateESLintOutput,
   validateTSCOutput,
@@ -18,9 +18,9 @@ import {
   validateMypyOutput,
 } from './linter-validator.js';
 import { validateCargoTestOutput } from './cargo-validator.js';
-import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
+import { validateClippyNDJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
-import { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
+import { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.js';
 import { validateGofmtOutput } from './gofmt-validator.js';
 import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
@@ -34,7 +34,7 @@ export { validateCheckstyleXML, validateCheckstyleSARIF } from './checkstyle-val
 export { validateSpotBugsXML } from './spotbugs-validator.js';
 export { validateSurefireHTML } from './surefire-validator.js';
 export { validateEslintJSON } from './eslint-validator.js';
-export { validateMypyJSON } from './mypy-validator.js';
+export { validateMypyNDJSON } from './mypy-validator.js';
 export {
   validateESLintOutput,
   validateTSCOutput,
@@ -43,9 +43,9 @@ export {
   validateMypyOutput,
 } from './linter-validator.js';
 export { validateCargoTestOutput } from './cargo-validator.js';
-export { validateClippyJSON, validateClippyText } from './clippy-validator.js';
+export { validateClippyNDJSON, validateClippyText } from './clippy-validator.js';
 export { validateRustfmtOutput } from './rustfmt-validator.js';
-export { validateGoTestJSON, validateGolangciLintJSON } from './go-validator.js';
+export { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.js';
 export { validateGofmtOutput } from './gofmt-validator.js';
 export type {
   ValidationResult,
@@ -54,20 +54,6 @@ export type {
   ExtractFunction,
   NormalizeFunction,
 } from './types.js';
-
-/**
- * Extract function for linter output artifacts
- * Extracts structured output from linter logs
- */
-function extractLinterText(artifactType: string, filePath: string): string | null {
-  try {
-    const content = readFileSync(filePath, 'utf-8');
-    const linterType = artifactType.replace(/-txt$/, '').replace(/-json$/, '');
-    return extractLinterOutput(linterType, content);
-  } catch {
-    return null;
-  }
-}
 
 /**
  * Normalize function for pytest HTML artifacts
@@ -137,7 +123,7 @@ function normalizeNDJSON(filePath: string): string | null {
 
 /**
  * Normalize function for mypy text output
- * Converts text format to mypy-json NDJSON, then to JSON array
+ * Converts text format to mypy-ndjson NDJSON, then to JSON array
  */
 function normalizeMypyText(filePath: string): string | null {
   try {
@@ -154,15 +140,49 @@ function normalizeMypyText(filePath: string): string | null {
 }
 
 /**
+ * Specific extractor functions for linter output from CI logs
+ */
+function extractESLintFromLog(logContents: string): string | null {
+  return extractLinterOutput('eslint', logContents);
+}
+
+function extractTSCFromLog(logContents: string): string | null {
+  return extractLinterOutput('tsc', logContents);
+}
+
+function extractFlake8FromLog(logContents: string): string | null {
+  return extractLinterOutput('flake8', logContents);
+}
+
+function extractRuffFromLog(logContents: string): string | null {
+  return extractLinterOutput('ruff', logContents);
+}
+
+function extractMypyFromLog(logContents: string): string | null {
+  return extractLinterOutput('mypy', logContents);
+}
+
+function extractClippyFromLog(logContents: string): string | null {
+  return extractLinterOutput('clippy', logContents);
+}
+
+/**
  * Registry of artifact type capabilities and validators.
  *
  * - supportsAutoDetection: true if the type has unique structural markers for reliable auto-detection
  * - validator: function to validate content matches expected format (null if no validator)
- * - extract: function to extract content from artifact file (null if no extraction needed)
+ * - extract: function to extract artifact content from CI logs (null if no extraction supported)
  * - normalize: function to normalize content to JSON (null if no normalization needed)
+ * - normalizesTo: artifact type after normalization (null if not normalized or normalizes to same type)
+ * - artificialType: true if this type only exists after normalization (not from real tool output)
  * - isJSON: true if the artifact type is already in JSON format
  *
  * Artifacts support JSON export if: isJSON is true OR normalize function exists
+ *
+ * The registry supports three operation modes:
+ * 1. Detection & validation: Use detectArtifactType and validate functions
+ * 2. Extraction from logs: Use extractArtifactFromLog for linter types with extractors
+ * 3. Extraction + normalization: Use extractArtifactToJson to extract and convert to JSON in one step
  */
 export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabilities> = {
   'jest-json': {
@@ -170,6 +190,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateJestJSON,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
   'playwright-json': {
@@ -177,6 +199,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validatePlaywrightJSON,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
   'jest-html': {
@@ -184,6 +208,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: null,
     extract: null,
     normalize: normalizeJestHTML,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'pytest-json': {
@@ -191,6 +217,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validatePytestJSON,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
   'pytest-html': {
@@ -198,6 +226,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validatePytestHTML,
     extract: null,
     normalize: normalizePytestHTML,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'junit-xml': {
@@ -205,6 +235,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateJUnitXML,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'checkstyle-xml': {
@@ -212,6 +244,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateCheckstyleXML,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'checkstyle-sarif-json': {
@@ -219,6 +253,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateCheckstyleSARIF,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
   'spotbugs-xml': {
@@ -226,6 +262,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateSpotBugsXML,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'surefire-html': {
@@ -233,6 +271,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateSurefireHTML,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'eslint-json': {
@@ -240,48 +280,71 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateEslintJSON,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
-  'mypy-json': {
+  'mypy-ndjson': {
     supportsAutoDetection: true,
-    validator: validateMypyJSON,
+    validator: validateMypyNDJSON,
     extract: null,
     normalize: normalizeNDJSON,
+    normalizesTo: 'mypy-json',
+    artificialType: false,
     isJSON: false,
+  },
+  'mypy-json': {
+    supportsAutoDetection: false,
+    validator: null,
+    extract: null,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: true,
+    isJSON: true,
   },
   'eslint-txt': {
     supportsAutoDetection: false,
     validator: validateESLintOutput,
-    extract: extractLinterText,
+    extract: extractESLintFromLog,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'tsc-txt': {
     supportsAutoDetection: false,
     validator: validateTSCOutput,
-    extract: extractLinterText,
+    extract: extractTSCFromLog,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'flake8-txt': {
     supportsAutoDetection: false,
     validator: validateFlake8Output,
-    extract: extractLinterText,
+    extract: extractFlake8FromLog,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'ruff-txt': {
     supportsAutoDetection: false,
     validator: validateRuffOutput,
-    extract: extractLinterText,
+    extract: extractRuffFromLog,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'mypy-txt': {
     supportsAutoDetection: false,
     validator: validateMypyOutput,
-    extract: extractLinterText,
+    extract: extractMypyFromLog,
     normalize: normalizeMypyText,
+    normalizesTo: 'mypy-json',
+    artificialType: false,
     isJSON: false,
   },
   'cargo-test-txt': {
@@ -289,20 +352,35 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateCargoTestOutput,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
+  },
+  'clippy-ndjson': {
+    supportsAutoDetection: true,
+    validator: validateClippyNDJSON,
+    extract: null,
+    normalize: normalizeNDJSON,
+    normalizesTo: 'clippy-json',
+    artificialType: false,
     isJSON: false,
   },
   'clippy-json': {
-    supportsAutoDetection: true,
-    validator: validateClippyJSON,
+    supportsAutoDetection: false,
+    validator: null,
     extract: null,
-    normalize: normalizeNDJSON,
-    isJSON: false,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: true,
+    isJSON: true,
   },
   'clippy-txt': {
     supportsAutoDetection: false,
     validator: validateClippyText,
-    extract: extractLinterText,
+    extract: extractClippyFromLog,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'rustfmt-txt': {
@@ -310,6 +388,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateRustfmtOutput,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   'gofmt-txt': {
@@ -317,20 +397,35 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: validateGofmtOutput,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
+  },
+  'go-test-ndjson': {
+    supportsAutoDetection: true,
+    validator: validateGoTestNDJSON,
+    extract: null,
+    normalize: normalizeNDJSON,
+    normalizesTo: 'go-test-json',
+    artificialType: false,
     isJSON: false,
   },
   'go-test-json': {
-    supportsAutoDetection: true,
-    validator: validateGoTestJSON,
+    supportsAutoDetection: false,
+    validator: null,
     extract: null,
-    normalize: normalizeNDJSON,
-    isJSON: false,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: true,
+    isJSON: true,
   },
   'golangci-lint-json': {
     supportsAutoDetection: true,
     validator: validateGolangciLintJSON,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: true,
   },
   binary: {
@@ -338,6 +433,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: null,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
   unknown: {
@@ -345,6 +442,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: null,
     extract: null,
     normalize: null,
+    normalizesTo: null,
+    artificialType: false,
     isJSON: false,
   },
 };
@@ -374,6 +473,86 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
   }
 
   return capabilities.validator(content);
+}
+
+/**
+ * Extract artifact content from CI log file
+ *
+ * @param artifactType - Target artifact type (must have extractor)
+ * @param logContents - CI log file contents
+ * @returns Extracted artifact content or null if extraction not supported/failed
+ */
+export function extractArtifactFromLog(
+  artifactType: ArtifactType,
+  logContents: string,
+): string | null {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
+  if (!capabilities?.extract) {
+    return null;
+  }
+  return capabilities.extract(logContents);
+}
+
+/**
+ * Result of extracting and converting artifact to JSON
+ */
+export interface ArtifactJsonResult {
+  json: string;
+  effectiveType: ArtifactType;
+}
+
+/**
+ * Extract artifact from log and convert to JSON
+ *
+ * @param artifactType - Source artifact type
+ * @param logContents - CI log file contents
+ * @returns JSON content and effective type, or null if not possible
+ */
+export function extractArtifactToJson(
+  artifactType: ArtifactType,
+  logContents: string,
+): ArtifactJsonResult | null {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
+  if (!capabilities) return null;
+
+  // Step 1: Extract from log if extractor exists, otherwise use raw content
+  let content = logContents;
+  if (capabilities.extract) {
+    const extracted = capabilities.extract(logContents);
+    if (!extracted) return null;
+    content = extracted;
+  }
+
+  // Step 2: If already JSON, return as-is
+  if (capabilities.isJSON) {
+    try {
+      JSON.parse(content); // Validate
+      return { json: content, effectiveType: artifactType };
+    } catch {
+      return null;
+    }
+  }
+
+  // Step 3: If has normalizer, convert to JSON
+  if (capabilities.normalize && capabilities.normalizesTo) {
+    // Write to temp file for normalize function
+    const tempFile = `/tmp/artifact-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.txt`;
+    try {
+      writeFileSync(tempFile, content);
+      const normalized = capabilities.normalize(tempFile);
+      if (normalized) {
+        return { json: normalized, effectiveType: capabilities.normalizesTo };
+      }
+    } finally {
+      try {
+        unlinkSync(tempFile);
+      } catch {
+        // Ignore cleanup errors
+      }
+    }
+  }
+
+  return null;
 }
 
 /**

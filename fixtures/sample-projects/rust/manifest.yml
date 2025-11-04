@@ -16,9 +16,9 @@ artifacts:
     coverage_target: "validators/cargo-validator.ts"
 
   - file: "clippy-output.json"
-    type: clippy-json
+    type: clippy-ndjson
     format: json
-    description: "Clippy JSON output with 5+ warnings"
+    description: "Clippy NDJSON output with 5+ warnings"
     coverage_target: "validators/clippy-validator.ts"
 
   - file: "clippy-output.txt"

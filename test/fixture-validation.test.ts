@@ -51,7 +51,8 @@ describe('Generated fixture validation', () => {
           // Test extraction if an extract function exists
           if (capabilities?.extract) {
             it('extracts successfully', () => {
-              const extracted = capabilities.extract(fixture.type, fixture.path);
+              const content = readFileSync(fixture.path, 'utf-8');
+              const extracted = capabilities.extract(content);
               expect(extracted).toBeTruthy();
             });
           }

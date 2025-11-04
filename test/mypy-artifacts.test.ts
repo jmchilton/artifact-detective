@@ -6,44 +6,44 @@ import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
 import { FIXTURES_DIR } from './fixtures-helper.js';
 
 describe('Mypy Artifacts', () => {
-  describe('Mypy JSON', () => {
+  describe('Mypy NDJSON', () => {
     const mypyJsonPath = join(FIXTURES_DIR, 'generated/python/mypy-results.json');
 
-    it('detects mypy-json by content', () => {
+    it('detects mypy-ndjson by content', () => {
       const result = detectArtifactType(mypyJsonPath);
-      expect(result.detectedType).toBe('mypy-json');
+      expect(result.detectedType).toBe('mypy-ndjson');
       expect(result.originalFormat).toBe('json');
       expect(result.isBinary).toBe(false);
     });
 
-    it('fails to validate non-mypy JSON', () => {
+    it('fails to validate non-mypy NDJSON', () => {
       const nonMypyJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
       const content = readFileSync(nonMypyJsonPath, 'utf-8');
-      const result = validate('mypy-json', content);
+      const result = validate('mypy-ndjson', content);
       expect(result.valid).toBe(false);
 
-      const resultFirstLineNotJsonObject = validate('mypy-json', '7');
+      const resultFirstLineNotJsonObject = validate('mypy-ndjson', '7');
       expect(resultFirstLineNotJsonObject.valid).toBe(false);
 
-      const resultInvalidLineNumber = validate('mypy-json', '{"file": "moo.txt", "line": "6"}');
+      const resultInvalidLineNumber = validate('mypy-ndjson', '{"file": "moo.txt", "line": "6"}');
       expect(resultInvalidLineNumber.valid).toBe(false);
 
       const resultInvalidMessage = validate(
-        'mypy-json',
+        'mypy-ndjson',
         '{"file": "moo.txt", "line": 6, "message": 12}',
       );
       expect(resultInvalidMessage.valid).toBe(false);
 
       const resultInvalidCode = validate(
-        'mypy-json',
+        'mypy-ndjson',
         '{"file": "moo.txt", "line": 6, "message": "moo", "code": 13}',
       );
       expect(resultInvalidCode.valid).toBe(false);
     });
 
-    it('validates mypy JSON content', () => {
+    it('validates mypy NDJSON content', () => {
       const content = readFileSync(mypyJsonPath, 'utf-8');
-      const result = validate('mypy-json', content);
+      const result = validate('mypy-ndjson', content);
       expect(result.valid).toBe(true);
     });
 
@@ -93,7 +93,7 @@ describe('Mypy Artifacts', () => {
     });
 
     it('has registry entry with auto-detection support', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['mypy-json'];
+      const capabilities = ARTIFACT_TYPE_REGISTRY['mypy-ndjson'];
       expect(capabilities).toBeDefined();
       expect(capabilities.supportsAutoDetection).toBe(true);
       expect(capabilities.validator).toBeDefined();
@@ -101,21 +101,21 @@ describe('Mypy Artifacts', () => {
 
     it('rejects invalid JSON', () => {
       const invalidJson = '{"not": "mypy"}';
-      const result = validate('mypy-json', invalidJson);
+      const result = validate('mypy-ndjson', invalidJson);
       expect(result.valid).toBe(false);
       expect(result.error).toBeTruthy();
     });
 
     it('rejects empty mypy output', () => {
       const emptyOutput = '';
-      const result = validate('mypy-json', emptyOutput);
+      const result = validate('mypy-ndjson', emptyOutput);
       expect(result.valid).toBe(false);
       expect(result.error).toContain('empty');
     });
 
     it('rejects JSON without mypy structure', () => {
       const wrongStructure = '{"message": "test"}';
-      const result = validate('mypy-json', wrongStructure);
+      const result = validate('mypy-ndjson', wrongStructure);
       expect(result.valid).toBe(false);
       expect(result.error).toContain('file');
     });

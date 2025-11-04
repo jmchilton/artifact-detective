@@ -1,6 +1,6 @@
 import type { ValidationResult } from './types.js';
 
-export function validateMypyJSON(content: string): ValidationResult {
+export function validateMypyNDJSON(content: string): ValidationResult {
   const lines = content
     .trim()
     .split('\n')

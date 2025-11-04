@@ -301,7 +301,7 @@ function extractClippyOutput(lines: string[]): string | null {
 }
 
 /**
- * Convert mypy text output to mypy-json NDJSON format
+ * Convert mypy text output to mypy-ndjson NDJSON format
  * Parses lines like: src/sample.py:8: error: message [code]
  * And converts to JSON objects with: file, line, column, message, code, severity, hint
  */

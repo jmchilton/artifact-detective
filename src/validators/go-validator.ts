@@ -1,6 +1,6 @@
 import type { ValidationResult } from './types.js';
 
-export function validateGoTestJSON(content: string): ValidationResult {
+export function validateGoTestNDJSON(content: string): ValidationResult {
   try {
     const lines = content.trim().split('\n');
 

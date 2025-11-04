@@ -36,9 +36,9 @@ artifacts:
     coverage_target: "validators/linter-validator.ts"
 
   - file: "mypy-results.json"
-    type: mypy-json
+    type: mypy-ndjson
     format: json
-    description: "Mypy JSON: type checking errors in JSON format"
+    description: "Mypy NDJSON: type checking errors in newline-delimited JSON format"
     coverage_target: "validators/mypy-validator.ts"
 
 commands:

@@ -154,31 +154,31 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
       try {
         const firstObj = JSON.parse(firstJsonLine);
 
-        // Go test JSON: NDJSON with "Action", "Package" fields
+        // Go test NDJSON: NDJSON with "Action", "Package" fields
         if (
           firstObj.Action &&
           firstObj.Package &&
           typeof firstObj.Time === 'string'
         ) {
-          return 'go-test-json';
+          return 'go-test-ndjson';
         }
 
-        // Clippy JSON: newline-delimited JSON with "reason" field
+        // Clippy NDJSON: newline-delimited JSON with "reason" field
         if (
           firstObj.reason &&
           ['compiler-message', 'compiler-artifact', 'build-finished'].includes(firstObj.reason)
         ) {
-          return 'clippy-json';
+          return 'clippy-ndjson';
         }
 
-        // Mypy JSON: newline-delimited JSON with "file", "line", "message", "code" fields
+        // Mypy NDJSON: newline-delimited JSON with "file", "line", "message", "code" fields
         if (
           typeof firstObj.file === 'string' &&
           typeof firstObj.line === 'number' &&
           typeof firstObj.message === 'string' &&
           typeof firstObj.code === 'string'
         ) {
-          return 'mypy-json';
+          return 'mypy-ndjson';
         }
       } catch {
         // Line isn't valid JSON, continue
@@ -260,7 +260,7 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
       return 'eslint-json';
     }
     if (lowerContent.includes('mypy')) {
-      return 'mypy-json';
+      return 'mypy-ndjson';
     }
     if (lowerContent.includes('playwright')) {
       return 'playwright-json';

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { detectArtifactType } from '../src/index.js';
 import {
-  validateGoTestJSON,
+  validateGoTestNDJSON,
   validateGolangciLintJSON,
   ARTIFACT_TYPE_REGISTRY,
   canConvertToJSON,
@@ -15,46 +15,46 @@ describe('Go artifact types', () => {
   const goTestPath = join(FIXTURES_DIR, 'go-test.json');
   const golangciLintPath = join(FIXTURES_DIR, 'golangci-lint.json');
 
-  describe('go-test-json', () => {
-    it('detects go-test-json by content', () => {
+  describe('go-test-ndjson', () => {
+    it('detects go-test-ndjson by content', () => {
       const result = detectArtifactType(goTestPath);
-      expect(result.detectedType).toBe('go-test-json');
+      expect(result.detectedType).toBe('go-test-ndjson');
       expect(result.originalFormat).toBe('json');
       expect(result.isBinary).toBe(false);
     });
 
-    it('validates go-test JSON content', () => {
+    it('validates go-test NDJSON content', () => {
       const content = readFileSync(goTestPath, 'utf-8');
-      const result = validateGoTestJSON(content);
+      const result = validateGoTestNDJSON(content);
       expect(result.valid).toBe(true);
     });
 
     it('rejects empty file', () => {
-      const result = validateGoTestJSON('');
+      const result = validateGoTestNDJSON('');
       expect(result.valid).toBe(false);
       expect(result.error).toBeDefined();
     });
 
     it('rejects JSON without Action field', () => {
       const invalidJson = '{"Package": "test", "Time": "2025-01-01T00:00:00Z"}';
-      const result = validateGoTestJSON(invalidJson);
+      const result = validateGoTestNDJSON(invalidJson);
       expect(result.valid).toBe(false);
     });
 
     it('rejects JSON without Package field', () => {
       const invalidJson = '{"Action": "start", "Time": "2025-01-01T00:00:00Z"}';
-      const result = validateGoTestJSON(invalidJson);
+      const result = validateGoTestNDJSON(invalidJson);
       expect(result.valid).toBe(false);
     });
 
     it('rejects non-JSON content', () => {
       const notJson = 'not json at all';
-      const result = validateGoTestJSON(notJson);
+      const result = validateGoTestNDJSON(notJson);
       expect(result.valid).toBe(false);
     });
 
     it('has proper registry entry', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['go-test-json'];
+      const capabilities = ARTIFACT_TYPE_REGISTRY['go-test-ndjson'];
       expect(capabilities).toBeDefined();
       expect(capabilities.supportsAutoDetection).toBe(true);
       expect(capabilities.validator).toBeDefined();
@@ -70,13 +70,13 @@ describe('Go artifact types', () => {
       expect(content.toLowerCase()).toContain('example.com/calculator');
     });
 
-    it('go-test-json is NDJSON format (not JSON)', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['go-test-json'];
+    it('go-test-ndjson is NDJSON format (not JSON)', () => {
+      const capabilities = ARTIFACT_TYPE_REGISTRY['go-test-ndjson'];
       expect(capabilities.isJSON).toBe(false);
     });
 
-    it('go-test-json cannot be converted to JSON without normalization', () => {
-      const result = canConvertToJSON({ detectedType: 'go-test-json' });
+    it('go-test-ndjson can be converted to JSON with normalization', () => {
+      const result = canConvertToJSON({ detectedType: 'go-test-ndjson' });
       expect(result).toBe(true);
     });
   });

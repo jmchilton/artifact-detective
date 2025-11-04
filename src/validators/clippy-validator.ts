@@ -1,12 +1,12 @@
 import type { ValidationResult } from './types.js';
 
 /**
- * Validates clippy JSON output format
+ * Validates clippy NDJSON output format
  * Expected format: newline-delimited JSON with objects containing:
  * - "reason" field ("compiler-message", "compiler-artifact", "build-finished")
  * - "message" field for compiler-message entries with "level" and "spans"
  */
-export function validateClippyJSON(content: string): ValidationResult {
+export function validateClippyNDJSON(content: string): ValidationResult {
   try {
     const lines = content.trim().split('\n');
     let foundValidJson = false;
