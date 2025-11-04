@@ -19,7 +19,7 @@ import {
 import { validateCargoTestOutput } from './cargo-validator.js';
 import { validateClippyJSON, validateClippyText } from './clippy-validator.js';
 import { validateRustfmtOutput } from './rustfmt-validator.js';
-import { extractLinterOutput } from '../parsers/linters/extractors.js';
+import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 
 export { validateJestJSON } from './jest-validator.js';
@@ -76,13 +76,11 @@ function normalizePytestHTML(filePath: string): string | null {
 }
 
 /**
- * Normalize function for NDJSON (newline-delimited JSON) artifacts
- * Converts each line of JSON into a JSON array, skipping non-JSON lines
+ * Helper to convert NDJSON string to JSON array string
  */
-function normalizeNDJSON(filePath: string): string | null {
+function ndjsonToJsonArray(ndjsonContent: string): string | null {
   try {
-    const content = readFileSync(filePath, 'utf-8');
-    const lines = content.trim().split('\n');
+    const lines = ndjsonContent.trim().split('\n');
     const objects: unknown[] = [];
 
     for (const line of lines) {
@@ -99,6 +97,37 @@ function normalizeNDJSON(filePath: string): string | null {
     }
 
     return objects.length > 0 ? JSON.stringify(objects) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalize function for NDJSON (newline-delimited JSON) artifacts
+ * Converts each line of JSON into a JSON array, skipping non-JSON lines
+ */
+function normalizeNDJSON(filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    return ndjsonToJsonArray(content);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Normalize function for mypy text output
+ * Converts text format to mypy-json NDJSON, then to JSON array
+ */
+function normalizeMypyText(filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const ndjson = convertMypyTextToNDJSON(content);
+    if (!ndjson) {
+      return null;
+    }
+    // Convert NDJSON to JSON array
+    return ndjsonToJsonArray(ndjson);
   } catch {
     return null;
   }
@@ -218,7 +247,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: false,
     validator: validateMypyOutput,
     extract: extractLinterText,
-    normalize: null,
+    normalize: normalizeMypyText,
     isJSON: false,
   },
   'cargo-test-txt': {

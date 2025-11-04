@@ -99,7 +99,6 @@ describe('JSON conversion utilities', () => {
         'eslint-txt',
         'tsc-txt',
         'ruff-txt',
-        'mypy-txt',
         'flake8-txt',
         'junit-xml',
         'checkstyle-xml',
@@ -113,6 +112,11 @@ describe('JSON conversion utilities', () => {
         const result = { detectedType: type };
         expect(canConvertToJSON(result)).toBe(false);
       }
+    });
+
+    it('returns true for mypy-txt (has normalizer)', () => {
+      const result = { detectedType: 'mypy-txt' as ArtifactType };
+      expect(canConvertToJSON(result)).toBe(true);
     });
 
     it('returns false for unknown type', () => {
@@ -284,6 +288,55 @@ describe('JSON conversion utilities', () => {
 
       const json = convertToJSON(result, fixture.path);
       expect(json).toBeNull();
+    });
+
+    it('converts mypy-txt to JSON array format', () => {
+      const fixture = fixtures.find((f) => f.type === 'mypy-txt');
+      if (!fixture) {
+        throw new Error('mypy-txt fixture not found');
+      }
+
+      const result = { detectedType: 'mypy-txt' as ArtifactType };
+      const json = convertToJSON(result, fixture.path);
+
+      expect(json).toBeTruthy();
+      expect(() => JSON.parse(json!)).not.toThrow();
+
+      const array = JSON.parse(json!);
+      expect(Array.isArray(array)).toBe(true);
+      expect(array.length).toBeGreaterThan(0);
+
+      for (const obj of array) {
+        expect(obj).toHaveProperty('file');
+        expect(obj).toHaveProperty('line');
+        expect(obj).toHaveProperty('column');
+        expect(obj).toHaveProperty('message');
+        expect(obj).toHaveProperty('severity');
+        expect(obj).toHaveProperty('code');
+        expect(['error', 'warning']).toContain(obj.severity);
+      }
+    });
+
+    it('mypy-txt converts notes to hints', () => {
+      const fixture = fixtures.find((f) => f.type === 'mypy-txt');
+      if (!fixture) {
+        throw new Error('mypy-txt fixture not found');
+      }
+
+      const result = { detectedType: 'mypy-txt' as ArtifactType };
+      const json = convertToJSON(result, fixture.path);
+
+      expect(json).toBeTruthy();
+
+      // Look for an error that has a note/hint
+      const array = JSON.parse(json!);
+      const withHints = array.filter((obj) => obj.hint !== null && obj.hint !== undefined);
+
+      // The fixture should have at least one error with a hint
+      expect(withHints.length).toBeGreaterThan(0);
+      const hinted = withHints[0];
+      expect(typeof hinted.hint).toBe('string');
+      expect(hinted.hint.length).toBeGreaterThan(0);
     });
   });
 });

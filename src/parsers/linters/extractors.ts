@@ -299,3 +299,62 @@ function extractClippyOutput(lines: string[]): string | null {
 
   return outputLines.length > 0 ? outputLines.join('\n') : null;
 }
+
+/**
+ * Convert mypy text output to mypy-json NDJSON format
+ * Parses lines like: src/sample.py:8: error: message [code]
+ * And converts to JSON objects with: file, line, column, message, code, severity, hint
+ */
+export function convertMypyTextToNDJSON(textOutput: string): string | null {
+  const lines = textOutput.trim().split('\n');
+  const jsonLines: string[] = [];
+  let currentError: {
+    file: string;
+    line: number;
+    column: number;
+    message: string;
+    code: string;
+    severity: string;
+    hint: string | null;
+  } | null = null;
+
+  // Pattern: file:line: severity: message [code]
+  const errorPattern = /^([^:]+):(\d+):(?:(\d+):)?\s+(error|warning|note):\s+(.+?)(?:\s+\[([^\]]+)\])?$/;
+
+  for (const line of lines) {
+    const match = line.match(errorPattern);
+
+    if (match) {
+      const [, file, lineStr, columnStr, severity, message, code] = match;
+      const column = columnStr ? parseInt(columnStr, 10) : 0;
+
+      // If this is a note following an error, attach it as a hint
+      if (severity === 'note' && currentError) {
+        currentError.hint = message;
+      } else {
+        // Save previous error if exists
+        if (currentError && (currentError.severity === 'error' || currentError.severity === 'warning')) {
+          jsonLines.push(JSON.stringify(currentError));
+        }
+
+        // Start new error/warning
+        currentError = {
+          file,
+          line: parseInt(lineStr, 10),
+          column,
+          message,
+          code: code || '',
+          severity,
+          hint: null,
+        };
+      }
+    }
+  }
+
+  // Don't forget the last error
+  if (currentError && (currentError.severity === 'error' || currentError.severity === 'warning')) {
+    jsonLines.push(JSON.stringify(currentError));
+  }
+
+  return jsonLines.length > 0 ? jsonLines.join('\n') : null;
+}
