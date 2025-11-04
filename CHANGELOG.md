@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/jmchilton/artifact-detective/compare/v1.6.0...v1.7.0) (2025-11-04)
+
+
+### Bug Fixes
+
+* recognize .sarif files as JSON format for proper detection ([0915f31](https://github.com/jmchilton/artifact-detective/commit/0915f31d300ab5fdb340cd7cd18e15c0ad8b20f5))
+
+
+### Features
+
+* add go-test-json and golangci-lint-json artifact types ([2d40b72](https://github.com/jmchilton/artifact-detective/commit/2d40b7261f5a49ba647ed4bf277d60f6a909bbaf))
+* add NDJSON normalization for go-test-json ([574c9b0](https://github.com/jmchilton/artifact-detective/commit/574c9b0203605a9c8b19b2d11abcb6043be51a16))
+
 # [1.6.0](https://github.com/jmchilton/artifact-detective/compare/v1.5.0...v1.6.0) (2025-11-04)
 
 
