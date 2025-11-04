@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/jmchilton/artifact-detective/compare/v1.4.0...v1.5.0) (2025-11-04)
+
+
+### Features
+
+* add mypy-txt to JSON converter and normalizer ([e412e62](https://github.com/jmchilton/artifact-detective/commit/e412e625dad37b9816555802f1a69429b653f5c8))
+
 # [1.4.0](https://github.com/jmchilton/artifact-detective/compare/v1.3.0...v1.4.0) (2025-11-04)
 
 
