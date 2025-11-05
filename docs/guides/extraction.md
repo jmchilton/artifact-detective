@@ -1,5 +1,9 @@
 # Extraction Guide
 
+> **Beta Guide** | AI-Generated | [Tested with GitHub Actions (Python & JavaScript)]
+>
+> This guide is in beta and was AI-generated. Log extraction has been thoroughly tested with **Python and JavaScript projects in GitHub Actions**. Other CI platforms and languages are based on typical log patterns but have not been extensively tested. Please contribute feedback and examples for other platforms.
+
 Learn how to extract test framework and linter artifacts from CI logs.
 
 ## Overview
@@ -46,23 +50,25 @@ artifact-detective extract eslint-txt build.log \
 
 ### Marker Examples
 
-**For GitHub Actions:**
+**For GitHub Actions** (✅ Tested):
 ```bash
 --start-marker "^::group::ESLint" \
 --end-marker "^::endgroup::"
 ```
 
-**For Jenkins:**
+**For Jenkins** (⚠️ Theoretical - untested):
 ```bash
 --start-marker "^\\[ESLint\\] Start" \
 --end-marker "^\\[ESLint\\] End"
 ```
 
-**For GitLab CI:**
+**For GitLab CI** (⚠️ Theoretical - untested):
 ```bash
 --start-marker "^eslint_output_start" \
 --end-marker "^eslint_output_end"
 ```
+
+> **Note**: GitHub Actions markers are based on real-world testing. Other CI platforms are provided as examples of potential marker patterns but have not been validated. If you use extraction with Jenkins, GitLab CI, CircleCI, or other platforms, please share your working markers to help improve this guide.
 
 ## Workflow Example
 

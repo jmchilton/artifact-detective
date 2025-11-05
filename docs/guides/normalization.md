@@ -1,5 +1,9 @@
 # Normalization Guide
 
+> **Beta Guide** | AI-Generated | [Tested with GitHub Actions (Python & JavaScript)]
+>
+> This guide is in beta and was AI-generated. Artifact normalization has been tested with **Python and JavaScript projects in GitHub Actions**. While the normalization logic is language-agnostic, edge cases in other languages/tools may exist. Please report issues and help expand test coverage.
+
 Learn how to convert artifacts to JSON format for processing and storage.
 
 ## Overview

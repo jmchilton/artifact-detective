@@ -1,5 +1,9 @@
 # Custom Extraction Markers
 
+> **Beta Guide** | AI-Generated | [Tested with GitHub Actions (Python & JavaScript)]
+>
+> This guide is in beta and was AI-generated. Custom marker extraction has been thoroughly tested with **Python and JavaScript projects in GitHub Actions**. Examples for other CI platforms (Jenkins, GitLab CI, CircleCI, etc.) are based on typical log patterns but are **not validated**. If you successfully use markers with other platforms, please contribute examples.
+
 Learn how to create custom extraction patterns for your specific CI environment.
 
 ## Overview
@@ -18,7 +22,7 @@ artifact-detective extract eslint-txt build.log \
 
 ## Common CI Platforms
 
-### GitHub Actions
+### GitHub Actions ✅ (Tested)
 
 GitHub Actions uses `::group::` and `::endgroup::` markers:
 
@@ -36,9 +40,11 @@ Example log output:
 ::endgroup::
 ```
 
-### GitLab CI
+This has been validated with Python and JavaScript projects in GitHub Actions.
 
-GitLab CI uses collapsible section markers:
+### GitLab CI ⚠️ (Untested)
+
+GitLab CI may use collapsible section markers (pattern-based, not validated):
 
 ```bash
 artifact-detective extract eslint-txt build.log \
@@ -46,9 +52,9 @@ artifact-detective extract eslint-txt build.log \
   --end-marker "^\\s*\\[eslint\\] Complete"
 ```
 
-### Jenkins
+### Jenkins ⚠️ (Untested)
 
-Jenkins uses section markers in console output:
+Jenkins may use section markers in console output (pattern-based, not validated):
 
 ```bash
 artifact-detective extract eslint-txt build.log \
@@ -56,9 +62,9 @@ artifact-detective extract eslint-txt build.log \
   --end-marker "^\\+\\+ ESLint End"
 ```
 
-### CircleCI
+### CircleCI ⚠️ (Untested)
 
-CircleCI uses similar patterns:
+CircleCI may use similar patterns (pattern-based, not validated):
 
 ```bash
 artifact-detective extract eslint-txt build.log \
@@ -66,13 +72,19 @@ artifact-detective extract eslint-txt build.log \
   --end-marker "^Build .* completed"
 ```
 
-### TravisCI / Azure Pipelines
+### TravisCI / Azure Pipelines ⚠️ (Untested)
+
+Experimental patterns (not validated):
 
 ```bash
 artifact-detective extract eslint-txt build.log \
   --start-marker "^linting:" \
   --end-marker "^$"
 ```
+
+---
+
+> **Help Needed**: If you successfully use extraction markers with platforms other than GitHub Actions, please share your working patterns. Open an issue or PR to help improve this guide.
 
 ## Regex Tips
 
