@@ -37,3 +37,19 @@ yarn-error.log*
 .cache/
 .parcel-cache/
 .turbo/
+
+# Generated documentation
+docs/api/typedoc/
+docs/artifact-types/test-frameworks.md
+docs/artifact-types/linters.md
+docs/artifact-types/formatters.md
+docs/fixtures/javascript.md
+docs/fixtures/python.md
+docs/fixtures/rust.md
+docs/fixtures/go.md
+docs/fixtures/java.md
+docs/fixtures/ruby.md
+docs/cli/detect.md
+docs/cli/validate.md
+docs/cli/extract.md
+docs/cli/normalize.md

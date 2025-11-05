@@ -24,6 +24,30 @@ const BINARY_EXTENSIONS = new Set([
 // Maximum bytes to read for content inspection
 const CONTENT_SAMPLE_SIZE = 50000; // 50KB should be enough for HTML <head> and initial content
 
+/**
+ * Automatically detect the artifact type from a file by inspecting its content.
+ *
+ * The detection works by:
+ * 1. Checking file extension for binary types (no content inspection needed)
+ * 2. Reading a sample of the file content (first 50KB)
+ * 3. Analyzing markers specific to each artifact type
+ *
+ * @param filePath - Path to the artifact file to detect
+ * @returns Detection result containing the identified type, format, and binary status
+ *
+ * @example
+ * ```typescript
+ * import { detectArtifactType } from 'artifact-detective';
+ *
+ * const result = detectArtifactType('./test-results/pytest-report.html');
+ * console.log(result.detectedType);   // 'pytest-html'
+ * console.log(result.originalFormat); // 'html'
+ * console.log(result.isBinary);       // false
+ * ```
+ *
+ * @see {@link validate} to validate detected type matches actual content
+ * @see {@link convertToJSON} to convert detected artifact to JSON
+ */
 export function detectArtifactType(filePath: string): DetectionResult {
   const fileName = filePath.toLowerCase();
 
