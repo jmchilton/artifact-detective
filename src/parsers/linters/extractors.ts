@@ -71,14 +71,31 @@ export function extractLinterOutput(linterType: string, logContent: string): str
   }
 }
 
-function extractESLintOutput(lines: string[]): string | null {
-  // If this looks like raw ESLint output (not embedded in logs), return as-is
-  const hasEslintPattern = lines.some(
-    (line) => /\d+:\d+\s+(error|warning)/.test(line) || /\d+\s+problem/.test(line),
-  );
+function cleanLogLine(line: string): string {
+  // Remove ISO timestamp prefix (e.g., "2025-10-24T05:43:16.9636538Z ")
+  let cleaned = line.replace(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s*/, '');
 
-  if (hasEslintPattern) {
-    return lines.join('\n').trim();
+  // Remove GitHub Actions markers (e.g., "##[error] " or "##[warning] ")
+  cleaned = cleaned.replace(/^##\[(error|warning|notice)\]\s*/, '');
+
+  // Trim leading/trailing whitespace
+  return cleaned.trim();
+}
+
+function extractESLintOutput(lines: string[]): string | null {
+  // Check if this looks like raw ESLint output or CI logs with embedded ESLint
+  // Look for CI markers in first few lines
+  const firstLines = lines.slice(0, 20).join('\n');
+  const hasCIMarkers =
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(firstLines) ||
+    /##\[group\]/.test(firstLines) ||
+    /##\[error\]/.test(firstLines) ||
+    /##\[warning\]/.test(firstLines) ||
+    /Current runner version|Runner Image|GITHUB_TOKEN/.test(firstLines);
+
+  if (!hasCIMarkers) {
+    // Raw ESLint output - just clean and return
+    return lines.map(cleanLogLine).filter((line) => line.trim()).join('\n').trim();
   }
 
   // Otherwise, extract from CI logs
@@ -94,14 +111,17 @@ function extractESLintOutput(lines: string[]): string | null {
 
     if (inOutput) {
       // End markers
-      if (line.match(/^##\[/i) || line.match(/^\d+ problem/)) {
-        outputLines.push(line);
+      if (line.match(/^\d+ problem/)) {
+        outputLines.push(cleanLogLine(line));
         break;
       }
 
       // Capture error/warning lines
       if (line.trim()) {
-        outputLines.push(line);
+        const cleaned = cleanLogLine(line);
+        if (cleaned) {
+          outputLines.push(cleaned);
+        }
       }
     }
   }

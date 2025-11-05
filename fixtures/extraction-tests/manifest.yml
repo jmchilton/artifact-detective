@@ -18,6 +18,14 @@ extraction-tests:
       - string: "✖ 451 problems"
       - string: "2 errors"
     exclude:
-      # We don't have meaningful exclude patterns for this test
-      # The extractor includes the full CI log context, which is fine
-      # What matters is that all the ESLint output is included (see include patterns above)
+      # Timestamps should be removed from extracted output
+      - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+      # GitHub Actions markers should be removed
+      - string: "##["
+      # CI runner info should not appear
+      - string: "Current runner version"
+      - string: "Runner Image"
+      - string: "GITHUB_TOKEN Permissions"
+      # npm notice/warnings from CI logs should not be in extraction
+      - string: "npm notice"
+      - string: "npm warn"
