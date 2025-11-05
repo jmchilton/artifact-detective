@@ -9,12 +9,17 @@ interface NormalizeOptions {
 }
 
 /**
- * Normalize artifact to JSON format
+ * Core normalization logic - no I/O side effects
  */
-export async function normalize(
+export interface NormalizeCoreResult {
+  json: string;
+  description?: { parsingGuide: string; toolUrl: string };
+}
+
+export async function normalizeCore(
   filePath: string,
-  options: NormalizeOptions,
-): Promise<void> {
+  overrideType?: string,
+): Promise<{ success: true; data: NormalizeCoreResult } | { success: false; error: string }> {
   try {
     let content: string;
     let detectedType: ArtifactType | undefined;
@@ -48,12 +53,12 @@ export async function normalize(
     }
 
     // Determine artifact type
-    const targetType: ArtifactType = (options.type as ArtifactType) || detectedType;
+    const targetType: ArtifactType = (overrideType as ArtifactType) || detectedType;
 
     if (!targetType) {
       const result = detectArtifactType(filePath);
       if (!canConvertToJSON(result)) {
-        exitError(`Cannot determine artifact type and no --type specified`);
+        return { success: false, error: `Cannot determine artifact type and no --type specified` };
       }
       detectedType = result.detectedType;
     }
@@ -64,19 +69,11 @@ export async function normalize(
     );
 
     if (!conversionResult) {
-      exitError(`Cannot normalize ${targetType || detectedType} to JSON`);
-    }
-
-    writeOutput(conversionResult.json, options.output || null);
-
-    if (options.showDescription) {
-      writeError('');
-      writeError(`Parsing Guide (${conversionResult.description.toolUrl}):`);
-      writeError(conversionResult.description.parsingGuide);
+      return { success: false, error: `Cannot normalize ${targetType || detectedType} to JSON` };
     }
 
     // Clean up temp file if created from stdin
-    if (options.type !== undefined && filePath.startsWith('/tmp/artifact-')) {
+    if (overrideType !== undefined && filePath.startsWith('/tmp/artifact-')) {
       try {
         const fs = await import('fs');
         fs.unlinkSync(filePath);
@@ -84,8 +81,33 @@ export async function normalize(
         // Ignore cleanup errors
       }
     }
+
+    return { success: true, data: { json: conversionResult.json, description: conversionResult.description } };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    exitError(`Failed to normalize artifact: ${message}`);
+    return { success: false, error: `Failed to normalize artifact: ${message}` };
+  }
+}
+
+/**
+ * Normalize artifact to JSON format - CLI wrapper
+ */
+export async function normalize(
+  filePath: string,
+  options: NormalizeOptions,
+): Promise<void> {
+  const result = await normalizeCore(filePath, options.type);
+
+  if (!result.success) {
+    exitError(result.error);
+  }
+
+  const data = result.data;
+  writeOutput(data.json, options.output || null);
+
+  if (options.showDescription && data.description) {
+    writeError('');
+    writeError(`Parsing Guide (${data.description.toolUrl}):`);
+    writeError(data.description.parsingGuide);
   }
 }

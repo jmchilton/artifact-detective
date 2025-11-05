@@ -2,9 +2,15 @@ import { detectArtifactType } from '../../detectors/type-detector.js';
 import { readInput, writeOutput, exitError, formatJSON, formatKeyValue } from '../utils.js';
 
 /**
- * Detect artifact type from file
+ * Core detection logic - no I/O side effects
  */
-export async function detect(filePath: string, options: { json?: boolean }): Promise<void> {
+export interface DetectCoreResult {
+  detectedType: string;
+  originalFormat: string;
+  isBinary: boolean;
+}
+
+export async function detectCore(filePath: string): Promise<{ success: true; data: DetectCoreResult } | { success: false; error: string }> {
   try {
     // Read input from file or stdin
     const content = await readInput(filePath);
@@ -32,18 +38,31 @@ export async function detect(filePath: string, options: { json?: boolean }): Pro
       }
     }
 
-    if (options.json) {
-      writeOutput(formatJSON(result), null);
-    } else {
-      const output = formatKeyValue({
-        'Detected Type': result.detectedType,
-        Format: result.originalFormat,
-        Binary: result.isBinary ? 'yes' : 'no',
-      });
-      writeOutput(output, null);
-    }
+    return { success: true, data: result };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    exitError(`Failed to detect artifact type: ${message}`);
+    return { success: false, error: `Failed to detect artifact type: ${message}` };
+  }
+}
+
+/**
+ * Detect artifact type from file - CLI wrapper
+ */
+export async function detect(filePath: string, options: { json?: boolean }): Promise<void> {
+  const result = await detectCore(filePath);
+
+  if (!result.success) {
+    exitError(result.error);
+  }
+
+  if (options.json) {
+    writeOutput(formatJSON(result.data), null);
+  } else {
+    const output = formatKeyValue({
+      'Detected Type': result.data.detectedType,
+      Format: result.data.originalFormat,
+      Binary: result.data.isBinary ? 'yes' : 'no',
+    });
+    writeOutput(output, null);
   }
 }

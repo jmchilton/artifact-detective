@@ -10,43 +10,60 @@ interface ExtractOptions {
 }
 
 /**
- * Extract artifact from CI log
+ * Core extraction logic - no I/O side effects
  */
-export async function extract(
+export async function extractCore(
   type: string,
   logPath: string,
-  options: ExtractOptions,
-): Promise<void> {
+  markerOptions?: { startMarker?: string; endMarker?: string },
+): Promise<{ success: true; data: string } | { success: false; error: string }> {
   try {
     // Read log content from file or stdin
     const logContent = await readInput(logPath);
 
     // Build extractor config from options
     const config: ExtractorConfig = {};
-    if (options.startMarker) {
+    if (markerOptions?.startMarker) {
       try {
-        config.startMarker = new RegExp(options.startMarker);
+        config.startMarker = new RegExp(markerOptions.startMarker);
       } catch {
-        exitError(`Invalid start marker regex: ${options.startMarker}`);
+        return { success: false, error: `Invalid start marker regex: ${markerOptions.startMarker}` };
       }
     }
-    if (options.endMarker) {
+    if (markerOptions?.endMarker) {
       try {
-        config.endMarker = new RegExp(options.endMarker);
+        config.endMarker = new RegExp(markerOptions.endMarker);
       } catch {
-        exitError(`Invalid end marker regex: ${options.endMarker}`);
+        return { success: false, error: `Invalid end marker regex: ${markerOptions.endMarker}` };
       }
     }
 
     const result = extractArtifactFromLog(type as ArtifactType, logContent, config);
 
     if (!result) {
-      exitError(`No ${type} output found in log`);
+      return { success: false, error: `No ${type} output found in log` };
     }
 
-    writeOutput(result, options.output || null);
+    return { success: true, data: result };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    exitError(`Failed to extract artifact: ${message}`);
+    return { success: false, error: `Failed to extract artifact: ${message}` };
   }
+}
+
+/**
+ * Extract artifact from CI log - CLI wrapper
+ */
+export async function extract(
+  type: string,
+  logPath: string,
+  options: ExtractOptions,
+): Promise<void> {
+  const result = await extractCore(type, logPath, options);
+
+  if (!result.success) {
+    exitError(result.error);
+  }
+
+  writeOutput(result.data, options.output || null);
 }
