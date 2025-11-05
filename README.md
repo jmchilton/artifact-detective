@@ -70,6 +70,153 @@ if (eslintOutput) {
 }
 ```
 
+#### Custom Extraction Markers
+
+For custom CI environments, you can provide markers to control extraction:
+
+```typescript
+import { extractArtifactFromLog, type ExtractorConfig } from 'artifact-detective';
+
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Custom extraction with start/end markers
+const config: ExtractorConfig = {
+  startMarker: /^Running ESLint/,
+  endMarker: /^\d+ problems?/,
+  includeEndMarker: true, // Include end marker line in output (default: true)
+};
+
+const eslintOutput = extractArtifactFromLog('eslint-txt', logContent, config);
+```
+
+### Convert to JSON
+
+Many artifact types can be normalized to JSON for programmatic access:
+
+```typescript
+import { detectArtifactType, convertToJSON, canConvertToJSON } from 'artifact-detective';
+
+// Detect artifact type
+const result = detectArtifactType('./pytest-report.html');
+
+// Check if conversion supported
+if (canConvertToJSON(result)) {
+  const conversion = convertToJSON(result, './pytest-report.html');
+  if (conversion) {
+    const data = JSON.parse(conversion.json);
+    console.log(`Found ${data.tests.length} tests`);
+    console.log('Parsing guide:', conversion.description.parsingGuide);
+  }
+}
+```
+
+### Extract and Convert in One Step
+
+Combine log extraction with JSON conversion:
+
+```typescript
+import { extractArtifactToJson } from 'artifact-detective';
+
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Extract mypy output from logs and convert to JSON
+const result = extractArtifactToJson('mypy-txt', logContent);
+if (result) {
+  const errors = JSON.parse(result.json);
+  console.log(`Extracted ${errors.length} type errors`);
+  console.log('Effective type:', result.effectiveType); // 'mypy-ndjson'
+}
+```
+
+## CLI Usage
+
+`artifact-detective` provides a command-line interface for quick detection, validation, extraction, and normalization of artifacts.
+
+Install globally or use `npm link` for development:
+
+```bash
+npm install -g artifact-detective
+artifact-detective --help
+```
+
+### Commands
+
+#### detect
+
+Detect artifact type from file:
+
+```bash
+# Detect type and show summary
+artifact-detective detect ./report.html
+
+# Output as JSON
+artifact-detective detect --json ./report.html
+
+# Read from stdin
+cat report.html | artifact-detective detect -
+```
+
+#### validate
+
+Validate artifact against expected type:
+
+```bash
+# Validate type
+artifact-detective validate eslint-json ./eslint-results.json
+
+# Include parsing documentation
+artifact-detective validate --show-description eslint-json ./eslint-results.json
+
+# Output as JSON
+artifact-detective validate --json pytest-json ./pytest-results.json
+
+# Via stdin
+cat results.json | artifact-detective validate eslint-json -
+```
+
+Exit code: 0 for valid, 2 for invalid
+
+#### extract
+
+Extract artifact from CI logs with optional custom markers:
+
+```bash
+# Extract eslint output from log
+artifact-detective extract eslint-txt ./ci-log.txt
+
+# Write to file
+artifact-detective extract eslint-txt ./ci-log.txt --output extracted.txt
+
+# Custom markers for specific CI format
+artifact-detective extract eslint-txt ./ci-log.txt \
+  --start-marker "^Running ESLint" \
+  --end-marker "^\d+ problems?"
+
+# Via stdin
+cat ci-log.txt | artifact-detective extract eslint-txt -
+```
+
+#### normalize
+
+Convert artifact to JSON format:
+
+```bash
+# Auto-detect type and convert to JSON
+artifact-detective normalize ./pytest-report.html
+
+# Explicitly specify type
+artifact-detective normalize ./report.html --type pytest-html
+
+# Write to file
+artifact-detective normalize ./report.html --output report.json
+
+# Include parsing guide
+artifact-detective normalize --show-description ./pytest-report.html
+
+# Via stdin (auto-detect from content)
+cat report.html | artifact-detective normalize -
+```
+
 ## Supported Formats
 
 | Type                  | Description                                                        | Extract | JSON        | Example Fixture                                               |
@@ -97,12 +244,6 @@ if (eslintOutput) {
 | flake8-txt            | flake8 linter output                                               | ✓       | todo        | —                                                             |
 | cargo-test-txt        | Cargo test text output: 4 pass, 1 panic, 1 ignored                 | —       | todo        | `fixtures/generated/rust/cargo-test-output.txt`               |
 | rustfmt-txt           | Rustfmt check output                                               | —       | todo        | `fixtures/generated/rust/rustfmt-output.txt`                  |
-
-## Usage
-
-See the `gh-ci-artifacts` for how this package should be used - the
-API is rapidly changing but once the upstream project stabilizes it will
-make sense to harden and document the interface here.
 
 ## Development
 

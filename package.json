@@ -5,6 +5,9 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "artifact-detective": "./bin/artifact-detective"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,12 +16,13 @@
   },
   "files": [
     "dist",
+    "bin",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsc --listFiles 2>&1 | grep 'src/types.ts' || tsc",
+    "build": "tsc --listFiles 2>&1 | grep 'src/types.ts' || tsc && cp src/docs/artifact-descriptions.yml dist/docs/",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -71,6 +75,7 @@
     "yaml": "^2.8.1"
   },
   "dependencies": {
-    "cheerio": "^1.1.2"
+    "cheerio": "^1.1.2",
+    "commander": "^14.0.2"
   }
 }
