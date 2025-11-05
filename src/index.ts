@@ -9,6 +9,7 @@ export {
   validate,
   extractArtifactFromLog,
   extractArtifactToJson,
+  ARTIFACT_TYPE_REGISTRY,
 } from './validators/index.js';
 
 // Artifact descriptions and documentation
@@ -58,4 +59,8 @@ export type {
   ArtifactDescription,
   ConversionResult,
   ArtifactJsonResult,
+  ArtifactTypeCapabilities,
+  ValidatorFunction,
+  ExtractFromLogFunction,
+  NormalizeFunction,
 } from './validators/index.js';

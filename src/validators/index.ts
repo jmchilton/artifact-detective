@@ -61,6 +61,7 @@ export type {
   ValidatorFunction,
   ArtifactTypeCapabilities,
   ExtractFunction,
+  ExtractFromLogFunction,
   NormalizeFunction,
   ArtifactDescription,
 } from './types.js';
