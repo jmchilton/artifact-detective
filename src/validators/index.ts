@@ -23,7 +23,7 @@ import { validateClippyNDJSON, validateClippyText } from './clippy-validator.js'
 import { validateRustfmtOutput } from './rustfmt-validator.js';
 import { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.js';
 import { validateGofmtOutput } from './gofmt-validator.js';
-import { extractLinterOutput, convertMypyTextToNDJSON } from '../parsers/linters/extractors.js';
+import { extractLinterOutput, convertMypyTextToNDJSON, type ExtractorConfig } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 import { extractJestJSON } from '../parsers/html/jest-html.js';
 
@@ -145,28 +145,28 @@ function normalizeMypyText(filePath: string): string | null {
 /**
  * Specific extractor functions for linter output from CI logs
  */
-function extractESLintFromLog(logContents: string): string | null {
-  return extractLinterOutput('eslint', logContents);
+function extractESLintFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('eslint', logContents, config);
 }
 
-function extractTSCFromLog(logContents: string): string | null {
-  return extractLinterOutput('tsc', logContents);
+function extractTSCFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('tsc', logContents, config);
 }
 
-function extractFlake8FromLog(logContents: string): string | null {
-  return extractLinterOutput('flake8', logContents);
+function extractFlake8FromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('flake8', logContents, config);
 }
 
-function extractRuffFromLog(logContents: string): string | null {
-  return extractLinterOutput('ruff', logContents);
+function extractRuffFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('ruff', logContents, config);
 }
 
-function extractMypyFromLog(logContents: string): string | null {
-  return extractLinterOutput('mypy', logContents);
+function extractMypyFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('mypy', logContents, config);
 }
 
-function extractClippyFromLog(logContents: string): string | null {
-  return extractLinterOutput('clippy', logContents);
+function extractClippyFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('clippy', logContents, config);
 }
 
 /**
@@ -498,12 +498,13 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 export function extractArtifactFromLog(
   artifactType: ArtifactType,
   logContents: string,
+  config?: ExtractorConfig,
 ): string | null {
   const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
   if (!capabilities?.extract) {
     return null;
   }
-  return capabilities.extract(logContents);
+  return capabilities.extract(logContents, config);
 }
 
 /**

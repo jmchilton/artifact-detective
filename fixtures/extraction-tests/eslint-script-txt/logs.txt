@@ -1,0 +1,1080 @@
+﻿2025-10-24T05:41:44.9241239Z Current runner version: '2.329.0'
+2025-10-24T05:41:44.9265858Z ##[group]Runner Image Provisioner
+2025-10-24T05:41:44.9266630Z Hosted Compute Agent
+2025-10-24T05:41:44.9267187Z Version: 20250912.392
+2025-10-24T05:41:44.9267876Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-24T05:41:44.9268617Z Build Date: 2025-09-12T15:23:14Z
+2025-10-24T05:41:44.9269188Z ##[endgroup]
+2025-10-24T05:41:44.9269783Z ##[group]Operating System
+2025-10-24T05:41:44.9270353Z Ubuntu
+2025-10-24T05:41:44.9270801Z 24.04.3
+2025-10-24T05:41:44.9271323Z LTS
+2025-10-24T05:41:44.9271962Z ##[endgroup]
+2025-10-24T05:41:44.9272473Z ##[group]Runner Image
+2025-10-24T05:41:44.9273039Z Image: ubuntu-24.04
+2025-10-24T05:41:44.9273586Z Version: 20250929.60.1
+2025-10-24T05:41:44.9274566Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-24T05:41:44.9276142Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-24T05:41:44.9277152Z ##[endgroup]
+2025-10-24T05:41:44.9279451Z ##[group]GITHUB_TOKEN Permissions
+2025-10-24T05:41:44.9281825Z Actions: read
+2025-10-24T05:41:44.9282565Z Attestations: read
+2025-10-24T05:41:44.9283144Z Checks: read
+2025-10-24T05:41:44.9283659Z Contents: read
+2025-10-24T05:41:44.9284112Z Deployments: read
+2025-10-24T05:41:44.9284706Z Discussions: read
+2025-10-24T05:41:44.9285175Z Issues: read
+2025-10-24T05:41:44.9285663Z Metadata: read
+2025-10-24T05:41:44.9286257Z Models: read
+2025-10-24T05:41:44.9286722Z Packages: read
+2025-10-24T05:41:44.9287218Z Pages: read
+2025-10-24T05:41:44.9287739Z PullRequests: read
+2025-10-24T05:41:44.9288296Z RepositoryProjects: read
+2025-10-24T05:41:44.9288824Z SecurityEvents: read
+2025-10-24T05:41:44.9289528Z Statuses: read
+2025-10-24T05:41:44.9290048Z ##[endgroup]
+2025-10-24T05:41:44.9292367Z Secret source: None
+2025-10-24T05:41:44.9293187Z Prepare workflow directory
+2025-10-24T05:41:44.9618234Z Prepare all required actions
+2025-10-24T05:41:44.9676355Z Getting action download info
+2025-10-24T05:41:45.4066434Z Download action repository 'actions/checkout@v5' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2025-10-24T05:41:45.5699256Z Download action repository 'actions/setup-node@v6' (SHA:2028fbc5c25fe9cf00d9f06a71cc4710d4507903)
+2025-10-24T05:41:46.2159728Z Complete job name: client-unit-test
+2025-10-24T05:41:46.2886443Z ##[group]Run actions/checkout@v5
+2025-10-24T05:41:46.2887592Z with:
+2025-10-24T05:41:46.2888111Z   persist-credentials: false
+2025-10-24T05:41:46.2888658Z   repository: galaxyproject/galaxy
+2025-10-24T05:41:46.2889401Z   token: ***
+2025-10-24T05:41:46.2889837Z   ssh-strict: true
+2025-10-24T05:41:46.2890265Z   ssh-user: git
+2025-10-24T05:41:46.2890693Z   clean: true
+2025-10-24T05:41:46.2891134Z   sparse-checkout-cone-mode: true
+2025-10-24T05:41:46.2891833Z   fetch-depth: 1
+2025-10-24T05:41:46.2892309Z   fetch-tags: false
+2025-10-24T05:41:46.2892759Z   show-progress: true
+2025-10-24T05:41:46.2893226Z   lfs: false
+2025-10-24T05:41:46.2893634Z   submodules: false
+2025-10-24T05:41:46.2894098Z   set-safe-directory: true
+2025-10-24T05:41:46.2894873Z ##[endgroup]
+2025-10-24T05:41:46.3818955Z Syncing repository: galaxyproject/galaxy
+2025-10-24T05:41:46.3820956Z ##[group]Getting Git version info
+2025-10-24T05:41:46.3822031Z Working directory is '/home/runner/work/galaxy/galaxy'
+2025-10-24T05:41:46.3823182Z [command]/usr/bin/git version
+2025-10-24T05:41:46.3929022Z git version 2.51.0
+2025-10-24T05:41:46.3951343Z ##[endgroup]
+2025-10-24T05:41:46.3965582Z Temporarily overriding HOME='/home/runner/work/_temp/5794b874-b968-4852-9e85-fb089ec77ed3' before making global git config changes
+2025-10-24T05:41:46.3970427Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-24T05:41:46.3972433Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/galaxy/galaxy
+2025-10-24T05:41:46.4009513Z Deleting the contents of '/home/runner/work/galaxy/galaxy'
+2025-10-24T05:41:46.4013648Z ##[group]Initializing the repository
+2025-10-24T05:41:46.4018159Z [command]/usr/bin/git init /home/runner/work/galaxy/galaxy
+2025-10-24T05:41:46.4175934Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-24T05:41:46.4177028Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-24T05:41:46.4178042Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-24T05:41:46.4178883Z hint:
+2025-10-24T05:41:46.4179821Z hint: 	git config --global init.defaultBranch <name>
+2025-10-24T05:41:46.4180947Z hint:
+2025-10-24T05:41:46.4182199Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-24T05:41:46.4183930Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-24T05:41:46.4185091Z hint:
+2025-10-24T05:41:46.4185860Z hint: 	git branch -m <name>
+2025-10-24T05:41:46.4186434Z hint:
+2025-10-24T05:41:46.4187132Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-24T05:41:46.4188198Z Initialized empty Git repository in /home/runner/work/galaxy/galaxy/.git/
+2025-10-24T05:41:46.4195181Z [command]/usr/bin/git remote add origin https://github.com/galaxyproject/galaxy
+2025-10-24T05:41:46.4268089Z ##[endgroup]
+2025-10-24T05:41:46.4268893Z ##[group]Disabling automatic garbage collection
+2025-10-24T05:41:46.4272288Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-24T05:41:46.4302300Z ##[endgroup]
+2025-10-24T05:41:46.4303447Z ##[group]Setting up auth
+2025-10-24T05:41:46.4308667Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-24T05:41:46.4340975Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-24T05:41:46.4713426Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-24T05:41:46.4744482Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-24T05:41:46.4965717Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-24T05:41:46.5000801Z ##[endgroup]
+2025-10-24T05:41:46.5003761Z ##[group]Fetching the repository
+2025-10-24T05:41:46.5011341Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +068a6e51fc8d1d8f394355e46e8bc578b5146d53:refs/remotes/pull/20756/merge
+2025-10-24T05:41:49.6237879Z From https://github.com/galaxyproject/galaxy
+2025-10-24T05:41:49.6239824Z  * [new ref]         068a6e51fc8d1d8f394355e46e8bc578b5146d53 -> pull/20756/merge
+2025-10-24T05:41:49.6270348Z ##[endgroup]
+2025-10-24T05:41:49.6271127Z ##[group]Determining the checkout info
+2025-10-24T05:41:49.6273871Z ##[endgroup]
+2025-10-24T05:41:49.6279071Z [command]/usr/bin/git sparse-checkout disable
+2025-10-24T05:41:49.6319907Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-24T05:41:49.6346939Z ##[group]Checking out the ref
+2025-10-24T05:41:49.6351213Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/20756/merge
+2025-10-24T05:41:50.3453108Z Note: switching to 'refs/remotes/pull/20756/merge'.
+2025-10-24T05:41:50.3454593Z 
+2025-10-24T05:41:50.3454836Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-10-24T05:41:50.3455350Z changes and commit them, and you can discard any commits you make in this
+2025-10-24T05:41:50.3455862Z state without impacting any branches by switching back to a branch.
+2025-10-24T05:41:50.3456194Z 
+2025-10-24T05:41:50.3456423Z If you want to create a new branch to retain commits you create, you may
+2025-10-24T05:41:50.3456884Z do so (now or later) by using -c with the switch command. Example:
+2025-10-24T05:41:50.3457143Z 
+2025-10-24T05:41:50.3457261Z   git switch -c <new-branch-name>
+2025-10-24T05:41:50.3457463Z 
+2025-10-24T05:41:50.3457932Z Or undo this operation with:
+2025-10-24T05:41:50.3458128Z 
+2025-10-24T05:41:50.3458233Z   git switch -
+2025-10-24T05:41:50.3458392Z 
+2025-10-24T05:41:50.3458619Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-10-24T05:41:50.3458966Z 
+2025-10-24T05:41:50.3459328Z HEAD is now at 068a6e5 Merge 0c91cbb43ac13e8fa1fb047d212583358d950c10 into 07a8b644a7376e29f28f3680e9c8426641b20513
+2025-10-24T05:41:50.3491101Z ##[endgroup]
+2025-10-24T05:41:50.3532054Z [command]/usr/bin/git log -1 --format=%H
+2025-10-24T05:41:50.3557181Z 068a6e51fc8d1d8f394355e46e8bc578b5146d53
+2025-10-24T05:41:50.3567201Z ##[group]Removing auth
+2025-10-24T05:41:50.3570571Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-24T05:41:50.3599695Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-24T05:41:50.3835503Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-24T05:41:50.3857748Z http.https://github.com/.extraheader
+2025-10-24T05:41:50.3864701Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-10-24T05:41:50.3894097Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-24T05:41:50.4119229Z ##[endgroup]
+2025-10-24T05:41:50.4302366Z ##[group]Run echo "version=$(cat 'client/.node_version')" >> $GITHUB_OUTPUT
+2025-10-24T05:41:50.4303074Z [36;1mecho "version=$(cat 'client/.node_version')" >> $GITHUB_OUTPUT[0m
+2025-10-24T05:41:50.4341147Z shell: /usr/bin/bash -e {0}
+2025-10-24T05:41:50.4341845Z ##[endgroup]
+2025-10-24T05:41:50.4561163Z ##[group]Run actions/setup-node@v6
+2025-10-24T05:41:50.4561536Z with:
+2025-10-24T05:41:50.4562166Z   node-version: 22.13.0
+2025-10-24T05:41:50.4562497Z   cache: yarn
+2025-10-24T05:41:50.4562836Z   cache-dependency-path: client/yarn.lock
+2025-10-24T05:41:50.4563331Z   always-auth: false
+2025-10-24T05:41:50.4563622Z   check-latest: false
+2025-10-24T05:41:50.4564074Z   token: ***
+2025-10-24T05:41:50.4564441Z   package-manager-cache: true
+2025-10-24T05:41:50.4564809Z ##[endgroup]
+2025-10-24T05:41:50.5968769Z Attempting to download 22.13.0...
+2025-10-24T05:41:50.6135726Z (node:2176) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-10-24T05:41:50.6136875Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-10-24T05:41:51.2209793Z Acquiring 22.13.0 - x64 from https://github.com/actions/node-versions/releases/download/22.13.0-12683784390/node-22.13.0-linux-x64.tar.gz
+2025-10-24T05:41:51.7225883Z Extracting ...
+2025-10-24T05:41:51.7348578Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/bbbe79e2-3417-404a-b01d-fc082af454ff -f /home/runner/work/_temp/022afc6e-19f3-4349-a569-404ab3effd20
+2025-10-24T05:41:52.8648271Z Adding to the cache ...
+2025-10-24T05:41:55.4713824Z ##[group]Environment details
+2025-10-24T05:41:55.7068029Z node: v22.13.0
+2025-10-24T05:41:55.7068712Z npm: 10.9.2
+2025-10-24T05:41:55.7069222Z yarn: 1.22.22
+2025-10-24T05:41:55.7069924Z ##[endgroup]
+2025-10-24T05:41:55.7135041Z [command]/usr/local/bin/yarn --version
+2025-10-24T05:41:55.8304179Z 1.22.22
+2025-10-24T05:41:55.8409694Z [command]/usr/local/bin/yarn cache dir
+2025-10-24T05:41:55.9952139Z /home/runner/.cache/yarn/v6
+2025-10-24T05:41:56.0149699Z [command]/usr/local/bin/yarn config get enableGlobalCache
+2025-10-24T05:41:56.1705470Z undefined
+2025-10-24T05:41:56.4319250Z Cache hit for: node-cache-Linux-x64-yarn-1d37462876feae64bbc0c891e74f64ec1a60cacc9efd89b07858865399e151f0
+2025-10-24T05:41:56.4452176Z (node:2176) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-10-24T05:41:57.6977707Z Received 4194304 of 337793796 (1.2%), 4.0 MBs/sec
+2025-10-24T05:41:58.7389022Z Received 134217728 of 337793796 (39.7%), 62.7 MBs/sec
+2025-10-24T05:41:59.7388592Z Received 255852544 of 337793796 (75.7%), 80.2 MBs/sec
+2025-10-24T05:42:00.7389182Z Received 333599492 of 337793796 (98.8%), 78.7 MBs/sec
+2025-10-24T05:42:00.8338293Z Received 337793796 of 337793796 (100.0%), 77.9 MBs/sec
+2025-10-24T05:42:00.8340239Z Cache Size: ~322 MB (337793796 B)
+2025-10-24T05:42:00.8365704Z [command]/usr/bin/tar -xf /home/runner/work/_temp/5deda5d7-d065-47d4-be7a-6d829d4950d8/cache.tzst -P -C /home/runner/work/galaxy/galaxy --use-compress-program unzstd
+2025-10-24T05:42:06.2630091Z Cache restored successfully
+2025-10-24T05:42:06.3268507Z Cache restored from key: node-cache-Linux-x64-yarn-1d37462876feae64bbc0c891e74f64ec1a60cacc9efd89b07858865399e151f0
+2025-10-24T05:42:06.3465519Z ##[group]Run yarn install --frozen-lockfile
+2025-10-24T05:42:06.3465895Z [36;1myarn install --frozen-lockfile[0m
+2025-10-24T05:42:06.3500658Z shell: /usr/bin/bash -e {0}
+2025-10-24T05:42:06.3500909Z ##[endgroup]
+2025-10-24T05:42:06.4752587Z yarn install v1.22.22
+2025-10-24T05:42:06.5610126Z [1/4] Resolving packages...
+2025-10-24T05:42:06.8807082Z warning Resolution field "chokidar@3.5.3" is incompatible with requested version "chokidar@^4.0.1"
+2025-10-24T05:42:06.9499263Z warning Resolution field "chokidar@3.5.3" is incompatible with requested version "chokidar@^3.6.0"
+2025-10-24T05:42:07.0137356Z [2/4] Fetching packages...
+2025-10-24T05:42:07.7015141Z [3/4] Linking dependencies...
+2025-10-24T05:42:07.7046494Z warning "dexie > karma-safari-launcher@1.0.0" has unmet peer dependency "karma@>=0.9".
+2025-10-24T05:42:07.7057114Z warning " > vue-rx@6.2.0" has incorrect peer dependency "rxjs@^6.0.0".
+2025-10-24T05:42:07.7092399Z warning " > autoprefixer@10.4.16" has unmet peer dependency "postcss@^8.1.0".
+2025-10-24T05:42:07.7118990Z warning " > jsdom-worker@0.3.0" has unmet peer dependency "node-fetch@*".
+2025-10-24T05:42:07.7122790Z warning " > postcss-loader@7.3.3" has unmet peer dependency "postcss@^7.0.0 || ^8.0.1".
+2025-10-24T05:42:07.7317058Z warning Workspaces can only be enabled in private projects.
+2025-10-24T05:42:35.2083962Z [4/4] Building fresh packages...
+2025-10-24T05:42:37.0869813Z Done in 30.61s.
+2025-10-24T05:42:37.1582728Z ##[group]Run yarn run eslint
+2025-10-24T05:42:37.1583052Z [36;1myarn run eslint[0m
+2025-10-24T05:42:37.1615959Z shell: /usr/bin/bash -e {0}
+2025-10-24T05:42:37.1616205Z ##[endgroup]
+2025-10-24T05:42:37.2892530Z yarn run v1.22.22
+2025-10-24T05:42:37.3313639Z $ bash .ci/jslint.sh
+2025-10-24T05:42:46.4346737Z Browserslist: caniuse-lite is outdated. Please run:
+2025-10-24T05:42:46.4347343Z   npx update-browserslist-db@latest
+2025-10-24T05:42:46.4347932Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-10-24T05:43:16.8988026Z 
+2025-10-24T05:43:16.8989033Z /home/runner/work/galaxy/galaxy/client/src/components/Alert.vue
+2025-10-24T05:43:16.9017676Z ##[warning]   1:1  warning  Component name "Alert" should always be multi-word    vue/multi-word-component-names
+2025-10-24T05:43:16.9026242Z ##[warning]  35:9  warning  Prop 'dismissLabel' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9027759Z ##[warning]  37:9  warning  Prop 'show' requires default value to be set          vue/require-default-prop
+2025-10-24T05:43:16.9028493Z 
+2025-10-24T05:43:16.9028792Z /home/runner/work/galaxy/galaxy/client/src/components/Annotation.vue
+2025-10-24T05:43:16.9029700Z ##[warning]  1:1  warning  Component name "Annotation" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9030470Z 
+2025-10-24T05:43:16.9030806Z /home/runner/work/galaxy/galaxy/client/src/components/Citation/CitationItem.vue
+2025-10-24T05:43:16.9032013Z ##[warning]  41:15  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9033110Z 
+2025-10-24T05:43:16.9033585Z /home/runner/work/galaxy/galaxy/client/src/components/Citation/CitationsList.vue
+2025-10-24T05:43:16.9034398Z ##[warning]  182:26  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9035067Z 
+2025-10-24T05:43:16.9035438Z /home/runner/work/galaxy/galaxy/client/src/components/Collections/SampleSheetWizard.vue
+2025-10-24T05:43:16.9036712Z ##[warning]  475:13  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9037609Z 
+2025-10-24T05:43:16.9038123Z /home/runner/work/galaxy/galaxy/client/src/components/Collections/common/PairedDatasetCellComponent.vue
+2025-10-24T05:43:16.9039571Z ##[warning]  116:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9041359Z ##[warning]  116:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9042504Z 
+2025-10-24T05:43:16.9042932Z /home/runner/work/galaxy/galaxy/client/src/components/Collections/common/buildCollectionModal.ts
+2025-10-24T05:43:16.9043881Z ##[warning]  50:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9045161Z ##[warning]  54:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9046465Z ##[warning]  62:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9047664Z ##[warning]  71:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9048875Z ##[warning]  82:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9049586Z 
+2025-10-24T05:43:16.9049985Z /home/runner/work/galaxy/galaxy/client/src/components/Collections/sheet/SampleSheetGrid.vue
+2025-10-24T05:43:16.9051241Z ##[warning]  587:5  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9052367Z 
+2025-10-24T05:43:16.9052999Z /home/runner/work/galaxy/galaxy/client/src/components/Collections/wizard/PasteData.vue
+2025-10-24T05:43:16.9054299Z ##[warning]  41:9   warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9055943Z ##[warning]  47:13  warning  Each form element must have a programmatically associated label element   vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9056803Z 
+2025-10-24T05:43:16.9057132Z /home/runner/work/galaxy/galaxy/client/src/components/Common/Abbreviation.vue
+2025-10-24T05:43:16.9058111Z ##[warning]  1:1  warning  Component name "Abbreviation" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9058902Z 
+2025-10-24T05:43:16.9059228Z /home/runner/work/galaxy/galaxy/client/src/components/Common/ExportForm.test.ts
+2025-10-24T05:43:16.9060052Z ##[warning]  10:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9061260Z ##[warning]  49:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9062201Z 
+2025-10-24T05:43:16.9062493Z /home/runner/work/galaxy/galaxy/client/src/components/Common/GCard.vue
+2025-10-24T05:43:16.9063238Z ##[warning]  568:45  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9063896Z 
+2025-10-24T05:43:16.9064200Z /home/runner/work/galaxy/galaxy/client/src/components/Common/Heading.vue
+2025-10-24T05:43:16.9065043Z ##[warning]  1:1  warning  Component name "Heading" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9065840Z 
+2025-10-24T05:43:16.9066336Z /home/runner/work/galaxy/galaxy/client/src/components/Common/ItemListEditor.vue
+2025-10-24T05:43:16.9067085Z ##[warning]  124:43  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9067766Z 
+2025-10-24T05:43:16.9068084Z /home/runner/work/galaxy/galaxy/client/src/components/Common/TextSummary.vue
+2025-10-24T05:43:16.9068799Z ##[warning]  45:78  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9069470Z 
+2025-10-24T05:43:16.9069753Z /home/runner/work/galaxy/galaxy/client/src/components/Common/Webhook.vue
+2025-10-24T05:43:16.9070574Z ##[warning]  1:1  warning  Component name "Webhook" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9071320Z 
+2025-10-24T05:43:16.9071881Z /home/runner/work/galaxy/galaxy/client/src/components/Common/Wizard/GenericWizard.vue
+2025-10-24T05:43:16.9072785Z ##[warning]  181:43  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9073519Z 
+2025-10-24T05:43:16.9073860Z /home/runner/work/galaxy/galaxy/client/src/components/ConfigTemplates/formUtil.ts
+2025-10-24T05:43:16.9074774Z ##[warning]   20:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9076004Z ##[warning]  109:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9077249Z ##[warning]  143:78  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9078467Z ##[warning]  170:82  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9079701Z ##[warning]  228:79  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9080426Z 
+2025-10-24T05:43:16.9080839Z /home/runner/work/galaxy/galaxy/client/src/components/ConfigTemplates/useConfigurationTesting.ts
+2025-10-24T05:43:16.9082095Z ##[warning]   49:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9083399Z ##[warning]  192:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9084622Z ##[warning]  242:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9085986Z ##[warning]  310:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9087302Z ##[warning]  362:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9088023Z 
+2025-10-24T05:43:16.9088431Z /home/runner/work/galaxy/galaxy/client/src/components/Dataset/DatasetAsImage/DatasetAsImage.vue
+2025-10-24T05:43:16.9089638Z ##[warning]  11:5  warning  Prop 'path' requires default value to be set                                                    vue/require-default-prop
+2025-10-24T05:43:16.9091295Z ##[warning]  53:9  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9093330Z ##[warning]  53:9  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9094226Z 
+2025-10-24T05:43:16.9094661Z /home/runner/work/galaxy/galaxy/client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
+2025-10-24T05:43:16.9095674Z ##[warning]  32:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9096416Z 
+2025-10-24T05:43:16.9096739Z /home/runner/work/galaxy/galaxy/client/src/components/Dataset/DatasetView.vue
+2025-10-24T05:43:16.9097454Z ##[warning]  145:62  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9098514Z ##[warning]  201:43  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9099736Z ##[warning]  219:43  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9100449Z 
+2025-10-24T05:43:16.9100842Z /home/runner/work/galaxy/galaxy/client/src/components/DatasetInformation/DatasetDetails.vue
+2025-10-24T05:43:16.9101970Z ##[warning]  131:47  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9102683Z 
+2025-10-24T05:43:16.9103127Z /home/runner/work/galaxy/galaxy/client/src/components/DatasetInformation/DatasetInformation.test.ts
+2025-10-24T05:43:16.9104062Z ##[warning]  25:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9104802Z 
+2025-10-24T05:43:16.9105215Z /home/runner/work/galaxy/galaxy/client/src/components/DatasetInformation/DatasetInformation.vue
+2025-10-24T05:43:16.9106008Z ##[warning]  56:40  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9106682Z 
+2025-10-24T05:43:16.9107029Z /home/runner/work/galaxy/galaxy/client/src/components/FilesDialog/FilesDialog.test.ts
+2025-10-24T05:43:16.9107958Z ##[warning]  131:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9109200Z ##[warning]  266:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9110420Z ##[warning]  295:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9111855Z ##[warning]  306:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9113129Z ##[warning]  351:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9114354Z ##[warning]  353:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9115570Z ##[warning]  420:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9116764Z ##[warning]  424:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9117987Z ##[warning]  430:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9119184Z ##[warning]  434:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9120052Z 
+2025-10-24T05:43:16.9120472Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormDrilldown/utilities.ts
+2025-10-24T05:43:16.9121584Z ##[warning]  39:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9123152Z ##[warning]  58:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9123878Z 
+2025-10-24T05:43:16.9124209Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormHidden.vue
+2025-10-24T05:43:16.9125010Z ##[warning]  10:9  warning  Prop "value" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9125732Z 
+2025-10-24T05:43:16.9126063Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormInput.vue
+2025-10-24T05:43:16.9127099Z ##[warning]  2:5  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9127946Z 
+2025-10-24T05:43:16.9128282Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormNumber.vue
+2025-10-24T05:43:16.9129066Z ##[warning]  42:9  warning  Prop "value" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9129770Z 
+2025-10-24T05:43:16.9130131Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormOptionalText.vue
+2025-10-24T05:43:16.9130955Z ##[warning]  28:9  warning  Prop "value" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9131836Z 
+2025-10-24T05:43:16.9132173Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormRadio.vue
+2025-10-24T05:43:16.9133262Z ##[warning]  6:5  warning  Prop "value" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9133979Z 
+2025-10-24T05:43:16.9134329Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormRulesEdit.vue
+2025-10-24T05:43:16.9135189Z ##[warning]  19:5  warning  Prop 'value' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9135900Z 
+2025-10-24T05:43:16.9136355Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
+2025-10-24T05:43:16.9137365Z ##[warning]  18:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9138098Z 
+2025-10-24T05:43:16.9138423Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormText.vue
+2025-10-24T05:43:16.9139195Z ##[warning]  33:9  warning  Prop "value" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9139900Z 
+2025-10-24T05:43:16.9140233Z /home/runner/work/galaxy/galaxy/client/src/components/Form/Elements/FormUpload.vue
+2025-10-24T05:43:16.9141135Z ##[warning]   6:5  warning  Prop "value" should define at least its type                             vue/require-prop-types
+2025-10-24T05:43:16.9142845Z ##[warning]  44:9  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9143707Z 
+2025-10-24T05:43:16.9143989Z /home/runner/work/galaxy/galaxy/client/src/components/Form/FormCard.vue
+2025-10-24T05:43:16.9145044Z ##[warning]  3:9  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9145922Z 
+2025-10-24T05:43:16.9146237Z /home/runner/work/galaxy/galaxy/client/src/components/Form/FormCardSticky.vue
+2025-10-24T05:43:16.9147048Z ##[warning]  14:9  warning  Prop 'description' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9148263Z ##[warning]  16:9  warning  Prop 'icon' requires default value to be set         vue/require-default-prop
+2025-10-24T05:43:16.9149440Z ##[warning]  17:9  warning  Prop 'logo' requires default value to be set         vue/require-default-prop
+2025-10-24T05:43:16.9150618Z ##[warning]  18:9  warning  Prop 'name' requires default value to be set         vue/require-default-prop
+2025-10-24T05:43:16.9152305Z ##[warning]  19:9  warning  Prop 'version' requires default value to be set      vue/require-default-prop
+2025-10-24T05:43:16.9153151Z 
+2025-10-24T05:43:16.9153487Z /home/runner/work/galaxy/galaxy/client/src/components/Form/FormElement.vue
+2025-10-24T05:43:16.9154296Z ##[warning]  43:5  warning  Prop 'type' requires default value to be set        vue/require-default-prop
+2025-10-24T05:43:16.9155517Z ##[warning]  44:5  warning  Prop 'value' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9156694Z ##[warning]  45:5  warning  Prop 'title' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9157929Z ##[warning]  47:5  warning  Prop 'help' requires default value to be set        vue/require-default-prop
+2025-10-24T05:43:16.9159263Z ##[warning]  49:5  warning  Prop 'error' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9160541Z ##[warning]  50:5  warning  Prop 'warning' requires default value to be set     vue/require-default-prop
+2025-10-24T05:43:16.9162002Z ##[warning]  53:5  warning  Prop 'attributes' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9162761Z 
+2025-10-24T05:43:16.9163100Z /home/runner/work/galaxy/galaxy/client/src/components/Form/FormElementLabel.vue
+2025-10-24T05:43:16.9163910Z ##[warning]  4:9  warning  Prop 'help' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9164617Z 
+2025-10-24T05:43:16.9164936Z /home/runner/work/galaxy/galaxy/client/src/components/Form/parameterTypes.d.ts
+2025-10-24T05:43:16.9165746Z ##[warning]  2:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9167129Z ##[warning]  4:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9167852Z 
+2025-10-24T05:43:16.9168139Z /home/runner/work/galaxy/galaxy/client/src/components/Grid/GridPage.vue
+2025-10-24T05:43:16.9169004Z ##[warning]  21:5  warning  Prop 'username' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9169719Z 
+2025-10-24T05:43:16.9170026Z /home/runner/work/galaxy/galaxy/client/src/components/Grid/configs/types.ts
+2025-10-24T05:43:16.9170873Z ##[warning]  18:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9172313Z ##[warning]  26:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9173058Z 
+2025-10-24T05:43:16.9173465Z /home/runner/work/galaxy/galaxy/client/src/components/History/Content/Dataset/DatasetDetails.vue
+2025-10-24T05:43:16.9174564Z ##[warning]  53:25  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9175856Z ##[warning]  57:25  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9176988Z ##[warning]  70:66  warning  'v-html' directive can lead to XSS attack   vue/no-v-html
+2025-10-24T05:43:16.9178114Z ##[warning]  87:25  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9179322Z ##[warning]  91:25  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9180053Z 
+2025-10-24T05:43:16.9180587Z /home/runner/work/galaxy/galaxy/client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
+2025-10-24T05:43:16.9181904Z ##[warning]  20:70  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9182685Z 
+2025-10-24T05:43:16.9183047Z /home/runner/work/galaxy/galaxy/client/src/components/History/HistoryOptions.test.ts
+2025-10-24T05:43:16.9183901Z ##[warning]  37:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9184662Z 
+2025-10-24T05:43:16.9184944Z /home/runner/work/galaxy/galaxy/client/src/components/History/Index.vue
+2025-10-24T05:43:16.9185899Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9186672Z 
+2025-10-24T05:43:16.9186995Z /home/runner/work/galaxy/galaxy/client/src/components/HistoryExport/Index.vue
+2025-10-24T05:43:16.9187902Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9188644Z 
+2025-10-24T05:43:16.9189037Z /home/runner/work/galaxy/galaxy/client/src/components/ImportData/zip/views/RoCrateZipView.vue
+2025-10-24T05:43:16.9189992Z ##[warning]  83:18  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9190674Z 
+2025-10-24T05:43:16.9190996Z /home/runner/work/galaxy/galaxy/client/src/components/Indices/IndexFilter.vue
+2025-10-24T05:43:16.9191968Z ##[warning]  37:18  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9192666Z 
+2025-10-24T05:43:16.9193070Z /home/runner/work/galaxy/galaxy/client/src/components/InteractiveTools/InteractiveTools.vue
+2025-10-24T05:43:16.9194305Z ##[warning]  129:17  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9195795Z ##[warning]  141:17  warning  Form label must have an associated control                                       vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9197175Z ##[warning]  142:17  warning  Form label must have an associated control                                       vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9198555Z ##[warning]  151:9   warning  Form label must have an associated control                                       vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9199480Z 
+2025-10-24T05:43:16.9199818Z /home/runner/work/galaxy/galaxy/client/src/components/JobInformation/CodeRow.vue
+2025-10-24T05:43:16.9200713Z ##[warning]  43:9  warning  Prop 'codeLabel' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9202235Z ##[warning]  44:9  warning  Prop 'codeItem' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9203493Z ##[warning]  45:9  warning  Prop 'helpUri' requires default value to be set    vue/require-default-prop
+2025-10-24T05:43:16.9204215Z 
+2025-10-24T05:43:16.9204547Z /home/runner/work/galaxy/galaxy/client/src/components/JobInformation/JobError.vue
+2025-10-24T05:43:16.9205760Z ##[warning]  4:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9207549Z ##[warning]  4:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9209299Z ##[warning]  7:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9211039Z ##[warning]  7:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9212148Z 
+2025-10-24T05:43:16.9212495Z /home/runner/work/galaxy/galaxy/client/src/components/JobInformation/JobOutputs.vue
+2025-10-24T05:43:16.9213348Z ##[warning]  52:9  warning  Prop 'jobOutputs' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9214556Z ##[warning]  53:9  warning  Prop 'title' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9215279Z 
+2025-10-24T05:43:16.9215647Z /home/runner/work/galaxy/galaxy/client/src/components/JobParameters/JobParameters.test.ts
+2025-10-24T05:43:16.9216585Z ##[warning]  14:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9217797Z ##[warning]  56:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9218665Z 
+2025-10-24T05:43:16.9219097Z /home/runner/work/galaxy/galaxy/client/src/components/JobParameters/JobParametersArrayValue.vue
+2025-10-24T05:43:16.9220031Z ##[warning]  22:9  warning  Prop "parameter_value" is not in camelCase               vue/prop-name-casing
+2025-10-24T05:43:16.9221311Z ##[warning]  22:9  warning  Prop 'parameter_value' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9222283Z 
+2025-10-24T05:43:16.9222628Z /home/runner/work/galaxy/galaxy/client/src/components/Landing/fetchModels.test.ts
+2025-10-24T05:43:16.9223545Z ##[warning]   37:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9224790Z ##[warning]  137:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9226281Z ##[warning]  221:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9227571Z ##[warning]  221:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9228792Z ##[warning]  225:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9229510Z 
+2025-10-24T05:43:16.9229856Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryEditField.vue
+2025-10-24T05:43:16.9230792Z ##[warning]  48:9  warning  Prop 'text' requires default value to be set          vue/require-default-prop
+2025-10-24T05:43:16.9232262Z ##[warning]  52:9  warning  Prop 'changedValue' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9233424Z 
+2025-10-24T05:43:16.9234105Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryBreadcrumb.vue
+2025-10-24T05:43:16.9235087Z ##[warning]  21:9  warning  Prop "full_path" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9235825Z 
+2025-10-24T05:43:16.9236243Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryFolder.vue
+2025-10-24T05:43:16.9237710Z ##[warning]   73:21  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9239346Z ##[warning]   80:21  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9240900Z ##[warning]  107:21  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9242699Z ##[warning]  113:21  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9244104Z ##[warning]  153:54  warning  'v-html' directive can lead to XSS attack                                vue/no-v-html
+2025-10-24T05:43:16.9245383Z ##[warning]  311:9   warning  Prop "folder_id" is not in camelCase                                     vue/prop-name-casing
+2025-10-24T05:43:16.9246114Z 
+2025-10-24T05:43:16.9246642Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.vue
+2025-10-24T05:43:16.9247632Z ##[warning]  126:59  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9248731Z ##[warning]  161:9   warning  Prop "dataset_id" is not in camelCase      vue/prop-name-casing
+2025-10-24T05:43:16.9249841Z ##[warning]  165:9   warning  Prop "folder_id" is not in camelCase       vue/prop-name-casing
+2025-10-24T05:43:16.9250539Z 
+2025-10-24T05:43:16.9251191Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryFolderPermissions/LibraryFolderDatasetPermissions.vue
+2025-10-24T05:43:16.9253154Z ##[warning]   37:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9255163Z ##[warning]   37:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9257148Z ##[warning]   44:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9258990Z ##[warning]   44:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9260471Z ##[warning]  105:9   warning  Prop "folder_id" is not in camelCase                                                            vue/prop-name-casing
+2025-10-24T05:43:16.9261994Z ##[warning]  109:9   warning  Prop "dataset_id" is not in camelCase                                                           vue/prop-name-casing
+2025-10-24T05:43:16.9262765Z 
+2025-10-24T05:43:16.9263394Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryFolderPermissions/LibraryFolderPermissions.vue
+2025-10-24T05:43:16.9264388Z ##[warning]  64:9  warning  Prop "folder_id" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9265061Z 
+2025-10-24T05:43:16.9265670Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryFolder/LibraryFolderPermissions/LibraryPermissionsWarning.vue
+2025-10-24T05:43:16.9266640Z ##[warning]  18:9  warning  Prop "is_admin" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9267301Z 
+2025-10-24T05:43:16.9267755Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryPermissions/LibraryPermissions.vue
+2025-10-24T05:43:16.9268847Z ##[warning]  72:9  warning  Prop "library_id" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9269539Z 
+2025-10-24T05:43:16.9270022Z /home/runner/work/galaxy/galaxy/client/src/components/Libraries/LibraryPermissions/PermissionsInputField.vue
+2025-10-24T05:43:16.9270888Z ##[warning]  30:26  warning  'v-html' directive can lead to XSS attack   vue/no-v-html
+2025-10-24T05:43:16.9272252Z ##[warning]  59:9   warning  Prop "permission_type" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9303209Z ##[warning]  63:9   warning  Prop "initial_value" is not in camelCase    vue/prop-name-casing
+2025-10-24T05:43:16.9304044Z 
+2025-10-24T05:43:16.9304362Z /home/runner/work/galaxy/galaxy/client/src/components/License/License.vue
+2025-10-24T05:43:16.9305415Z ##[warning]   1:1  warning  Component name "License" should always be multi-word      vue/multi-word-component-names
+2025-10-24T05:43:16.9306812Z ##[warning]  36:9  warning  Prop 'inputLicenseInfo' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9307607Z 
+2025-10-24T05:43:16.9307968Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Editor/CellWrapper.vue
+2025-10-24T05:43:16.9309342Z ##[warning]  2:5  warning  @mouseover, @mouseenter, or @hover must be accompanied by @focusin or @focus for accessibility  vuejs-accessibility/mouse-events-have-key-events
+2025-10-24T05:43:16.9311127Z ##[warning]  2:5  warning  @mouseout or @mouseleave must be accompanied by @focusout or @blur for accessibility            vuejs-accessibility/mouse-events-have-key-events
+2025-10-24T05:43:16.9312294Z 
+2025-10-24T05:43:16.9312797Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Editor/Configurations/ConfigureVitessce.vue
+2025-10-24T05:43:16.9313871Z ##[warning]  6:26  warning  Variable 'ref' is already declared in the upper scope  vue/no-template-shadow
+2025-10-24T05:43:16.9314637Z 
+2025-10-24T05:43:16.9314946Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Markdown.vue
+2025-10-24T05:43:16.9315833Z ##[warning]   1:1  warning  Component name "Markdown" should always be multi-word   vue/multi-word-component-names
+2025-10-24T05:43:16.9317158Z ##[warning]  30:5  warning  Prop "enable_beta_markdown_export" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9317907Z 
+2025-10-24T05:43:16.9318661Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Sections/Elements/HistoryDatasetCollection/CollectionTree.vue
+2025-10-24T05:43:16.9319840Z ##[warning]  7:36  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9320954Z ##[warning]  8:32  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9321830Z 
+2025-10-24T05:43:16.9322333Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.vue
+2025-10-24T05:43:16.9323224Z ##[warning]  47:47  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9323920Z 
+2025-10-24T05:43:16.9324312Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Sections/MarkdownDefault.vue
+2025-10-24T05:43:16.9325086Z ##[warning]  32:61  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9325786Z 
+2025-10-24T05:43:16.9326200Z /home/runner/work/galaxy/galaxy/client/src/components/Markdown/Sections/VisualizationWrapper.vue
+2025-10-24T05:43:16.9327075Z ##[warning]  13:9  warning  Prop 'title' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9327792Z 
+2025-10-24T05:43:16.9328098Z /home/runner/work/galaxy/galaxy/client/src/components/Masthead/Masthead.vue
+2025-10-24T05:43:16.9329017Z ##[warning]  1:1  warning  Component name "Masthead" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9329785Z 
+2025-10-24T05:43:16.9330140Z /home/runner/work/galaxy/galaxy/client/src/components/Masthead/MastheadDropdown.vue
+2025-10-24T05:43:16.9331014Z ##[warning]  13:5  warning  Prop 'id' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9332645Z ##[warning]  16:5  warning  Prop 'icon' requires default value to be set     vue/require-default-prop
+2025-10-24T05:43:16.9333841Z ##[warning]  19:5  warning  Prop 'target' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9335253Z ##[warning]  22:5  warning  Prop 'title' requires default value to be set    vue/require-default-prop
+2025-10-24T05:43:16.9336476Z ##[warning]  25:5  warning  Prop 'tooltip' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9337651Z ##[warning]  28:5  warning  Prop 'menu' requires default value to be set     vue/require-default-prop
+2025-10-24T05:43:16.9338813Z ##[warning]  41:9  warning  `<template>` require directive                   vue/no-lone-template
+2025-10-24T05:43:16.9339526Z 
+2025-10-24T05:43:16.9339854Z /home/runner/work/galaxy/galaxy/client/src/components/Masthead/MastheadItem.vue
+2025-10-24T05:43:16.9340655Z ##[warning]  13:5  warning  Prop 'id' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9342070Z ##[warning]  16:5  warning  Prop 'icon' requires default value to be set     vue/require-default-prop
+2025-10-24T05:43:16.9343321Z ##[warning]  19:5  warning  Prop 'target' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9344508Z ##[warning]  22:5  warning  Prop 'title' requires default value to be set    vue/require-default-prop
+2025-10-24T05:43:16.9345679Z ##[warning]  25:5  warning  Prop 'tooltip' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9346853Z ##[warning]  32:5  warning  Prop 'url' requires default value to be set      vue/require-default-prop
+2025-10-24T05:43:16.9347568Z 
+2025-10-24T05:43:16.9347905Z /home/runner/work/galaxy/galaxy/client/src/components/Masthead/QuotaMeter.test.ts
+2025-10-24T05:43:16.9348723Z ##[warning]  17:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9349486Z 
+2025-10-24T05:43:16.9349746Z /home/runner/work/galaxy/galaxy/client/src/components/Message.vue
+2025-10-24T05:43:16.9350581Z ##[warning]  7:11  warning  Component name "Message" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9351337Z 
+2025-10-24T05:43:16.9352150Z /home/runner/work/galaxy/galaxy/client/src/components/Notifications/Broadcasts/BroadcastContainer.vue
+2025-10-24T05:43:16.9353269Z ##[warning]  162:39  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9354001Z 
+2025-10-24T05:43:16.9354374Z /home/runner/work/galaxy/galaxy/client/src/components/Notifications/NotificationCard.vue
+2025-10-24T05:43:16.9355151Z ##[warning]  158:52  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9355824Z 
+2025-10-24T05:43:16.9356150Z /home/runner/work/galaxy/galaxy/client/src/components/PageDisplay/PageHtml.vue
+2025-10-24T05:43:16.9356926Z ##[warning]  4:16  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9357605Z 
+2025-10-24T05:43:16.9357912Z /home/runner/work/galaxy/galaxy/client/src/components/Panels/Common/Tool.vue
+2025-10-24T05:43:16.9359261Z ##[warning]  25:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9361064Z ##[warning]  25:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9362918Z ##[warning]  42:11  warning  Component name "Tool" should always be multi-word                                               vue/multi-word-component-names
+2025-10-24T05:43:16.9363747Z 
+2025-10-24T05:43:16.9364136Z /home/runner/work/galaxy/galaxy/client/src/components/Panels/InteractiveToolsPanel.test.ts
+2025-10-24T05:43:16.9365020Z ##[warning]   58:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9366449Z ##[warning]  179:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9367212Z 
+2025-10-24T05:43:16.9367572Z /home/runner/work/galaxy/galaxy/client/src/components/Panels/InteractiveToolsPanel.vue
+2025-10-24T05:43:16.9368665Z ##[warning]  92:29  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9369522Z 
+2025-10-24T05:43:16.9369812Z /home/runner/work/galaxy/galaxy/client/src/components/Popper/Popper.vue
+2025-10-24T05:43:16.9370912Z ##[warning]   1:1   warning  Component name "Popper" should always be multi-word                                             vue/multi-word-component-names
+2025-10-24T05:43:16.9372821Z ##[warning]  10:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9374628Z ##[warning]  10:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9376200Z ##[warning]  36:5   warning  Prop 'placement' requires default value to be set                                               vue/require-default-prop
+2025-10-24T05:43:16.9377627Z ##[warning]  38:5   warning  Prop 'title' requires default value to be set                                                   vue/require-default-prop
+2025-10-24T05:43:16.9379039Z ##[warning]  39:5   warning  Prop 'trigger' requires default value to be set                                                 vue/require-default-prop
+2025-10-24T05:43:16.9379813Z 
+2025-10-24T05:43:16.9380161Z /home/runner/work/galaxy/galaxy/client/src/components/Register/RegisterForm.test.ts
+2025-10-24T05:43:16.9381079Z ##[warning]  39:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9382085Z 
+2025-10-24T05:43:16.9382457Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/ColumnSelector.vue
+2025-10-24T05:43:16.9383807Z ##[warning]  17:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9385786Z ##[warning]  17:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9387619Z ##[warning]  18:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9389397Z ##[warning]  18:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9391195Z ##[warning]  19:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9393259Z ##[warning]  19:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9395039Z ##[warning]  26:21  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9396798Z ##[warning]  26:21  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9398340Z ##[warning]  46:9   warning  Prop "target" should define at least its type                                                   vue/require-prop-types
+2025-10-24T05:43:16.9399720Z ##[warning]  54:9   warning  Prop "help" should define at least its type                                                     vue/require-prop-types
+2025-10-24T05:43:16.9401406Z ##[warning]  54:9   warning  Prop 'help' requires default value to be set                                                    vue/require-default-prop
+2025-10-24T05:43:16.9402452Z 
+2025-10-24T05:43:16.9402843Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/IdentifierDisplay.vue
+2025-10-24T05:43:16.9404119Z ##[warning]   4:9  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9405881Z ##[warning]   4:9  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9407638Z ##[warning]   5:9  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9409417Z ##[warning]   5:9  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9410953Z ##[warning]  22:9  warning  Prop "columns" should define at least its type                                                  vue/require-prop-types
+2025-10-24T05:43:16.9411983Z 
+2025-10-24T05:43:16.9412416Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/RegularExpressionInput.vue
+2025-10-24T05:43:16.9413320Z ##[warning]  24:9  warning  Prop "target" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9414060Z 
+2025-10-24T05:43:16.9414404Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/RuleComponent.vue
+2025-10-24T05:43:16.9415279Z ##[warning]  20:9  warning  Prop "displayRuleType" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9416030Z 
+2025-10-24T05:43:16.9416360Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/RuleDisplay.vue
+2025-10-24T05:43:16.9417572Z ##[warning]  5:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9419486Z ##[warning]  5:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9421294Z ##[warning]  6:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9423496Z ##[warning]  6:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9424406Z 
+2025-10-24T05:43:16.9424784Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/SavedRulesSelector.vue
+2025-10-24T05:43:16.9426021Z ##[warning]  11:13  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9428085Z ##[warning]  11:13  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9429634Z 
+2025-10-24T05:43:16.9430001Z /home/runner/work/galaxy/galaxy/client/src/components/RuleBuilder/SelectBasic.vue
+2025-10-24T05:43:16.9430858Z ##[warning]  22:5  warning  Prop "value" should define at least its type   vue/require-prop-types
+2025-10-24T05:43:16.9432354Z ##[warning]  22:5  warning  Prop 'value' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9433146Z 
+2025-10-24T05:43:16.9433487Z /home/runner/work/galaxy/galaxy/client/src/components/RuleCollectionBuilder.vue
+2025-10-24T05:43:16.9434632Z ##[warning]   36:13  warning  Each form element must have a programmatically associated label element                         vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9436671Z ##[warning]  304:37  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9438527Z ##[warning]  304:37  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9440302Z ##[warning]  361:33  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9442320Z ##[warning]  361:33  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9444126Z ##[warning]  384:33  warning  @mouseover, @mouseenter, or @hover must be accompanied by @focusin or @focus for accessibility  vuejs-accessibility/mouse-events-have-key-events
+2025-10-24T05:43:16.9445881Z ##[warning]  384:33  warning  @mouseout or @mouseleave must be accompanied by @focusout or @blur for accessibility            vuejs-accessibility/mouse-events-have-key-events
+2025-10-24T05:43:16.9447450Z ##[warning]  519:21  warning  Form label must have an associated control                                                      vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9448894Z ##[warning]  522:25  warning  Form label must have an associated control                                                      vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9450318Z ##[warning]  530:25  warning  Form label must have an associated control                                                      vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9452013Z ##[warning]  533:21  warning  Form label must have an associated control                                                      vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9453596Z ##[warning]  542:25  warning  Form label must have an associated control                                                      vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9455149Z ##[warning]  667:9   warning  Prop "initialElements" should define at least its type                                          vue/require-prop-types
+2025-10-24T05:43:16.9456772Z ##[warning]  681:9   warning  Prop 'creationFn' requires default value to be set                                              vue/require-default-prop
+2025-10-24T05:43:16.9458278Z ##[warning]  686:9   warning  Prop 'saveRulesFn' requires default value to be set                                             vue/require-default-prop
+2025-10-24T05:43:16.9459752Z ##[warning]  690:9   warning  Prop 'initialRules' requires default value to be set                                            vue/require-default-prop
+2025-10-24T05:43:16.9461234Z ##[warning]  694:9   warning  Prop 'initialMapping' requires default value to be set                                          vue/require-default-prop
+2025-10-24T05:43:16.9462279Z 
+2025-10-24T05:43:16.9462699Z /home/runner/work/galaxy/galaxy/client/src/components/RulesDisplay/IdentifierDisplayPreview.vue
+2025-10-24T05:43:16.9463693Z ##[warning]  14:9  warning  Prop "columns" should define at least its type  vue/require-prop-types
+2025-10-24T05:43:16.9464415Z 
+2025-10-24T05:43:16.9464802Z /home/runner/work/galaxy/galaxy/client/src/components/RulesDisplay/RuleDisplayPreview.vue
+2025-10-24T05:43:16.9465666Z ##[warning]  22:9  warning  Prop 'colHeaders' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9466401Z 
+2025-10-24T05:43:16.9466739Z /home/runner/work/galaxy/galaxy/client/src/components/RulesDisplay/RulesDisplay.vue
+2025-10-24T05:43:16.9467572Z ##[warning]  31:9  warning  Prop 'inputRules' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9468299Z 
+2025-10-24T05:43:16.9468630Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/CreatorViewer.vue
+2025-10-24T05:43:16.9469681Z ##[warning]  26:9  warning  Prop 'creator' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9470422Z 
+2025-10-24T05:43:16.9470731Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/Creators.vue
+2025-10-24T05:43:16.9471804Z ##[warning]   1:1  warning  Component name "Creators" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9473233Z ##[warning]  22:9  warning  Prop 'creators' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9473996Z 
+2025-10-24T05:43:16.9474347Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/OrganizationForm.vue
+2025-10-24T05:43:16.9475212Z ##[warning]  55:9  warning  Prop 'organization' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9475979Z 
+2025-10-24T05:43:16.9476334Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/OrganizationViewer.vue
+2025-10-24T05:43:16.9477412Z ##[warning]  21:9  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9478890Z ##[warning]  49:9  warning  Prop 'organization' requires default value to be set                             vue/require-default-prop
+2025-10-24T05:43:16.9479669Z 
+2025-10-24T05:43:16.9479989Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/PersonForm.vue
+2025-10-24T05:43:16.9480785Z ##[warning]  60:9  warning  Prop 'person' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9481507Z 
+2025-10-24T05:43:16.9481962Z /home/runner/work/galaxy/galaxy/client/src/components/SchemaOrg/PersonViewer.vue
+2025-10-24T05:43:16.9483012Z ##[warning]  24:9  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9484568Z ##[warning]  28:9  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9486018Z ##[warning]  57:9  warning  Prop 'person' requires default value to be set                                   vue/require-default-prop
+2025-10-24T05:43:16.9486780Z 
+2025-10-24T05:43:16.9487147Z /home/runner/work/galaxy/galaxy/client/src/components/SelectionDialog/SelectionDialog.vue
+2025-10-24T05:43:16.9488617Z ##[warning]  235:33  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9490439Z ##[warning]  235:33  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9491344Z 
+2025-10-24T05:43:16.9491781Z /home/runner/work/galaxy/galaxy/client/src/components/SelectionField/types.ts
+2025-10-24T05:43:16.9492856Z ##[warning]  4:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9493634Z 
+2025-10-24T05:43:16.9493967Z /home/runner/work/galaxy/galaxy/client/src/components/Sharing/Embeds/PageEmbed.vue
+2025-10-24T05:43:16.9494989Z ##[warning]  63:17  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9496201Z ##[warning]  67:17  warning  Form label must have an associated control  vuejs-accessibility/label-has-for
+2025-10-24T05:43:16.9496928Z 
+2025-10-24T05:43:16.9497232Z /home/runner/work/galaxy/galaxy/client/src/components/Tags/StatelessTags.vue
+2025-10-24T05:43:16.9498480Z ##[warning]  29:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9500236Z ##[warning]  29:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9501171Z 
+2025-10-24T05:43:16.9501869Z /home/runner/work/galaxy/galaxy/client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts
+2025-10-24T05:43:16.9502926Z ##[warning]  16:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9503692Z 
+2025-10-24T05:43:16.9504005Z /home/runner/work/galaxy/galaxy/client/src/components/TagsMultiselect/Tag.vue
+2025-10-24T05:43:16.9505007Z ##[warning]   1:1  warning  Component name "Tag" should always be multi-word                                                vue/multi-word-component-names
+2025-10-24T05:43:16.9506661Z ##[warning]  40:5  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9508424Z ##[warning]  40:5  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9509316Z 
+2025-10-24T05:43:16.9509632Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/MonarchYamlJs.ts
+2025-10-24T05:43:16.9510499Z ##[warning]  10:6  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9511236Z 
+2025-10-24T05:43:16.9511527Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/ToolFooter.vue
+2025-10-24T05:43:16.9512612Z ##[warning]   89:9  warning  Prop 'id' requires default value to be set            vue/require-default-prop
+2025-10-24T05:43:16.9513863Z ##[warning]   96:9  warning  Prop 'xrefs' requires default value to be set         vue/require-default-prop
+2025-10-24T05:43:16.9515080Z ##[warning]   99:9  warning  Prop 'license' requires default value to be set       vue/require-default-prop
+2025-10-24T05:43:16.9516296Z ##[warning]  102:9  warning  Prop 'creators' requires default value to be set      vue/require-default-prop
+2025-10-24T05:43:16.9517522Z ##[warning]  105:9  warning  Prop 'requirements' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9518277Z 
+2025-10-24T05:43:16.9518571Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/ToolForm.vue
+2025-10-24T05:43:16.9519263Z ##[warning]  165:9  warning  Prop "job_id" is not in camelCase      vue/prop-name-casing
+2025-10-24T05:43:16.9520321Z ##[warning]  169:9  warning  Prop "history_id" is not in camelCase  vue/prop-name-casing
+2025-10-24T05:43:16.9521144Z 
+2025-10-24T05:43:16.9521465Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/ToolHelpRst.vue
+2025-10-24T05:43:16.9522482Z ##[warning]  15:38  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9523247Z 
+2025-10-24T05:43:16.9523527Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/YamlJs.ts
+2025-10-24T05:43:16.9524296Z ##[warning]  102:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9525521Z ##[warning]  170:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9526793Z ##[warning]  244:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9527992Z ##[warning]  255:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9529192Z ##[warning]  276:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9530399Z ##[warning]  314:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9531601Z ##[warning]  320:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9533260Z ##[warning]  326:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9534472Z ##[warning]  332:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9535684Z ##[warning]  334:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9536593Z 
+2025-10-24T05:43:16.9536905Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/runTimeModel.ts
+2025-10-24T05:43:16.9537691Z ##[warning]   6:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9538904Z ##[warning]  29:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9539630Z 
+2025-10-24T05:43:16.9539897Z /home/runner/work/galaxy/galaxy/client/src/components/Tool/yaml.ts
+2025-10-24T05:43:16.9540639Z ##[warning]  212:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9541991Z ##[warning]  214:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9543210Z ##[warning]  219:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9544544Z ##[warning]  221:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9545748Z ##[warning]  224:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9546966Z ##[warning]  227:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9548180Z ##[warning]  241:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9549421Z ##[warning]  243:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9550605Z ##[warning]  250:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9552206Z ##[warning]  252:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9553517Z ##[warning]  257:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9554739Z ##[warning]  259:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9555939Z ##[warning]  264:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9557367Z ##[warning]  266:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9558612Z ##[warning]  271:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9559817Z ##[warning]  273:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9561016Z ##[warning]  282:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9562503Z ##[warning]  282:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9563726Z ##[warning]  282:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9564920Z ##[warning]  284:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9566124Z ##[warning]  300:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9567331Z ##[warning]  302:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9568570Z ##[warning]  308:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9569768Z ##[warning]  310:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9570956Z ##[warning]  314:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9572513Z ##[warning]  324:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9573953Z ##[warning]  326:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9574690Z 
+2025-10-24T05:43:16.9575024Z /home/runner/work/galaxy/galaxy/client/src/components/ToolsList/ToolsListCard.vue
+2025-10-24T05:43:16.9575851Z ##[warning]  247:21  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9576569Z 
+2025-10-24T05:43:16.9576866Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/Index.vue
+2025-10-24T05:43:16.9577740Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9578496Z 
+2025-10-24T05:43:16.9578856Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/InstalledList/Details.vue
+2025-10-24T05:43:16.9579823Z ##[warning]  1:1  warning  Component name "Details" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9580587Z 
+2025-10-24T05:43:16.9580937Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/InstalledList/Index.vue
+2025-10-24T05:43:16.9582046Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9582899Z 
+2025-10-24T05:43:16.9583273Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/InstalledList/Monitor.vue
+2025-10-24T05:43:16.9584182Z ##[warning]  1:1  warning  Component name "Monitor" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9584943Z 
+2025-10-24T05:43:16.9585324Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/RepositoryDetails/Index.vue
+2025-10-24T05:43:16.9586276Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9587024Z 
+2025-10-24T05:43:16.9587382Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/SearchList/Categories.vue
+2025-10-24T05:43:16.9588353Z ##[warning]  1:1  warning  Component name "Categories" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9589124Z 
+2025-10-24T05:43:16.9589463Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/SearchList/Index.vue
+2025-10-24T05:43:16.9590312Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9591198Z 
+2025-10-24T05:43:16.9591590Z /home/runner/work/galaxy/galaxy/client/src/components/Toolshed/SearchList/Repositories.vue
+2025-10-24T05:43:16.9592992Z ##[warning]  1:1  warning  Component name "Repositories" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9593881Z 
+2025-10-24T05:43:16.9594155Z /home/runner/work/galaxy/galaxy/client/src/components/Tour/Tour.vue
+2025-10-24T05:43:16.9595030Z ##[warning]  1:1  warning  Component name "Tour" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9595788Z 
+2025-10-24T05:43:16.9596072Z /home/runner/work/galaxy/galaxy/client/src/components/Tour/TourList.vue
+2025-10-24T05:43:16.9596780Z ##[warning]  57:30  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9597449Z 
+2025-10-24T05:43:16.9597766Z /home/runner/work/galaxy/galaxy/client/src/components/Upload/CompositeRow.vue
+2025-10-24T05:43:16.9599001Z ##[warning]  145:5  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9600615Z ##[warning]  217:9  warning  Each form element must have a programmatically associated label element   vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9601543Z 
+2025-10-24T05:43:16.9602049Z /home/runner/work/galaxy/galaxy/client/src/components/Upload/DefaultBox.test.ts
+2025-10-24T05:43:16.9602873Z ##[warning]  62:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9604096Z ##[warning]  63:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9605477Z ##[warning]  64:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9606770Z ##[warning]  73:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9607968Z ##[warning]  75:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9609167Z ##[warning]  76:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9610356Z ##[warning]  78:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9611075Z 
+2025-10-24T05:43:16.9611378Z /home/runner/work/galaxy/galaxy/client/src/components/Upload/RulesInput.vue
+2025-10-24T05:43:16.9612521Z ##[warning]  127:9  warning  Each form element must have a programmatically associated label element  vuejs-accessibility/form-control-has-label
+2025-10-24T05:43:16.9613401Z 
+2025-10-24T05:43:16.9613696Z /home/runner/work/galaxy/galaxy/client/src/components/Upload/UploadBox.vue
+2025-10-24T05:43:16.9614747Z ##[warning]  18:5  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9615635Z 
+2025-10-24T05:43:16.9615934Z /home/runner/work/galaxy/galaxy/client/src/components/User/CustomBuilds.vue
+2025-10-24T05:43:16.9617038Z ##[warning]  9:25  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9617889Z 
+2025-10-24T05:43:16.9618411Z /home/runner/work/galaxy/galaxy/client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+2025-10-24T05:43:16.9619585Z ##[warning]  72:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9620816Z ##[warning]  75:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9621589Z 
+2025-10-24T05:43:16.9622178Z /home/runner/work/galaxy/galaxy/client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
+2025-10-24T05:43:16.9623134Z ##[warning]  34:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9624491Z ##[warning]  43:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9625801Z ##[warning]  52:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9626533Z 
+2025-10-24T05:43:16.9626964Z /home/runner/work/galaxy/galaxy/client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
+2025-10-24T05:43:16.9627846Z ##[warning]  41:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9628571Z 
+2025-10-24T05:43:16.9628886Z /home/runner/work/galaxy/galaxy/client/src/components/Visualizations/Index.vue
+2025-10-24T05:43:16.9629797Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9630551Z 
+2025-10-24T05:43:16.9630940Z /home/runner/work/galaxy/galaxy/client/src/components/Visualizations/VisualizationCreate.vue
+2025-10-24T05:43:16.9631998Z ##[warning]  94:18  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9632747Z 
+2025-10-24T05:43:16.9633150Z /home/runner/work/galaxy/galaxy/client/src/components/Visualizations/VisualizationFrame.vue
+2025-10-24T05:43:16.9635267Z ##[error]  105:9  error  Attribute "id" should go before "class"   vue/attributes-order
+2025-10-24T05:43:16.9636538Z ##[error]  106:9  error  Attribute "ref" should go before "class"  vue/attributes-order
+2025-10-24T05:43:16.9637251Z 
+2025-10-24T05:43:16.9637643Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Actions/actions.test.ts
+2025-10-24T05:43:16.9638749Z ##[warning]  188:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9639709Z 
+2025-10-24T05:43:16.9640099Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Actions/stepActions.ts
+2025-10-24T05:43:16.9641036Z ##[warning]  235:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9642482Z ##[warning]  674:94  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9643235Z 
+2025-10-24T05:43:16.9643637Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Comments/FrameComment.vue
+2025-10-24T05:43:16.9644524Z ##[warning]  291:21  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9645217Z 
+2025-10-24T05:43:16.9645635Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Comments/FreehandComment.vue
+2025-10-24T05:43:16.9646924Z ##[warning]  64:9  warning  @mouseover, @mouseenter, or @hover must be accompanied by @focusin or @focus for accessibility  vuejs-accessibility/mouse-events-have-key-events
+2025-10-24T05:43:16.9648707Z ##[warning]  64:9  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9649632Z 
+2025-10-24T05:43:16.9650058Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Comments/MarkdownComment.vue
+2025-10-24T05:43:16.9650858Z ##[warning]  168:61  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9651543Z 
+2025-10-24T05:43:16.9652052Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Comments/TextComment.vue
+2025-10-24T05:43:16.9652851Z ##[warning]  216:17  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9653530Z 
+2025-10-24T05:43:16.9653966Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+2025-10-24T05:43:16.9654881Z ##[warning]   75:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9656110Z ##[warning]  119:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9657464Z ##[warning]  145:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9658777Z ##[warning]  175:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9659515Z 
+2025-10-24T05:43:16.9659858Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Draggable.vue
+2025-10-24T05:43:16.9660747Z ##[warning]  1:1  warning  Component name "Draggable" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9661526Z 
+2025-10-24T05:43:16.9661991Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Index.test.ts
+2025-10-24T05:43:16.9662825Z ##[warning]  37:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9663582Z 
+2025-10-24T05:43:16.9663901Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Index.vue
+2025-10-24T05:43:16.9664739Z ##[warning]  1:1  warning  Component name "Index" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9665525Z 
+2025-10-24T05:43:16.9665851Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Lint.vue
+2025-10-24T05:43:16.9666671Z ##[warning]  1:1  warning  Component name "Lint" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9667423Z 
+2025-10-24T05:43:16.9667767Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/LintSection.vue
+2025-10-24T05:43:16.9668870Z ##[warning]  11:17  warning  Visible, non-interactive elements should not have an interactive handler  vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9669768Z 
+2025-10-24T05:43:16.9670271Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Node.test.ts
+2025-10-24T05:43:16.9671132Z ##[warning]  27:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9672421Z 
+2025-10-24T05:43:16.9672761Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Node.vue
+2025-10-24T05:43:16.9673643Z ##[warning]  1:1  warning  Component name "Node" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9674415Z 
+2025-10-24T05:43:16.9674777Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/NodeOutput.test.ts
+2025-10-24T05:43:16.9675621Z ##[warning]  74:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9676837Z ##[warning]  90:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9678046Z ##[warning]  95:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9679264Z ##[warning]  97:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9680003Z 
+2025-10-24T05:43:16.9680368Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/Recommendations.vue
+2025-10-24T05:43:16.9681327Z ##[warning]  1:1  warning  Component name "Recommendations" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9682265Z 
+2025-10-24T05:43:16.9682615Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/ReportHelp.vue
+2025-10-24T05:43:16.9683359Z ##[warning]   9:14  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9684426Z ##[warning]  70:14  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9685108Z 
+2025-10-24T05:43:16.9685459Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/SVGConnection.vue
+2025-10-24T05:43:16.9686257Z ##[warning]  11:5  warning  Prop 'id' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9686981Z 
+2025-10-24T05:43:16.9687364Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/StateUpgradeModal.vue
+2025-10-24T05:43:16.9688124Z ##[warning]  13:37  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9688806Z 
+2025-10-24T05:43:16.9689302Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/modules/model.ts
+2025-10-24T05:43:16.9690250Z ##[warning]  16:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9691779Z ##[warning]  18:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9692541Z 
+2025-10-24T05:43:16.9692985Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/modules/parameters.ts
+2025-10-24T05:43:16.9693850Z ##[warning]  15:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9695081Z ##[warning]  17:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9696379Z ##[warning]  83:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9697118Z 
+2025-10-24T05:43:16.9697528Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/modules/terminals.test.ts
+2025-10-24T05:43:16.9698406Z ##[warning]  142:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9699636Z ##[warning]  534:81  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9700423Z 
+2025-10-24T05:43:16.9700793Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Editor/modules/terminals.ts
+2025-10-24T05:43:16.9701792Z ##[warning]  722:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9702747Z 
+2025-10-24T05:43:16.9703102Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Import/TrsSearch.vue
+2025-10-24T05:43:16.9703939Z ##[warning]  203:51  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9704641Z 
+2025-10-24T05:43:16.9704970Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Import/TrsTool.vue
+2025-10-24T05:43:16.9705701Z ##[warning]  41:19  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9706385Z 
+2025-10-24T05:43:16.9706860Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Invocation/Export/InvocationExportWizard.vue
+2025-10-24T05:43:16.9707922Z ##[warning]  395:37  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9709021Z ##[warning]  412:30  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9709705Z 
+2025-10-24T05:43:16.9710113Z /home/runner/work/galaxy/galaxy/client/src/components/Workflow/Invocation/Export/Plugins/index.ts
+2025-10-24T05:43:16.9711134Z ##[warning]  56:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9712809Z ##[warning]  58:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9713582Z 
+2025-10-24T05:43:16.9713887Z /home/runner/work/galaxy/galaxy/client/src/components/admin/BaseList.vue
+2025-10-24T05:43:16.9714754Z ##[warning]  49:9  warning  Prop 'icon' requires default value to be set     vue/require-default-prop
+2025-10-24T05:43:16.9715982Z ##[warning]  52:9  warning  Prop 'tooltip' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9717175Z ##[warning]  55:9  warning  Prop 'plural' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9718367Z ##[warning]  58:9  warning  Prop 'success' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9719548Z ##[warning]  61:9  warning  Prop 'fields' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9720747Z ##[warning]  64:9  warning  Prop 'getter' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9722053Z ##[warning]  67:9  warning  Prop 'setter' requires default value to be set   vue/require-default-prop
+2025-10-24T05:43:16.9722792Z 
+2025-10-24T05:43:16.9723278Z /home/runner/work/galaxy/galaxy/client/src/components/admin/DataManagerGrid.vue
+2025-10-24T05:43:16.9724351Z ##[warning]  7:21  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9725230Z 
+2025-10-24T05:43:16.9725643Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/ContainerDescription.vue
+2025-10-24T05:43:16.9726852Z ##[warning]   4:13  warning  Anchors must have content and the content must be accessible by a screen reader  vuejs-accessibility/anchor-has-content
+2025-10-24T05:43:16.9728385Z ##[warning]  22:9   warning  Prop 'containerDescription' requires default value to be set                     vue/require-default-prop
+2025-10-24T05:43:16.9729220Z 
+2025-10-24T05:43:16.9729623Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/ContainerResolver.vue
+2025-10-24T05:43:16.9730568Z ##[warning]  36:9  warning  Prop 'containerResolver' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9731345Z 
+2025-10-24T05:43:16.9731869Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/DependencyResolver.vue
+2025-10-24T05:43:16.9732845Z ##[warning]  31:9  warning  Prop 'dependencyResolver' requires default value to be set  vue/require-default-prop
+2025-10-24T05:43:16.9733630Z 
+2025-10-24T05:43:16.9733970Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/Landing.vue
+2025-10-24T05:43:16.9734849Z ##[warning]  1:1  warning  Component name "Landing" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9735777Z 
+2025-10-24T05:43:16.9736154Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/Requirement.vue
+2025-10-24T05:43:16.9737085Z ##[warning]  1:1  warning  Component name "Requirement" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9737867Z 
+2025-10-24T05:43:16.9738235Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/Requirements.vue
+2025-10-24T05:43:16.9739168Z ##[warning]  1:1  warning  Component name "Requirements" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9739954Z 
+2025-10-24T05:43:16.9740305Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/Statuses.vue
+2025-10-24T05:43:16.9741181Z ##[warning]  1:1  warning  Component name "Statuses" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9742071Z 
+2025-10-24T05:43:16.9742412Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Dependencies/Tools.vue
+2025-10-24T05:43:16.9743265Z ##[warning]  1:1  warning  Component name "Tools" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9744039Z 
+2025-10-24T05:43:16.9744333Z /home/runner/work/galaxy/galaxy/client/src/components/admin/JobsTable.vue
+2025-10-24T05:43:16.9745522Z ##[warning]   34:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9747298Z ##[warning]   34:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9749072Z ##[warning]   39:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9750921Z ##[warning]   39:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9753116Z ##[warning]   47:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9781379Z ##[warning]   47:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9783680Z ##[warning]   55:17  warning  Visible, non-interactive elements with click handlers must have at least one keyboard listener  vuejs-accessibility/click-events-have-key-events
+2025-10-24T05:43:16.9785525Z ##[warning]   55:17  warning  Visible, non-interactive elements should not have an interactive handler                        vuejs-accessibility/no-static-element-interactions
+2025-10-24T05:43:16.9787143Z ##[warning]   84:9   warning  Prop "fields" should define at least its type                                                   vue/require-prop-types
+2025-10-24T05:43:16.9788599Z ##[warning]   87:9   warning  Prop "items" should define at least its type                                                    vue/require-prop-types
+2025-10-24T05:43:16.9790006Z ##[warning]  102:9   warning  Prop "value" should define at least its type                                                    vue/require-prop-types
+2025-10-24T05:43:16.9791442Z ##[warning]  102:9   warning  Prop 'value' requires default value to be set                                                   vue/require-default-prop
+2025-10-24T05:43:16.9792687Z 
+2025-10-24T05:43:16.9793102Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Notifications/BroadcastCard.vue
+2025-10-24T05:43:16.9794051Z ##[warning]  139:25  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9794772Z 
+2025-10-24T05:43:16.9795176Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Notifications/NotificationForm.vue
+2025-10-24T05:43:16.9795981Z ##[warning]  261:25  warning  'v-html' directive can lead to XSS attack  vue/no-v-html
+2025-10-24T05:43:16.9796865Z 
+2025-10-24T05:43:16.9797330Z /home/runner/work/galaxy/galaxy/client/src/components/admin/Notifications/NotificationsManagement.test.ts
+2025-10-24T05:43:16.9798278Z ##[warning]  20:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9799027Z 
+2025-10-24T05:43:16.9799339Z /home/runner/work/galaxy/galaxy/client/src/composables/__mocks__/filter.ts
+2025-10-24T05:43:16.9800268Z ##[warning]  10:79  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9801019Z 
+2025-10-24T05:43:16.9801356Z /home/runner/work/galaxy/galaxy/client/src/composables/fileSources.test.ts
+2025-10-24T05:43:16.9802291Z ##[warning]  30:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9803046Z 
+2025-10-24T05:43:16.9803422Z /home/runner/work/galaxy/galaxy/client/src/composables/persistentProgressMonitor.test.ts
+2025-10-24T05:43:16.9804281Z ##[warning]  16:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9805031Z 
+2025-10-24T05:43:16.9805406Z /home/runner/work/galaxy/galaxy/client/src/composables/selectedItems/selectedItems.test.ts
+2025-10-24T05:43:16.9806329Z ##[warning]  14:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9807561Z ##[warning]  32:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9808303Z 
+2025-10-24T05:43:16.9808625Z /home/runner/work/galaxy/galaxy/client/src/composables/selectedItems/types.d.ts
+2025-10-24T05:43:16.9809423Z ##[warning]  17:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9810634Z ##[warning]  43:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9811981Z ##[warning]  43:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9812751Z 
+2025-10-24T05:43:16.9813057Z /home/runner/work/galaxy/galaxy/client/src/composables/useInvocationGraph.ts
+2025-10-24T05:43:16.9813846Z ##[warning]   97:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9815224Z ##[warning]  141:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9816004Z 
+2025-10-24T05:43:16.9816328Z /home/runner/work/galaxy/galaxy/client/src/composables/useWorkflowRunGraph.ts
+2025-10-24T05:43:16.9817150Z ##[warning]   55:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9818368Z ##[warning]   59:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9819573Z ##[warning]  123:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9820800Z ##[warning]  143:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9821539Z 
+2025-10-24T05:43:16.9821923Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/index.ts
+2025-10-24T05:43:16.9822856Z ##[warning]  13:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9823619Z 
+2025-10-24T05:43:16.9823918Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Admin.vue
+2025-10-24T05:43:16.9824814Z ##[warning]  1:1  warning  Component name "Admin" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9825593Z 
+2025-10-24T05:43:16.9825909Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Analysis.vue
+2025-10-24T05:43:16.9826759Z ##[warning]  1:1  warning  Component name "Analysis" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9827529Z 
+2025-10-24T05:43:16.9827973Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Base.vue
+2025-10-24T05:43:16.9828812Z ##[warning]  1:1  warning  Component name "Base" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9829580Z 
+2025-10-24T05:43:16.9829883Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Home.vue
+2025-10-24T05:43:16.9830696Z ##[warning]  1:1  warning  Component name "Home" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9831462Z 
+2025-10-24T05:43:16.9832072Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Login.vue
+2025-10-24T05:43:16.9832970Z ##[warning]  1:1  warning  Component name "Login" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9833776Z 
+2025-10-24T05:43:16.9834089Z /home/runner/work/galaxy/galaxy/client/src/entry/analysis/modules/Register.vue
+2025-10-24T05:43:16.9834942Z ##[warning]  1:1  warning  Component name "Register" should always be multi-word  vue/multi-word-component-names
+2025-10-24T05:43:16.9835733Z 
+2025-10-24T05:43:16.9836030Z /home/runner/work/galaxy/galaxy/client/src/stores/configurationStore.ts
+2025-10-24T05:43:16.9836910Z ##[warning]  7:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9837692Z 
+2025-10-24T05:43:16.9838009Z /home/runner/work/galaxy/galaxy/client/src/stores/services/history.services.ts
+2025-10-24T05:43:16.9838884Z ##[warning]   24:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9840111Z ##[warning]  144:86  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9840858Z 
+2025-10-24T05:43:16.9841149Z /home/runner/work/galaxy/galaxy/client/src/stores/workflowStepStore.ts
+2025-10-24T05:43:16.9842044Z ##[warning]  99:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9842798Z 
+2025-10-24T05:43:16.9843062Z /home/runner/work/galaxy/galaxy/client/src/stores/workflowStore.ts
+2025-10-24T05:43:16.9843820Z ##[warning]  10:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9844561Z 
+2025-10-24T05:43:16.9844803Z /home/runner/work/galaxy/galaxy/client/src/utils/lastQueue.ts
+2025-10-24T05:43:16.9845800Z ##[warning]   1:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9848254Z ##[warning]  16:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9849088Z 
+2025-10-24T05:43:16.9849346Z /home/runner/work/galaxy/galaxy/client/src/utils/setDrag.ts
+2025-10-24T05:43:16.9850121Z ##[warning]  42:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9851364Z ##[warning]  47:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9852749Z ##[warning]  48:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9853496Z 
+2025-10-24T05:43:16.9853760Z /home/runner/work/galaxy/galaxy/client/src/utils/simple-error.ts
+2025-10-24T05:43:16.9854506Z ##[warning]   1:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9855720Z ##[warning]  21:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9856454Z 
+2025-10-24T05:43:16.9856673Z /home/runner/work/galaxy/galaxy/client/src/utils/utils.ts
+2025-10-24T05:43:16.9857401Z ##[warning]   11:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9858610Z ##[warning]   16:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9859803Z ##[warning]   93:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9861244Z ##[warning]   93:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9862624Z ##[warning]  144:12  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9863849Z ##[warning]  343:77  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9864597Z 
+2025-10-24T05:43:16.9864954Z /home/runner/work/galaxy/galaxy/client/tests/jest/standalone/RuleDefinitions.test.ts
+2025-10-24T05:43:16.9865969Z ##[warning]   5:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9867202Z ##[warning]  17:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+2025-10-24T05:43:16.9867941Z 
+2025-10-24T05:43:16.9868325Z ✖ 451 problems (2 errors, 449 warnings)
+2025-10-24T05:43:16.9868757Z   2 errors and 0 warnings potentially fixable with the `--fix` option.
+2025-10-24T05:43:16.9869023Z 
+2025-10-24T05:43:17.2190511Z error Command failed with exit code 1.
+2025-10-24T05:43:17.2191573Z info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+2025-10-24T05:43:17.2288683Z ##[error]Process completed with exit code 1.
+2025-10-24T05:43:17.2385548Z Post job cleanup.
+2025-10-24T05:43:17.3168963Z [command]/usr/bin/git version
+2025-10-24T05:43:17.3236652Z git version 2.51.0
+2025-10-24T05:43:17.3276064Z Temporarily overriding HOME='/home/runner/work/_temp/4ba046b8-1a66-42fa-bd7d-957e10c9cdfa' before making global git config changes
+2025-10-24T05:43:17.3277573Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-24T05:43:17.3282161Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/galaxy/galaxy
+2025-10-24T05:43:17.3318786Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-24T05:43:17.3351869Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-24T05:43:17.3587317Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-24T05:43:17.3621868Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-24T05:43:17.3977735Z Cleaning up orphan processes

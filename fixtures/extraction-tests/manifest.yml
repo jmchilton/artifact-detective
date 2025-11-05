@@ -29,3 +29,36 @@ extraction-tests:
       # npm notice/warnings from CI logs should not be in extraction
       - string: "npm notice"
       - string: "npm warn"
+
+  - artifact-type: eslint-txt
+    description: "ESLint output from Galaxy project via script wrapper - same output as direct eslint but invoked via bash script"
+    log-file: "eslint-script-txt/logs.txt"
+    # Custom extraction markers for script-wrapped linter
+    extraction:
+      startMarker: 'bash \.ci/jslint\.sh'
+      endMarker: '^\d+ problems?'
+      includeEndMarker: true
+    include:
+      # File path that contains errors
+      - string: "VisualizationFrame.vue"
+      # Specific error line and column numbers
+      - string: "105:9"
+      - string: "106:9"
+      # Rule name
+      - string: "vue/attributes-order"
+      # Error message content
+      - string: "should go before"
+      # Pattern for component file names
+      - string: ".vue"
+      # Summary line with error count
+      - string: "✖ 451 problems"
+      - string: "2 errors"
+    exclude:
+      # Timestamps should be removed from extracted output
+      - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+      # GitHub Actions markers should be removed
+      - string: "##["
+      # CI runner info should not appear
+      - string: "Current runner version"
+      - string: "Runner Image"
+      - string: "GITHUB_TOKEN Permissions"

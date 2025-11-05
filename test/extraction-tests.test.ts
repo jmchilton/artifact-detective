@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
-import type { ArtifactType } from '../src/types.js';
+import type { ArtifactType, ExtractorConfig } from '../src/index.js';
 import { extractArtifactFromLog } from '../src/validators/index.js';
 
 type PatternRule =
@@ -14,6 +14,11 @@ interface ExtractionTest {
   'artifact-type': ArtifactType;
   description: string;
   'log-file': string;
+  extraction?: {
+    startMarker?: string;
+    endMarker?: string;
+    includeEndMarker?: boolean;
+  };
   include: PatternRule[];
   exclude: PatternRule[];
 }
@@ -77,10 +82,21 @@ describe('Extraction Tests', () => {
         const logContent = readFileSync(logPath, 'utf-8');
         expect(logContent).toBeTruthy();
 
+        // Build extractor config from manifest if provided
+        let extractorConfig: ExtractorConfig | undefined;
+        if (test.extraction) {
+          extractorConfig = {
+            startMarker: test.extraction.startMarker ? new RegExp(test.extraction.startMarker) : undefined,
+            endMarker: test.extraction.endMarker ? new RegExp(test.extraction.endMarker) : undefined,
+            includeEndMarker: test.extraction.includeEndMarker,
+          };
+        }
+
         // Run extraction
         extractedContent = extractArtifactFromLog(
           test['artifact-type'],
           logContent,
+          extractorConfig,
         );
       });
 
