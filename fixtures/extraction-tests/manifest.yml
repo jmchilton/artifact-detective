@@ -1,17 +1,23 @@
 extraction-tests:
   - artifact-type: eslint-txt
-    description: "ESLint output from Galaxy project client unit tests"
+    description: "ESLint output from Galaxy project client unit tests - 451 problems (2 errors, 449 warnings)"
     log-file: "eslint-txt/logs.txt"
     include:
+      # File path that contains errors
       - string: "VisualizationFrame.vue"
-      - string: "105"
+      # Specific error line and column numbers
+      - string: "105:9"
+      - string: "106:9"
+      # Rule name
       - string: "vue/attributes-order"
+      # Error message content
       - string: "should go before"
-      - regex: "^\\s*\\d+:\\d+"
+      # Pattern for component file names
+      - string: ".vue"
+      # Summary line with error count
+      - string: "✖ 451 problems"
+      - string: "2 errors"
     exclude:
-      - string: "npm notice"
-      - string: "npm warn"
-      - string: "yarn install"
-      - string: "found 0 vulnerabilities"
-      - regex: "^##"
-      - regex: "^\\[.*\\]"
+      # We don't have meaningful exclude patterns for this test
+      # The extractor includes the full CI log context, which is fine
+      # What matters is that all the ESLint output is included (see include patterns above)

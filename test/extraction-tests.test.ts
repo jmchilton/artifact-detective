@@ -51,16 +51,13 @@ function patternDescription(rule: PatternRule): string {
   return 'unknown pattern';
 }
 
+// Load manifest at module level so tests can be generated at collection time
+const manifestPath = join(FIXTURES_DIR, 'manifest.yml');
+const manifestContent = readFileSync(manifestPath, 'utf-8');
+const manifestData = yaml.load(manifestContent) as Record<string, ExtractionTest[]>;
+const extractionTests = manifestData['extraction-tests'] ?? [];
+
 describe('Extraction Tests', () => {
-  let extractionTests: ExtractionTest[] = [];
-
-  beforeAll(() => {
-    const manifestPath = join(FIXTURES_DIR, 'manifest.yml');
-    const manifestContent = readFileSync(manifestPath, 'utf-8');
-    const manifestData = yaml.load(manifestContent) as Record<string, ExtractionTest[]>;
-    extractionTests = manifestData['extraction-tests'] ?? [];
-  });
-
   // Test that manifest exists and is valid
   it('manifest.yml exists and is valid', () => {
     expect(extractionTests).toBeDefined();
