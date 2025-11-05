@@ -3,6 +3,7 @@ import { join } from 'path';
 import { fileURLToPath } from 'url';
 import type { ArtifactDescription } from '../validators/types.js';
 import type { ArtifactType } from '../types.js';
+// @ts-expect-error js-yaml doesn't have proper TypeScript declarations
 import yaml from 'js-yaml';
 
 const __dirname = join(fileURLToPath(import.meta.url), '..');

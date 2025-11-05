@@ -60,7 +60,6 @@ export type {
   NormalizeFunction,
   ArtifactDescription,
 } from './types.js';
-export type { ConversionResult, ArtifactJsonResult } from './index.js';
 
 /**
  * Normalize function for pytest HTML artifacts

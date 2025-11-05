@@ -1,3 +1,5 @@
+import type { ExtractorConfig } from '../parsers/linters/extractors.js';
+
 /**
  * Description of an artifact type for AI agents and documentation
  */
@@ -19,7 +21,10 @@ export type ValidatorFunction = (content: string) => ValidationResult;
 
 export type ExtractFunction = (artifactType: string, filePath: string) => string | null;
 
-export type ExtractFromLogFunction = (logContents: string) => string | null;
+export type ExtractFromLogFunction = (logContents: string, config?: ExtractorConfig) => string | null;
+
+// Re-export ExtractorConfig for convenience
+export type { ExtractorConfig } from '../parsers/linters/extractors.js';
 
 export type NormalizeFunction = (filePath: string) => string | null;
 
