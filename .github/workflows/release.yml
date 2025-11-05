@@ -26,10 +26,13 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm run setup  # needed because CLI tests test linked binary
 
       - run: npm run lint
 
       - run: npm run test:coverage
+        env:
+          E2E_TESTS: 'true'
 
       - name: Release
         env:
