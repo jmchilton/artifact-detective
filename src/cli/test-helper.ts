@@ -63,8 +63,9 @@ export async function runCLIInProcess(args: string[]): Promise<CLITestResult> {
 
 /**
  * Run CLI via subprocess (E2E, slower)
+ * Spawns the actual CLI binary for full end-to-end testing
  */
-function runCLISubprocess(args: string[]): CLITestResult {
+export async function runCLISubprocess(args: string[]): Promise<CLITestResult> {
   const result = spawnSync('artifact-detective', args, {
     encoding: 'utf-8',
   });
