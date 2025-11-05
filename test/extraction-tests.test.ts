@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
 import type { ArtifactType, ExtractorConfig } from '../src/index.js';
-import { extractArtifactFromLog, extractArtifactToJson, type ArtifactJsonResult } from '../src/validators/index.js';
+import { extractArtifactFromLog, extractArtifactToJson } from '../src/validators/index.js';
 
 type PatternRule = { string: string } | { regex: string } | { lint: string };
 
