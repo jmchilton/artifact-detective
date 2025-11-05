@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
 import type { ArtifactType, ExtractorConfig } from '../src/index.js';
-import { extractArtifactFromLog } from '../src/validators/index.js';
+import { extractArtifactFromLog, extractArtifactToJson, type ArtifactJsonResult } from '../src/validators/index.js';
 
 type PatternRule = { string: string } | { regex: string } | { lint: string };
 
@@ -140,4 +140,189 @@ describe('Extraction Tests', () => {
       }
     });
   }
+});
+
+describe('Extract and Convert to JSON', () => {
+  const FIXTURES_DIR_EXTRACTION = join(import.meta.dirname, '../fixtures/extraction-tests');
+  const FIXTURES_DIR_GENERATED = join(import.meta.dirname, '../fixtures/generated');
+
+  describe('Text extractors without normalizers', () => {
+    it('eslint-txt: has extractor but no normalizer (returns null)', () => {
+      const eslintPath = join(FIXTURES_DIR_EXTRACTION, 'eslint-txt/logs.txt');
+      const logContent = readFileSync(eslintPath, 'utf-8');
+
+      const result = extractArtifactToJson('eslint-txt', logContent);
+
+      // eslint-txt has an extractor but no normalizer, so cannot convert to JSON
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('Native JSON types', () => {
+    it('eslint-json: returns valid JSON from file content', () => {
+      const eslintPath = join(FIXTURES_DIR_GENERATED, 'javascript/eslint-results.json');
+      const content = readFileSync(eslintPath, 'utf-8');
+
+      const result = extractArtifactToJson('eslint-json', content);
+
+      expect(result).not.toBeNull();
+
+      // Effective type should be eslint-json
+      expect(result!.effectiveType).toBe('eslint-json');
+
+      // Validate JSON is valid
+      const json = JSON.parse(result!.json);
+      expect(json).toBeDefined();
+      expect(Array.isArray(json)).toBe(true);
+
+      // Description should be included
+      expect(result!.description).toBeTruthy();
+      expect(result!.description?.toolUrl).toContain('eslint');
+    });
+
+    it('pytest-json: returns valid JSON with test data', () => {
+      const pytestPath = join(FIXTURES_DIR_GENERATED, 'python/pytest-results.json');
+      const content = readFileSync(pytestPath, 'utf-8');
+
+      const result = extractArtifactToJson('pytest-json', content);
+
+      expect(result).not.toBeNull();
+      expect(result!.effectiveType).toBe('pytest-json');
+
+      const json = JSON.parse(result!.json);
+      expect(json).toHaveProperty('tests');
+
+      // Description for pytest-json
+      expect(result!.description?.toolUrl).toContain('pytest');
+    });
+
+    it('go-test-ndjson: handles NDJSON test output', () => {
+      // Simulate NDJSON content (newline-delimited JSON)
+      const ndjsonContent = `{"test":"TestAdd","result":"pass"}
+{"test":"TestSubtract","result":"pass"}`;
+
+      const result = extractArtifactToJson('go-test-ndjson', ndjsonContent);
+
+      expect(result).not.toBeNull();
+
+      // Should be converted to JSON array
+      expect(result!.effectiveType).toBe('go-test-json');
+
+      const json = JSON.parse(result!.json);
+      expect(Array.isArray(json)).toBe(true);
+      expect(json.length).toBe(2);
+    });
+  });
+
+  describe('NDJSON normalization', () => {
+    it('clippy-ndjson: normalizes NDJSON to JSON array', () => {
+      // Simulate clippy NDJSON output
+      const ndjsonContent = `{"reason":"compiler-message","message":{"rendered":"warning: unused variable"}}
+{"reason":"compiler-message","message":{"rendered":"warning: dead code"}}`;
+
+      const result = extractArtifactToJson('clippy-ndjson', ndjsonContent);
+
+      expect(result).not.toBeNull();
+
+      // Effective type should be clippy-json after normalization
+      expect(result!.effectiveType).toBe('clippy-json');
+
+      // Should be valid JSON array
+      const json = JSON.parse(result!.json);
+      expect(Array.isArray(json)).toBe(true);
+      expect(json.length).toBe(2);
+
+      // Description should be for clippy
+      expect(result!.description?.toolUrl).toContain('clippy');
+    });
+  });
+
+  describe('Types without extractors/normalizers', () => {
+    it('cargo-test-txt: returns null (no extractor, no normalizer)', () => {
+      const content = 'test output without structure';
+
+      const result = extractArtifactToJson('cargo-test-txt', content);
+
+      expect(result).toBeNull();
+    });
+
+    it('rustfmt-txt: returns null (no extractor, no normalizer)', () => {
+      const content = 'some rustfmt output';
+
+      const result = extractArtifactToJson('rustfmt-txt', content);
+
+      expect(result).toBeNull();
+    });
+
+    it('black-txt: returns null (no normalizer)', () => {
+      const content = 'reformatted file.py';
+
+      const result = extractArtifactToJson('black-txt', content);
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('Error handling', () => {
+    it('invalid JSON content: returns null for JSON types', () => {
+      const invalidContent = 'not valid json {[}';
+
+      const result = extractArtifactToJson('eslint-json', invalidContent);
+
+      expect(result).toBeNull();
+    });
+
+    it('empty content: returns null for extractable types', () => {
+      const result = extractArtifactToJson('eslint-txt', '');
+
+      expect(result).toBeNull();
+    });
+
+    it('malformed NDJSON: filters invalid lines and returns valid ones', () => {
+      const mixedContent = `{"valid":"json"}
+this is not json
+{"another":"valid"}`;
+
+      const result = extractArtifactToJson('go-test-ndjson', mixedContent);
+
+      expect(result).not.toBeNull();
+
+      const json = JSON.parse(result!.json);
+      expect(Array.isArray(json)).toBe(true);
+      expect(json.length).toBe(2); // Should have 2 valid JSON objects, skip invalid line
+    });
+  });
+
+  describe('Result structure validation', () => {
+    it('returns complete ArtifactJsonResult object with all fields', () => {
+      const eslintPath = join(FIXTURES_DIR_GENERATED, 'javascript/eslint-results.json');
+      const content = readFileSync(eslintPath, 'utf-8');
+
+      const result = extractArtifactToJson('eslint-json', content);
+
+      expect(result).not.toBeNull();
+
+      // Verify all required fields are present
+      expect(result!).toHaveProperty('json');
+      expect(result!).toHaveProperty('effectiveType');
+      expect(result!).toHaveProperty('description');
+
+      // Verify types
+      expect(typeof result!.json).toBe('string');
+      expect(typeof result!.effectiveType).toBe('string');
+      expect(result!.description).toHaveProperty('toolUrl');
+      expect(result!.description).toHaveProperty('parsingGuide');
+    });
+
+    it('returns correct effectiveType for normalized artifacts', () => {
+      const ndjsonContent = `{"test":"test1"}
+{"test":"test2"}`;
+
+      const result = extractArtifactToJson('go-test-ndjson', ndjsonContent);
+
+      // Input type is go-test-ndjson, but output type should be go-test-json
+      expect(result!.effectiveType).toBe('go-test-json');
+      expect(result!.effectiveType).not.toBe('go-test-ndjson');
+    });
+  });
 });
