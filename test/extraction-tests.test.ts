@@ -5,10 +5,7 @@ import yaml from 'js-yaml';
 import type { ArtifactType, ExtractorConfig } from '../src/index.js';
 import { extractArtifactFromLog } from '../src/validators/index.js';
 
-type PatternRule =
-  | { string: string }
-  | { regex: string }
-  | { lint: string };
+type PatternRule = { string: string } | { regex: string } | { lint: string };
 
 interface ExtractionTest {
   'artifact-type': ArtifactType;
@@ -86,8 +83,12 @@ describe('Extraction Tests', () => {
         let extractorConfig: ExtractorConfig | undefined;
         if (test.extraction) {
           extractorConfig = {
-            startMarker: test.extraction.startMarker ? new RegExp(test.extraction.startMarker) : undefined,
-            endMarker: test.extraction.endMarker ? new RegExp(test.extraction.endMarker) : undefined,
+            startMarker: test.extraction.startMarker
+              ? new RegExp(test.extraction.startMarker)
+              : undefined,
+            endMarker: test.extraction.endMarker
+              ? new RegExp(test.extraction.endMarker)
+              : undefined,
             includeEndMarker: test.extraction.includeEndMarker,
           };
         }

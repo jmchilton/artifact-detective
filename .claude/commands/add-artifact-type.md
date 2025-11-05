@@ -294,18 +294,21 @@ Provide user with:
 ## API Changes to Be Aware Of
 
 **ValidationResult** now includes optional `description` field:
+
 ```typescript
 // ValidationResult on success now includes description
 { valid: true, description: ArtifactDescription }
 ```
 
 **convertToJSON()** return type changed to ConversionResult:
+
 ```typescript
 // Before: string | null
 // After: { json: object, description: ArtifactDescription } | null
 ```
 
 **ARTIFACT_TYPE_REGISTRY** entries now include `extract` capability:
+
 ```typescript
 "{tool}-{format}": {
   supportsAutoDetection: boolean,

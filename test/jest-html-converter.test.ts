@@ -30,7 +30,9 @@ describe('Jest HTML converter', () => {
 
   it('correctly identifies passed tests', () => {
     const report = extractJestJSON(jestHtmlPath);
-    const passedTests = report!.testResults[0].assertionResults.filter((t) => t.status === 'passed');
+    const passedTests = report!.testResults[0].assertionResults.filter(
+      (t) => t.status === 'passed',
+    );
 
     expect(passedTests).toHaveLength(5);
     expect(passedTests[0].title).toBe('passes basic assertion');
@@ -38,7 +40,9 @@ describe('Jest HTML converter', () => {
 
   it('correctly identifies failed tests', () => {
     const report = extractJestJSON(jestHtmlPath);
-    const failedTests = report!.testResults[0].assertionResults.filter((t) => t.status === 'failed');
+    const failedTests = report!.testResults[0].assertionResults.filter(
+      (t) => t.status === 'failed',
+    );
 
     expect(failedTests).toHaveLength(2);
     expect(failedTests[0].title).toBe('fails deliberately');
@@ -47,7 +51,9 @@ describe('Jest HTML converter', () => {
 
   it('correctly identifies pending tests', () => {
     const report = extractJestJSON(jestHtmlPath);
-    const pendingTests = report!.testResults[0].assertionResults.filter((t) => t.status === 'pending');
+    const pendingTests = report!.testResults[0].assertionResults.filter(
+      (t) => t.status === 'pending',
+    );
 
     expect(pendingTests).toHaveLength(1);
     expect(pendingTests[0].title).toBe('skipped test');

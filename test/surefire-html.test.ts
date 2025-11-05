@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { detectArtifactType } from '../src/index.js';
-import { validateSurefireHTML, ARTIFACT_TYPE_REGISTRY, canConvertToJSON } from '../src/validators/index.js';
+import {
+  validateSurefireHTML,
+  ARTIFACT_TYPE_REGISTRY,
+  canConvertToJSON,
+} from '../src/validators/index.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 

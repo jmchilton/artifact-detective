@@ -12,10 +12,7 @@ export {
 } from './validators/index.js';
 
 // Artifact descriptions and documentation
-export {
-  loadArtifactDescriptions,
-  getArtifactDescription,
-} from './docs/artifact-descriptions.js';
+export { loadArtifactDescriptions, getArtifactDescription } from './docs/artifact-descriptions.js';
 
 // HTML parsers
 export { extractPytestJSON } from './parsers/html/pytest-html.js';

@@ -68,7 +68,9 @@ describe('Artifact Descriptions', () => {
         expect(desc.parsingGuide).toBeTruthy();
         expect(typeof desc.parsingGuide).toBe('string');
         // Should have at least a few paragraphs
-        expect(desc.parsingGuide.split('\n').filter((l) => l.trim()).length).toBeGreaterThanOrEqual(3);
+        expect(desc.parsingGuide.split('\n').filter((l) => l.trim()).length).toBeGreaterThanOrEqual(
+          3,
+        );
 
         // Optional fields should be strings if present
         if (desc.toolUrl) {

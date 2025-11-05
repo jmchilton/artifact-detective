@@ -175,7 +175,11 @@ function extractESLintOutput(lines: string[], config?: ExtractorConfig): string 
 
   if (!hasCIMarkers) {
     // Raw ESLint output - just clean and return
-    return lines.map(cleanLogLine).filter((line) => line.trim()).join('\n').trim();
+    return lines
+      .map(cleanLogLine)
+      .filter((line) => line.trim())
+      .join('\n')
+      .trim();
   }
 
   // Extract from CI logs using generic section extractor
@@ -392,7 +396,8 @@ export function convertMypyTextToNDJSON(textOutput: string): string | null {
   } | null = null;
 
   // Pattern: file:line: severity: message [code]
-  const errorPattern = /^([^:]+):(\d+):(?:(\d+):)?\s+(error|warning|note):\s+(.+?)(?:\s+\[([^\]]+)\])?$/;
+  const errorPattern =
+    /^([^:]+):(\d+):(?:(\d+):)?\s+(error|warning|note):\s+(.+?)(?:\s+\[([^\]]+)\])?$/;
 
   for (const line of lines) {
     const match = line.match(errorPattern);
@@ -406,7 +411,10 @@ export function convertMypyTextToNDJSON(textOutput: string): string | null {
         currentError.hint = message;
       } else {
         // Save previous error if exists
-        if (currentError && (currentError.severity === 'error' || currentError.severity === 'warning')) {
+        if (
+          currentError &&
+          (currentError.severity === 'error' || currentError.severity === 'warning')
+        ) {
           jsonLines.push(JSON.stringify(currentError));
         }
 

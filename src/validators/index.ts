@@ -25,7 +25,11 @@ import { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.j
 import { validateGofmtOutput } from './gofmt-validator.js';
 import { validateIsortOutput } from './isort-validator.js';
 import { validateBlackOutput } from './black-validator.js';
-import { extractLinterOutput, convertMypyTextToNDJSON, type ExtractorConfig } from '../parsers/linters/extractors.js';
+import {
+  extractLinterOutput,
+  convertMypyTextToNDJSON,
+  type ExtractorConfig,
+} from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 import { extractJestJSON } from '../parsers/html/jest-html.js';
 

@@ -136,7 +136,9 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
   // Surefire HTML: Look for maven surefire report markers
   if (
     lowerContent.includes('surefire') ||
-    (lowerContent.includes('maven') && lowerContent.includes('test') && lowerContent.includes('report'))
+    (lowerContent.includes('maven') &&
+      lowerContent.includes('test') &&
+      lowerContent.includes('report'))
   ) {
     return 'surefire-html';
   }
@@ -155,11 +157,7 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
         const firstObj = JSON.parse(firstJsonLine);
 
         // Go test NDJSON: NDJSON with "Action", "Package" fields
-        if (
-          firstObj.Action &&
-          firstObj.Package &&
-          typeof firstObj.Time === 'string'
-        ) {
+        if (firstObj.Action && firstObj.Package && typeof firstObj.Time === 'string') {
           return 'go-test-ndjson';
         }
 
@@ -211,7 +209,8 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
 
       // golangci-lint JSON: Has "Issues" array or "Report" with "Linters" array
       if (
-        (Array.isArray(obj.Issues) || (obj.Report && Array.isArray((obj.Report as Record<string, unknown>).Linters))) &&
+        (Array.isArray(obj.Issues) ||
+          (obj.Report && Array.isArray((obj.Report as Record<string, unknown>).Linters))) &&
         obj.Report
       ) {
         return 'golangci-lint-json';

@@ -43,9 +43,7 @@ export function loadArtifactDescriptions(): Record<ArtifactType, ArtifactDescrip
 /**
  * Get description for a specific artifact type
  */
-export function getArtifactDescription(
-  artifactType: ArtifactType,
-): ArtifactDescription | null {
+export function getArtifactDescription(artifactType: ArtifactType): ArtifactDescription | null {
   const descriptions = loadArtifactDescriptions();
   return descriptions[artifactType] ?? null;
 }

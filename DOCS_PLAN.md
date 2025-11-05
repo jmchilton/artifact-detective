@@ -1,22 +1,25 @@
 # Artifact Type Documentation Enhancement Plan
 
 ## Goal
+
 Add comprehensive AI-agent-friendly documentation for each artifact type. Create structured descriptions that help AI systems understand how to parse, validate, and extract data from each artifact format.
 
 ## 1. New Interface Type
 
 ### ArtifactDescription
+
 ```typescript
 export interface ArtifactDescription {
   type: ArtifactType;
-  shortDescription: string;                    // 1-2 sentence summary
-  toolUrl?: string;                            // Link to tool's official site
-  formatUrl?: string;                          // Link to format spec/docs
-  parsingGuide: string;                        // 2-3 paragraph detailed guide for AI agents
+  shortDescription: string; // 1-2 sentence summary
+  toolUrl?: string; // Link to tool's official site
+  formatUrl?: string; // Link to format spec/docs
+  parsingGuide: string; // 2-3 paragraph detailed guide for AI agents
 }
 ```
 
 ### Location
+
 - File: `src/docs/artifact-descriptions.ts`
 - Contains interface and function to load descriptions from YAML
 - Exports: `ArtifactDescription`, `loadArtifactDescriptions()`, `getArtifactDescription()`
@@ -24,14 +27,16 @@ export interface ArtifactDescription {
 ## 2. YAML Documentation File
 
 ### Location & Structure
+
 - File: `src/docs/artifact-descriptions.yml`
 - One entry per ArtifactType
 - YAML structure:
+
 ```yaml
 jest-json:
-  shortDescription: "Jest JavaScript test framework JSON output with test results and coverage"
-  toolUrl: "https://jestjs.io/"
-  formatUrl: "https://jestjs.io/docs/configuration#reporters-arraystring"
+  shortDescription: 'Jest JavaScript test framework JSON output with test results and coverage'
+  toolUrl: 'https://jestjs.io/'
+  formatUrl: 'https://jestjs.io/docs/configuration#reporters-arraystring'
   parsingGuide: |
     Jest JSON reports are complete JSON objects (not NDJSON). The root structure contains testResults array
     where each object represents a test file with detailed results (numPassingTests, numFailingTests, failures array, etc.).
@@ -47,6 +52,7 @@ jest-json:
 ```
 
 ### Entry Count & Validation
+
 - Must have entries for all 28 ArtifactTypes (including binary, unknown, artificial types)
 - Test validates: all keys in ArtifactType union have corresponding YAML entries
 - Runtime validation: Loading YAML checks for any missing types
@@ -54,7 +60,9 @@ jest-json:
 ## 3. Breaking Changes to Existing Functions
 
 ### ValidationResult (src/validators/types.ts)
+
 **Before:**
+
 ```typescript
 export interface ValidationResult {
   valid: boolean;
@@ -63,24 +71,28 @@ export interface ValidationResult {
 ```
 
 **After:**
+
 ```typescript
 export interface ValidationResult {
   valid: boolean;
   error?: string;
-  description?: ArtifactDescription;        // New: Include description on successful validation
+  description?: ArtifactDescription; // New: Include description on successful validation
 }
 ```
 
 ### convertToJSON (src/validators/index.ts)
+
 **Before:**
+
 ```typescript
 export function convertToJSON(
   result: { detectedType: ArtifactType },
   filePath: string,
-): string | null
+): string | null;
 ```
 
 **After:**
+
 ```typescript
 export interface ConversionResult {
   json: string;
@@ -90,11 +102,13 @@ export interface ConversionResult {
 export function convertToJSON(
   result: { detectedType: ArtifactType },
   filePath: string,
-): ConversionResult | null
+): ConversionResult | null;
 ```
 
 ### extractArtifactToJson (src/validators/index.ts)
+
 **Before:**
+
 ```typescript
 export interface ArtifactJsonResult {
   json: string;
@@ -103,21 +117,25 @@ export interface ArtifactJsonResult {
 ```
 
 **After:**
+
 ```typescript
 export interface ArtifactJsonResult {
   json: string;
   effectiveType: ArtifactType;
-  description: ArtifactDescription;        // New: Include description
+  description: ArtifactDescription; // New: Include description
 }
 ```
 
 ### validate (src/validators/index.ts)
+
 **Before:**
+
 ```typescript
-export function validate(type: ArtifactType, content: string): ValidationResult
+export function validate(type: ArtifactType, content: string): ValidationResult;
 ```
 
 **After:**
+
 ```typescript
 export function validate(type: ArtifactType, content: string): ValidationResult {
   // If valid, include description in result
@@ -128,10 +146,12 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 ## 4. File Changes Required
 
 ### New Files
+
 - `src/docs/artifact-descriptions.ts` - Interface, loader, helpers
 - `src/docs/artifact-descriptions.yml` - YAML with all 28 type descriptions
 
 ### Modified Files
+
 - `src/validators/types.ts` - Add ArtifactDescription interface, update ValidationResult
 - `src/validators/index.ts` - Update validate(), convertToJSON(), extractArtifactToJson(), add ConversionResult interface
 - `src/index.ts` - Export new types and descriptions module
@@ -141,6 +161,7 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
   - Test description loading and lookup functions
 
 ### Affected Test Updates
+
 - `test/json-conversion.test.ts` - Update convertToJSON tests to expect ConversionResult
 - `test/validators.test.ts` - Update validate tests to check for description in result
 - `test/extraction.test.ts` - Update extractArtifactToJson tests (if exists)
@@ -148,18 +169,22 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 ## 5. Content Guidelines for Descriptions
 
 ### shortDescription (1-2 sentences)
+
 - Tool name and primary purpose
 - Key output information (e.g., "Test results and coverage metrics")
 - Example: "Jest JavaScript test framework JSON output with test results and coverage"
 
 ### parsingGuide (2-3 paragraphs for AI agents)
+
 **Paragraph 1 - Format Overview:**
+
 - File format type (JSON, NDJSON, XML, HTML, text)
 - Root structure (array, object, lines)
 - Key top-level fields/patterns
 - Example: "Jest JSON reports are complete JSON objects (not NDJSON). Root contains testResults array where each entry represents a test file with detailed results..."
 
 **Paragraph 2 - Parsing & Validation:**
+
 - What fields to check for presence/validity
 - Data type validation expectations
 - Required vs optional fields
@@ -167,6 +192,7 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 - Example: "Look for testResults array with length > 0. Each entry should have numPassingTests (number), failures (array), status (string). Validate that numeric fields are actual numbers, not strings..."
 
 **Paragraph 3 - Success & Error Indicators:**
+
 - Success: What indicates a valid file?
 - Common errors: What breaks frequently?
 - Failure detection: How to identify broken/incomplete files?
@@ -187,13 +213,16 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 ## 7. Testing Strategy
 
 ### docs.test.ts (New)
+
 ```typescript
 describe('Artifact Descriptions', () => {
   describe('YAML coverage', () => {
     it('has entries for all ArtifactType union members', () => {
       const descriptions = loadArtifactDescriptions();
       const allTypes: ArtifactType[] = [
-        'jest-json', 'playwright-json', 'pytest-json',
+        'jest-json',
+        'playwright-json',
+        'pytest-json',
         // ... all 28 types
       ];
       for (const type of allTypes) {
@@ -229,17 +258,18 @@ describe('Artifact Descriptions', () => {
 ```
 
 ### Updated existing tests
+
 - `json-conversion.test.ts`: Check result.description exists and is valid
 - `validators.test.ts`: Check ValidationResult includes description when valid
 
 ## 8. Breaking Changes Summary
 
-| Function | Change | Impact |
-|----------|--------|--------|
-| `validate()` | Returns ValidationResult with optional description | Code checking result.error only still works |
-| `convertToJSON()` | Returns ConversionResult instead of string | **BREAKING** - must update return type handling |
-| `extractArtifactToJson()` | ArtifactJsonResult now has description field | **BREAKING** - must handle new field |
-| `ValidationResult` | Added optional description field | Additive, backward compatible for most uses |
+| Function                  | Change                                             | Impact                                          |
+| ------------------------- | -------------------------------------------------- | ----------------------------------------------- |
+| `validate()`              | Returns ValidationResult with optional description | Code checking result.error only still works     |
+| `convertToJSON()`         | Returns ConversionResult instead of string         | **BREAKING** - must update return type handling |
+| `extractArtifactToJson()` | ArtifactJsonResult now has description field       | **BREAKING** - must handle new field            |
+| `ValidationResult`        | Added optional description field                   | Additive, backward compatible for most uses     |
 
 ## 9. Success Criteria
 
@@ -256,6 +286,7 @@ describe('Artifact Descriptions', () => {
 ## 10. Artifact Type Coverage (28 types)
 
 **Real Tool Types (24):**
+
 - Test Frameworks: jest-json, playwright-json, pytest-json, pytest-html, jest-html, surefire-html, junit-xml
 - Linters: eslint-json, eslint-txt, tsc-txt, flake8-txt, ruff-txt, mypy-txt, clippy-txt, clippy-ndjson, golangci-lint-json
 - Type Checkers: mypy-ndjson, checkstyle-xml, checkstyle-sarif-json, spotbugs-xml
@@ -263,9 +294,11 @@ describe('Artifact Descriptions', () => {
 - Test Runners: cargo-test-txt, go-test-ndjson
 
 **Artificial Normalized Types (3):**
+
 - mypy-json, go-test-json, clippy-json
 
 **Meta Types (1):**
+
 - binary, unknown (2 total)
 
 Total: 28 types

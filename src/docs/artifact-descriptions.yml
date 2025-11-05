@@ -1,7 +1,7 @@
 jest-json:
-  shortDescription: "Jest JavaScript test framework JSON output with test results and coverage metrics"
-  toolUrl: "https://jestjs.io/"
-  formatUrl: "https://jestjs.io/docs/configuration#reporters-arraystring"
+  shortDescription: 'Jest JavaScript test framework JSON output with test results and coverage metrics'
+  toolUrl: 'https://jestjs.io/'
+  formatUrl: 'https://jestjs.io/docs/configuration#reporters-arraystring'
   parsingGuide: |
     Jest JSON reports are complete JSON objects (not NDJSON). The root object contains testResults array where each object represents a test file with detailed results including numPassingTests, numFailingTests, numPendingTests, and failures array.
 
@@ -10,9 +10,9 @@ jest-json:
     Success indicators: testResults array present and non-empty, numeric fields are actual numbers (not strings), failures array format is correct. Common errors: Missing testResults field, null or undefined values in required fields, malformed failure messages. Validate that numeric totals match actual test counts and all objects follow the expected schema.
 
 playwright-json:
-  shortDescription: "Playwright test framework JSON report with test execution results and metadata"
-  toolUrl: "https://playwright.dev/"
-  formatUrl: "https://playwright.dev/docs/test-reporters"
+  shortDescription: 'Playwright test framework JSON report with test execution results and metadata'
+  toolUrl: 'https://playwright.dev/'
+  formatUrl: 'https://playwright.dev/docs/test-reporters'
   parsingGuide: |
     Playwright JSON reports are complete JSON objects with a config object and an array of suites. The root contains metadata fields like configFile, rootDir, and testDir, followed by a suites array where each suite represents a test file or grouping with title and nested tests.
 
@@ -21,9 +21,9 @@ playwright-json:
     Success indicators: config object present, suites array exists and is non-empty, each suite has tests array, test objects have required fields (title, status). Common errors: Missing config or suites, status values that aren't passed/failed/skipped/skipped, duration values that aren't numbers, missing test titles. Validate that all status values are lowercase and match expected enum values.
 
 jest-html:
-  shortDescription: "Jest HTML test report with test results rendered in HTML format"
-  toolUrl: "https://jestjs.io/"
-  formatUrl: "https://jestjs.io/docs/cli#--coverage"
+  shortDescription: 'Jest HTML test report with test results rendered in HTML format'
+  toolUrl: 'https://jestjs.io/'
+  formatUrl: 'https://jestjs.io/docs/cli#--coverage'
   parsingGuide: |
     Jest HTML reports are HTML documents with embedded JSON data. The report contains a <script> tag with id='__JEST_STATE__' that includes a JSON object with complete test results. The HTML also has human-readable sections showing test summaries, individual test results, and coverage information rendered as DOM elements.
 
@@ -32,9 +32,9 @@ jest-html:
     Success indicators: <script> tag with state data exists, JSON data is properly formatted and parseable, testResults array present in extracted JSON. Common errors: Script tag missing or malformed, JSON data corrupted or partially escaped, wrong script tag selected (may have multiple), missing test result data. Extract carefully and validate resulting JSON parses correctly before using data.
 
 pytest-json:
-  shortDescription: "Pytest test framework JSON report with detailed test execution results and summaries"
-  toolUrl: "https://docs.pytest.org/"
-  formatUrl: "https://docs.pytest.org/en/latest/how-to-use-pytest/junit-xml.html"
+  shortDescription: 'Pytest test framework JSON report with detailed test execution results and summaries'
+  toolUrl: 'https://docs.pytest.org/'
+  formatUrl: 'https://docs.pytest.org/en/latest/how-to-use-pytest/junit-xml.html'
   parsingGuide: |
     Pytest JSON reports are complete JSON objects containing tests array where each element represents a test case with outcome (passed/failed/skipped/error), duration, nodeid (test path), and failure/error information. The root level also includes summary statistics like passed, failed, skipped, and error counts.
 
@@ -43,9 +43,9 @@ pytest-json:
     Success indicators: tests array exists and is non-empty, all test objects have required fields (outcome, duration, nodeid), outcome values match enum (passed/failed/skipped/error), numeric fields are actual numbers. Common errors: Missing tests array, outcome values that aren't valid enum values, duration as string instead of number, missing nodeid field, longrepr with malformed error text. Cross-validate summary counts against actual test counts.
 
 pytest-html:
-  shortDescription: "Pytest HTML test report with test results displayed in HTML format with styling and summary"
-  toolUrl: "https://docs.pytest.org/"
-  formatUrl: "https://docs.pytest.org/en/latest/"
+  shortDescription: 'Pytest HTML test report with test results displayed in HTML format with styling and summary'
+  toolUrl: 'https://docs.pytest.org/'
+  formatUrl: 'https://docs.pytest.org/en/latest/'
   parsingGuide: |
     Pytest HTML reports are HTML documents with test results rendered as DOM elements. The report contains a table or list structure showing test cases with their outcome (passed/failed/skipped), duration, and error messages. The HTML typically includes CSS styling, JavaScript for interactivity, and summary sections showing total pass/fail counts.
 
@@ -54,9 +54,9 @@ pytest-html:
     Success indicators: Table or list of tests present, status indicators visible for each test, duration values shown, summary counts visible. Common errors: HTML structure different than expected (not using table), missing test names or paths, duration information missing or unparseble, summary counts missing, error details truncated or not accessible. Use HTML parsing libraries and verify you can extract all required test information.
 
 junit-xml:
-  shortDescription: "JUnit XML test report format with test suite and test case results"
-  toolUrl: "https://junit.org/"
-  formatUrl: "https://www.ibm.com/docs/en/radfws/9.6?topic=testing-junit-xml-report"
+  shortDescription: 'JUnit XML test report format with test suite and test case results'
+  toolUrl: 'https://junit.org/'
+  formatUrl: 'https://www.ibm.com/docs/en/radfws/9.6?topic=testing-junit-xml-report'
   parsingGuide: |
     JUnit XML reports are XML documents with testsuites (root) or testsuite as the top-level element. Each testsuite contains testcase elements with name, classname, and time attributes. Failed or errored tests have nested failure or error elements containing the error message and optional stack trace.
 
@@ -65,9 +65,9 @@ junit-xml:
     Success indicators: XML structure is well-formed, testsuites/testsuite elements exist, testcase elements have name and classname attributes, time attribute present and parseable as number. Common errors: Malformed XML (not well-formed), missing required attributes, time values that can't be converted to numbers, failure/error elements with empty or missing text content. Validate the document is proper XML before parsing.
 
 checkstyle-xml:
-  shortDescription: "Checkstyle XML code quality report with style violations and warnings"
-  toolUrl: "https://checkstyle.sourceforge.io/"
-  formatUrl: "https://checkstyle.sourceforge.io/config.html"
+  shortDescription: 'Checkstyle XML code quality report with style violations and warnings'
+  toolUrl: 'https://checkstyle.sourceforge.io/'
+  formatUrl: 'https://checkstyle.sourceforge.io/config.html'
   parsingGuide: |
     Checkstyle XML reports are XML documents with root element 'checkstyle' containing file elements. Each file element has name attribute (file path) and nested error elements representing style violations. Each error element has line, column, severity (error/warning/info), message, and source attributes.
 
@@ -76,9 +76,9 @@ checkstyle-xml:
     Success indicators: checkstyle root element exists, file elements present with name attributes, error elements within files have required attributes (line, column, message), severity values are valid (error/warning/info). Common errors: Malformed XML, missing required attributes on error elements, line/column as non-numeric strings, empty message attributes, unexpected root element name. Validate XML structure and attribute types.
 
 checkstyle-sarif-json:
-  shortDescription: "Checkstyle code quality violations in SARIF (Static Analysis Results Interchange Format) JSON"
-  toolUrl: "https://checkstyle.sourceforge.io/"
-  formatUrl: "https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html"
+  shortDescription: 'Checkstyle code quality violations in SARIF (Static Analysis Results Interchange Format) JSON'
+  toolUrl: 'https://checkstyle.sourceforge.io/'
+  formatUrl: 'https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html'
   parsingGuide: |
     SARIF JSON is a standard JSON format for static analysis results. The root object contains version (string like "2.1.0"), runs array with execution metadata, and results array. Each result has ruleId, message, level (error/warning/note), and locations array indicating where violations occur. Locations contain physicalLocation with artifactLocation (file path), region (line/column information).
 
@@ -87,9 +87,9 @@ checkstyle-sarif-json:
     Success indicators: version field present and valid, runs array exists and non-empty, results array within run, each result has message and locations, level values match enum. Common errors: Missing runs or results array, level values not in valid enum, locations with missing or malformed region/physicalLocation, message text missing or empty. This is standard SARIF format - validate against SARIF 2.1.0 schema.
 
 spotbugs-xml:
-  shortDescription: "SpotBugs (formerly FindBugs) XML Java code bug detection report"
-  toolUrl: "https://spotbugs.readthedocs.io/"
-  formatUrl: "https://spotbugs.readthedocs.io/en/latest/running.html#exporting-results"
+  shortDescription: 'SpotBugs (formerly FindBugs) XML Java code bug detection report'
+  toolUrl: 'https://spotbugs.readthedocs.io/'
+  formatUrl: 'https://spotbugs.readthedocs.io/en/latest/running.html#exporting-results'
   parsingGuide: |
     SpotBugs XML reports are XML documents with root element 'BugCollection' containing BugInstance elements. Each BugInstance has type attribute (bug type code), abbrev (abbreviation), category (bug category), and priority (priority level). Nested SourceLine and Method elements provide location information. Summary element provides count of bugs and classes analyzed.
 
@@ -98,9 +98,9 @@ spotbugs-xml:
     Success indicators: BugCollection root element exists, BugInstance elements present with type attribute, priority is numeric (1/2/3), SourceLine has sourcefile and line attributes, Summary provides counts. Common errors: Malformed XML, missing type or priority attributes, priority not numeric, SourceLine missing sourcefile, Summary element missing. Validate the document is well-formed XML and counts match actual BugInstance elements.
 
 surefire-html:
-  shortDescription: "Maven Surefire HTML test report with JUnit test results rendered in HTML"
-  toolUrl: "https://maven.apache.org/surefire/maven-surefire-plugin/"
-  formatUrl: "https://maven.apache.org/surefire/maven-surefire-report-plugin/"
+  shortDescription: 'Maven Surefire HTML test report with JUnit test results rendered in HTML'
+  toolUrl: 'https://maven.apache.org/surefire/maven-surefire-plugin/'
+  formatUrl: 'https://maven.apache.org/surefire/maven-surefire-report-plugin/'
   parsingGuide: |
     Surefire HTML reports are HTML documents generated by Maven Surefire plugin. Reports contain summary sections showing total tests, failures, skipped, errors, and success rate as percentages. Test details are displayed in tables with columns for test class/method name, status (success/failure/skip), duration, and error messages for failures.
 
@@ -109,9 +109,9 @@ surefire-html:
     Success indicators: Summary section with test counts and percentage, detailed test results table with status column, test method names and class names visible, duration values present. Common errors: HTML structure varies between Surefire versions, summary counts missing, test table format different than expected, error messages truncated or missing, duration not parseable. Use HTML parsing and be flexible with structure variations.
 
 eslint-json:
-  shortDescription: "ESLint JavaScript linter JSON report with code quality violations and rule violations"
-  toolUrl: "https://eslint.org/"
-  formatUrl: "https://eslint.org/docs/user-guide/formatters/"
+  shortDescription: 'ESLint JavaScript linter JSON report with code quality violations and rule violations'
+  toolUrl: 'https://eslint.org/'
+  formatUrl: 'https://eslint.org/docs/user-guide/formatters/'
   parsingGuide: |
     ESLint JSON reports are JSON arrays where each element represents a linted file. Each file object has filePath (string), messages array, and errorCount/warningCount/fixableErrorCount/fixableWarningCount. Messages array contains violation objects with line, column, message, ruleId, severity (1=warning, 2=error), and optional fix information.
 
@@ -120,9 +120,9 @@ eslint-json:
     Success indicators: Root is JSON array, each element has filePath and messages, messages contain line/column/ruleId/severity, severity is 1 or 2, counts match actual message counts. Common errors: Root is not array, filePath missing, messages not array, line/column as strings instead of numbers, severity not 1 or 2, ruleId missing. Validate structure and data types carefully.
 
 mypy-ndjson:
-  shortDescription: "Mypy Python type checker output in newline-delimited JSON format with type errors"
-  toolUrl: "https://www.mypy-lang.org/"
-  formatUrl: "https://mypy.readthedocs.io/en/stable/command_line.html#how-to-run-mypy"
+  shortDescription: 'Mypy Python type checker output in newline-delimited JSON format with type errors'
+  toolUrl: 'https://www.mypy-lang.org/'
+  formatUrl: 'https://mypy.readthedocs.io/en/stable/command_line.html#how-to-run-mypy'
   parsingGuide: |
     Mypy NDJSON is newline-delimited JSON where each line is a separate JSON object (not a JSON array). Each line represents a type error or message with filename, line, column, severity (error/note/warning), and message fields. Lines may also have a function name and category identifying the error type.
 
@@ -131,9 +131,9 @@ mypy-ndjson:
     Success indicators: Lines are valid JSON when parsed individually (not as JSON array), each line has filename/line/column/severity/message, line/column are numbers, severity values are valid. Common errors: Parsing as JSON array instead of NDJSON (will fail), lines with non-JSON content (compiler messages), line/column as strings instead of numbers, missing required fields. Remember this is NOT a single JSON array - each line is independent.
 
 mypy-json:
-  shortDescription: "Mypy Python type checker errors normalized to JSON array format (artificial type from mypy-ndjson normalization)"
-  toolUrl: "https://www.mypy-lang.org/"
-  formatUrl: "https://mypy.readthedocs.io/en/stable/command_line.html"
+  shortDescription: 'Mypy Python type checker errors normalized to JSON array format (artificial type from mypy-ndjson normalization)'
+  toolUrl: 'https://www.mypy-lang.org/'
+  formatUrl: 'https://mypy.readthedocs.io/en/stable/command_line.html'
   parsingGuide: |
     Mypy JSON is an artificial type representing normalized mypy-ndjson output as a JSON array. This type is generated by normalizing mypy-ndjson (newline-delimited JSON) into a standard JSON array format. Each element in the array represents a mypy type error with the same fields as individual NDJSON lines: filename, line, column, severity, and message.
 
@@ -142,9 +142,9 @@ mypy-json:
     This is an internal normalized type - it will not be detected by type detection and should only be referenced after normalization of mypy-ndjson or mypy-txt. When consuming mypy results, expect either mypy-ndjson (raw output) or mypy-json (after normalization).
 
 eslint-txt:
-  shortDescription: "ESLint JavaScript linter plain text output with code quality violations and error messages"
-  toolUrl: "https://eslint.org/"
-  formatUrl: "https://eslint.org/docs/user-guide/formatters/"
+  shortDescription: 'ESLint JavaScript linter plain text output with code quality violations and error messages'
+  toolUrl: 'https://eslint.org/'
+  formatUrl: 'https://eslint.org/docs/user-guide/formatters/'
   parsingGuide: |
     ESLint text output is plain text formatted human-readably. The output contains file paths followed by lists of violations, each showing line:column, violation type (error/warning), message, and rule name in parentheses. Summary at end shows total errors and warnings with counts by severity and rule.
 
@@ -153,9 +153,9 @@ eslint-txt:
     Success indicators: File paths identifiable as headers, violation lines parse correctly with line:column:message:rule pattern, severity (error/warning) distinguishable, summary line matches total violation count. Common errors: Violations without proper line:column format, rule name missing or in unexpected format, summary counts don't match parsed violations, mixed output from other tools. Extract carefully and validate counts align.
 
 tsc-txt:
-  shortDescription: "TypeScript compiler (tsc) text output with type checking errors and diagnostics"
-  toolUrl: "https://www.typescriptlang.org/"
-  formatUrl: "https://www.typescriptlang.org/docs/handbook/compiler-options.html"
+  shortDescription: 'TypeScript compiler (tsc) text output with type checking errors and diagnostics'
+  toolUrl: 'https://www.typescriptlang.org/'
+  formatUrl: 'https://www.typescriptlang.org/docs/handbook/compiler-options.html'
   parsingGuide: |
     TSC text output is plain text showing type errors from TypeScript compilation. Each error line contains filename, line:column location, error code (like TS1234), message text, and the source code line. Errors are grouped by file and severity. Summary at end shows total error count.
 
@@ -164,9 +164,9 @@ tsc-txt:
     Success indicators: Errors have identifiable filename(line,column) format, error codes are TS#### format, messages are readable, summary count matches parsed errors. Common errors: Error format inconsistent or non-standard, line/column not numeric, missing error codes, context lines make parsing harder (skip them), summary count mismatch. Use regex patterns to extract structured data reliably.
 
 flake8-txt:
-  shortDescription: "Flake8 Python linter text output with PEP 8 style violations and error codes"
-  toolUrl: "https://flake8.pycqa.org/"
-  formatUrl: "https://flake8.pycqa.org/"
+  shortDescription: 'Flake8 Python linter text output with PEP 8 style violations and error codes'
+  toolUrl: 'https://flake8.pycqa.org/'
+  formatUrl: 'https://flake8.pycqa.org/'
   parsingGuide: |
     Flake8 text output is plain text with violations in format 'filename:line:column: CODE message'. Each violation shows the file path, line and column numbers, a 4-character error code (like E501, W503, F401), and descriptive message. Violations are typically sorted by file and line number.
 
@@ -175,9 +175,9 @@ flake8-txt:
     Success indicators: Lines parse into filename:line:column:code message format, line/column are numeric, code is 4-char format (letter+digits), message is descriptive text. Common errors: Format variations between different flake8 versions, line/column not numeric, code format unexpected, message truncated, file paths with colons in name (cause parsing issues). Use careful regex patterns and handle edge cases.
 
 ruff-txt:
-  shortDescription: "Ruff Python linter text output with fast linting results and code quality violations"
-  toolUrl: "https://github.com/astral-sh/ruff"
-  formatUrl: "https://docs.astral.sh/ruff/"
+  shortDescription: 'Ruff Python linter text output with fast linting results and code quality violations'
+  toolUrl: 'https://github.com/astral-sh/ruff'
+  formatUrl: 'https://docs.astral.sh/ruff/'
   parsingGuide: |
     Ruff text output format is similar to flake8: 'filename:line:column: CODE message'. Each violation contains file path, line number (positive integer), column number (positive integer), error code (like E501, F401, UP001), and message description. Ruff supports hundreds of rules from different linters (pycodestyle, pyflakes, pyupgrade, etc).
 
@@ -186,9 +186,9 @@ ruff-txt:
     Success indicators: Lines follow filename:line:column:code message pattern, line/column are numeric, code contains letters and digits, message text is present and descriptive. Common errors: Format variations from different ruff versions, line/column parsing as strings, code format unexpected, malformed file paths. Parse carefully and validate extracted numeric values.
 
 mypy-txt:
-  shortDescription: "Mypy Python type checker plain text output with type checking errors and diagnostics"
-  toolUrl: "https://www.mypy-lang.org/"
-  formatUrl: "https://mypy.readthedocs.io/en/stable/"
+  shortDescription: 'Mypy Python type checker plain text output with type checking errors and diagnostics'
+  toolUrl: 'https://www.mypy-lang.org/'
+  formatUrl: 'https://mypy.readthedocs.io/en/stable/'
   parsingGuide: |
     Mypy text output is plain text where each error line contains filename, line:column location, error type, message, and optional error code. Lines are typically formatted as 'filename:line:column: error: message' or 'filename:line:column: note: message'. Messages can span multiple lines for context.
 
@@ -197,9 +197,9 @@ mypy-txt:
     Success indicators: Lines match filename:line:column: severity: message pattern, line/column are numeric, severity is one of error/warning/note, messages are descriptive. Common errors: Line/column parsing as strings, severity values unexpected, context lines cause parsing confusion (need special handling for multi-line messages), filename with special characters. Handle carefully and validate numeric fields.
 
 cargo-test-txt:
-  shortDescription: "Cargo test plain text output from Rust test runner with test results and summary"
-  toolUrl: "https://doc.rust-lang.org/cargo/"
-  formatUrl: "https://doc.rust-lang.org/cargo/commands/cargo-test.html"
+  shortDescription: 'Cargo test plain text output from Rust test runner with test results and summary'
+  toolUrl: 'https://doc.rust-lang.org/cargo/'
+  formatUrl: 'https://doc.rust-lang.org/cargo/commands/cargo-test.html'
   parsingGuide: |
     Cargo test output is plain text showing test execution results. Each test result line shows test path/name, result status (ok, FAILED), and duration. Tests are prefixed with 'test ' and indented, followed by result status. Summary at end shows counts like 'test result: ok. X passed; Y failed; Z ignored'.
 
@@ -208,9 +208,9 @@ cargo-test-txt:
     Success indicators: Test lines are identifiable with 'test' prefix, status (ok/FAILED) distinguishable, summary line present with counts, counts match parsed tests. Common errors: Output format varies between Rust versions, status not clearly ok/FAILED, test names with special characters hard to parse, summary line format changes, count mismatches. Use careful pattern matching.
 
 clippy-ndjson:
-  shortDescription: "Rust Clippy linter output in newline-delimited JSON format with code quality warnings"
-  toolUrl: "https://github.com/rust-lang/rust-clippy"
-  formatUrl: "https://docs.rust-embedded.org/book/static/clippy.html"
+  shortDescription: 'Rust Clippy linter output in newline-delimited JSON format with code quality warnings'
+  toolUrl: 'https://github.com/rust-lang/rust-clippy'
+  formatUrl: 'https://docs.rust-embedded.org/book/static/clippy.html'
   parsingGuide: |
     Clippy NDJSON is newline-delimited JSON where each line is a separate JSON object representing a lint warning. Each object contains message field with diagnostic text, code with optional error code, spans array with file locations (filename, line_start, line_end, column_start, column_end), and level field (error/warning/note).
 
@@ -219,9 +219,9 @@ clippy-ndjson:
     Success indicators: Lines parse as valid JSON individually (NDJSON, not array), each has message/level/spans, level is valid enum, spans contain filename information. Common errors: Parsing as JSON array (wrong), lines with non-JSON output, spans array empty or malformed, level not in valid values, missing message field. Remember NDJSON parsing - each line independent.
 
 clippy-json:
-  shortDescription: "Rust Clippy linter warnings normalized to JSON array format (artificial type from clippy-ndjson normalization)"
-  toolUrl: "https://github.com/rust-lang/rust-clippy"
-  formatUrl: "https://docs.rust-embedded.org/book/static/clippy.html"
+  shortDescription: 'Rust Clippy linter warnings normalized to JSON array format (artificial type from clippy-ndjson normalization)'
+  toolUrl: 'https://github.com/rust-lang/rust-clippy'
+  formatUrl: 'https://docs.rust-embedded.org/book/static/clippy.html'
   parsingGuide: |
     Clippy JSON is an artificial type representing normalized clippy-ndjson output as a JSON array. This type is generated by normalizing clippy-ndjson (newline-delimited JSON) into a standard JSON array where each element represents a clippy lint warning. Each element contains message, level, spans array with file locations, and other diagnostic information.
 
@@ -230,9 +230,9 @@ clippy-json:
     This is an internal normalized type - it will not be detected by type detection and should only be referenced after normalization of clippy-ndjson. When consuming clippy results, expect either clippy-ndjson (raw output) or clippy-json (after normalization).
 
 clippy-txt:
-  shortDescription: "Rust Clippy linter plain text output with code quality warnings and lint messages"
-  toolUrl: "https://github.com/rust-lang/rust-clippy"
-  formatUrl: "https://docs.rust-embedded.org/book/static/clippy.html"
+  shortDescription: 'Rust Clippy linter plain text output with code quality warnings and lint messages'
+  toolUrl: 'https://github.com/rust-lang/rust-clippy'
+  formatUrl: 'https://docs.rust-embedded.org/book/static/clippy.html'
   parsingGuide: |
     Clippy text output is plain text formatted human-readably. Each warning shows severity (warning/error), message text, location (filename:line:column format), and source code context. Warnings are grouped logically with 'warning:' or 'error:' prefix, followed by lint rule name in brackets, and the message. Source lines show actual code with error location indicated.
 
@@ -241,9 +241,9 @@ clippy-txt:
     Success indicators: Warning/error lines identifiable by prefix, lint rule names extractable from message, locations in filename:line:column format, source context visible (though optional). Common errors: Warning/error prefix not clearly marked, rule names in unexpected format, location parsing inconsistent, context lines confuse parsing, message continues across lines. Extract structured data carefully.
 
 rustfmt-txt:
-  shortDescription: "Rustfmt Rust code formatter output showing formatting changes or status"
-  toolUrl: "https://rust-lang.github.io/rustfmt/"
-  formatUrl: "https://rust-lang.github.io/rustfmt/?version=v1"
+  shortDescription: 'Rustfmt Rust code formatter output showing formatting changes or status'
+  toolUrl: 'https://rust-lang.github.io/rustfmt/'
+  formatUrl: 'https://rust-lang.github.io/rustfmt/?version=v1'
   parsingGuide: |
     Rustfmt text output typically shows file paths that would be reformatted or shows no output if formatting is already correct. When run with --check flag, it lists files that need formatting. Output is minimal - usually just file paths one per line, or a message like 'Diff from Rust Code' followed by unified diff format showing specific changes.
 
@@ -252,9 +252,9 @@ rustfmt-txt:
     Success indicators: File paths are readable and valid, diff format (if shown) is valid unified diff, no spurious lines, output indicates formatter ran successfully. Common errors: Parsing diff format incorrectly, treating formatting files as errors (they're not failures), empty output misinterpreted as failure. Rustfmt success is 'nothing to report' or list of files to reformat (not actual errors).
 
 gofmt-txt:
-  shortDescription: "Go gofmt code formatter output showing formatting check results"
-  toolUrl: "https://golang.org/cmd/gofmt/"
-  formatUrl: "https://golang.org/cmd/gofmt/"
+  shortDescription: 'Go gofmt code formatter output showing formatting check results'
+  toolUrl: 'https://golang.org/cmd/gofmt/'
+  formatUrl: 'https://golang.org/cmd/gofmt/'
   parsingGuide: |
     Gofmt text output typically shows file paths that differ from gofmt formatting, one per line. When run with -l (list) flag, it outputs only filenames needing formatting. With -d (diff) flag, it shows unified diff output for each file. No output usually means files are already correctly formatted.
 
@@ -263,9 +263,9 @@ gofmt-txt:
     Success indicators: File paths are valid and readable, diff format (if shown) is valid unified diff structure, no spurious output. Common errors: File list empty (not an error - means already formatted), diff parsing issues, treating formatting files as errors. Gofmt success is 'no output' (properly formatted) or list of files needing formatting.
 
 go-test-ndjson:
-  shortDescription: "Go test runner JSON output in newline-delimited JSON format with test execution events"
-  toolUrl: "https://golang.org/cmd/go/"
-  formatUrl: "https://golang.org/cmd/go/#hdr-Test_binary_flag"
+  shortDescription: 'Go test runner JSON output in newline-delimited JSON format with test execution events'
+  toolUrl: 'https://golang.org/cmd/go/'
+  formatUrl: 'https://golang.org/cmd/go/#hdr-Test_binary_flag'
   parsingGuide: |
     Go test NDJSON is newline-delimited JSON where each line is a separate JSON object representing a test event. Each event contains Action (string: run/pass/fail/skip/bench/output), Test (test name), Package (package name), Elapsed (duration in seconds), and Output (optional output text). Events are ordered chronologically representing test execution flow.
 
@@ -274,9 +274,9 @@ go-test-ndjson:
     Success indicators: Lines parse as valid JSON individually (NDJSON), each has Action and Test fields, Action is valid enum (run/pass/fail/skip), Elapsed is numeric when present. Common errors: Parsing as JSON array instead of NDJSON, missing Action field, Test field names inconsistent across events, Elapsed not numeric, events out of order. Handle NDJSON properly.
 
 go-test-json:
-  shortDescription: "Go test runner results normalized to JSON array format (artificial type from go-test-ndjson normalization)"
-  toolUrl: "https://golang.org/cmd/go/"
-  formatUrl: "https://golang.org/cmd/go/#hdr-Test_binary_flag"
+  shortDescription: 'Go test runner results normalized to JSON array format (artificial type from go-test-ndjson normalization)'
+  toolUrl: 'https://golang.org/cmd/go/'
+  formatUrl: 'https://golang.org/cmd/go/#hdr-Test_binary_flag'
   parsingGuide: |
     Go test JSON is an artificial type representing normalized go-test-ndjson output as a JSON array. This type is generated by normalizing go-test-ndjson (newline-delimited JSON) into a standard JSON array format. Each element in the array represents a test execution event with Action, Test, Package, Elapsed, and Output fields.
 
@@ -285,9 +285,9 @@ go-test-json:
     This is an internal normalized type - it will not be detected by type detection and should only be referenced after normalization of go-test-ndjson. When consuming go test results, expect either go-test-ndjson (raw output) or go-test-json (after normalization).
 
 golangci-lint-json:
-  shortDescription: "Golangci-lint Go code linter JSON output with code quality violations and issues"
-  toolUrl: "https://golangci-lint.run/"
-  formatUrl: "https://golangci-lint.run/"
+  shortDescription: 'Golangci-lint Go code linter JSON output with code quality violations and issues'
+  toolUrl: 'https://golangci-lint.run/'
+  formatUrl: 'https://golangci-lint.run/'
   parsingGuide: |
     Golangci-lint JSON is a complete JSON object with Issues array and statistics. Root contains Issues (array of violations), Report (summary info), and Statistics. Each Issue object has From/To (positions), Line/Column (location), Text (violation message), Source (code line), and Linter (which linter detected it, like 'golint', 'errcheck').
 
@@ -296,9 +296,9 @@ golangci-lint-json:
     Success indicators: Root object has Issues array, each Issue has Line/Column/Text/Linter fields, Line/Column are positive integers, Text is descriptive, Linter field identifies source. Common errors: Missing Issues array, Line/Column as strings instead of numbers, Text empty or missing, Linter field missing, malformed JSON. Validate structure and numeric fields.
 
 isort-txt:
-  shortDescription: "Isort Python import sorter output showing import ordering violations and required changes"
-  toolUrl: "https://pycqa.github.io/isort/"
-  formatUrl: "https://pycqa.github.io/isort/"
+  shortDescription: 'Isort Python import sorter output showing import ordering violations and required changes'
+  toolUrl: 'https://pycqa.github.io/isort/'
+  formatUrl: 'https://pycqa.github.io/isort/'
   parsingGuide: |
     Isort text output shows import sorting violations in unified diff format. When run with --check-only --diff flags, it displays 'ERROR: <file> Imports are incorrectly sorted and/or formatted.' followed by a unified diff showing how imports should be reorganized. The diff shows the original import order (with - prefix) and the corrected order (with + prefix).
 
@@ -307,9 +307,9 @@ isort-txt:
     Success indicators: ERROR line present with 'Imports are incorrectly sorted' message, diff format is valid unified diff, file paths identifiable in before/after markers. Common errors: Diff format malformed, ERROR message absent (file already sorted), missing before/after markers in diff header. When imports are correctly sorted, there's no ERROR message or diff - this is not a failure but successful validation.
 
 black-txt:
-  shortDescription: "Black Python code formatter output showing formatting check results or diff of formatting changes"
-  toolUrl: "https://github.com/psf/black"
-  formatUrl: "https://black.readthedocs.io/"
+  shortDescription: 'Black Python code formatter output showing formatting check results or diff of formatting changes'
+  toolUrl: 'https://github.com/psf/black'
+  formatUrl: 'https://black.readthedocs.io/'
   parsingGuide: |
     Black text output shows formatting status and optionally a diff of formatting changes. When run with --check --diff flags on a properly formatted file, it outputs 'All done! ✨ 🍰 ✨' with message about files being unchanged. When formatting issues are found, it shows 'would reformat <file>' followed by unified diff showing the formatting changes. Diff uses standard --- and +++ markers with line numbers in @@ hunks.
 
@@ -318,9 +318,9 @@ black-txt:
     Success indicators: Status message present (All done/would reformat/error), if diff shown then valid unified diff format with proper @@ markers, file paths identifiable, +/- lines show formatting changes. Common errors: Parsing diff incorrectly, treating formatted files as failures (All done = success), status message missing or unclear, diff format malformed. Black success is 'All done!' - formatting violations are indicated by 'would reformat' message.
 
 binary:
-  shortDescription: "Binary artifact - not text-parseable, represents compiled code or binary data"
-  toolUrl: ""
-  formatUrl: ""
+  shortDescription: 'Binary artifact - not text-parseable, represents compiled code or binary data'
+  toolUrl: ''
+  formatUrl: ''
   parsingGuide: |
     Binary artifacts are non-text files that cannot be parsed as text or JSON. Examples include compiled executables, object files, images, archives, and other binary data. These files typically have magic numbers or binary headers that fail UTF-8 decoding.
 
@@ -329,9 +329,9 @@ binary:
     Binary artifacts are not extractable or normalizable to JSON. They represent compiled output or data files that fall outside the artifact-detective scope for structured text analysis. If you encounter a binary file and need its analysis, use appropriate binary-aware tools specific to that file format.
 
 unknown:
-  shortDescription: "Unknown artifact type - could not be automatically detected as any known type"
-  toolUrl: ""
-  formatUrl: ""
+  shortDescription: 'Unknown artifact type - could not be automatically detected as any known type'
+  toolUrl: ''
+  formatUrl: ''
   parsingGuide: |
     Unknown artifact type indicates the detection system could not identify the file as any known artifact type. This could mean the file is corrupted, incomplete, or uses a tool/format not currently supported by artifact-detective.
 
