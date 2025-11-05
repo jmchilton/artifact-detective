@@ -222,3 +222,13 @@ artifact-detective extract type-txt build.log --output artifact.txt
 # Try with --show-description to see parsing guide
 artifact-detective normalize report.html --show-description
 ```
+
+## Testing with Fixtures
+
+To test normalization with real artifacts:
+
+- **JavaScript/Python**: See [JavaScript](../fixtures/javascript.md) and [Python](../fixtures/python.md) fixtures for examples
+- **HTML Reports**: These fixtures include both HTML and JSON versions of test reports
+- **All Languages**: Browse [Fixtures Documentation](../fixtures/) for examples in other languages
+
+Use fixture artifacts to test normalization with real-world output from Jest, Pytest, and other tools.

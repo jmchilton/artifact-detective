@@ -116,3 +116,12 @@ artifact-detective normalize mypy.txt --type mypy-txt --output mypy.json
 - Escape special characters with `\\`
 - Use word boundaries `\\b` for precision
 - Test markers with: `grep -E "marker" build.log`
+
+## Testing with Fixtures
+
+To test extraction with real-world artifacts:
+
+- **JavaScript/Python**: See [JavaScript](../fixtures/javascript.md) and [Python](../fixtures/python.md) fixtures for complete examples
+- **All Fixtures**: Browse [Fixtures Documentation](../fixtures/) for examples in other languages
+
+These fixtures include actual CI log output that you can use to test extraction with real tool formats.

@@ -17,12 +17,14 @@
 
 - **Fixtures**
   - [Overview](fixtures/)
-  - [JavaScript](fixtures/javascript.md)
-  - [Python](fixtures/python.md)
-  - [Rust](fixtures/rust.md)
-  - [Go](fixtures/go.md)
-  - [Java](fixtures/java.md)
-  - [Ruby](fixtures/ruby.md)
+  - Officially Maintained
+    - [JavaScript](fixtures/javascript.md)
+    - [Python](fixtures/python.md)
+  - Community Fixtures
+    - [Rust](fixtures/rust.md)
+    - [Go](fixtures/go.md)
+    - [Java](fixtures/java.md)
+    - [Ruby](fixtures/ruby.md)
 
 - **Guides**
   - [Extraction Guide](guides/extraction.md)

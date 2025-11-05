@@ -4,8 +4,11 @@ Sample project fixtures for testing artifact-detective with real-world artifact 
 
 ## Available Fixtures
 
-- [JavaScript](fixtures/javascript.md) - Jest, Playwright, ESLint fixtures
+**Officially Maintained:**
+- [JavaScript](fixtures/javascript.md) - Jest, Playwright, ESLint, TypeScript fixtures
 - [Python](fixtures/python.md) - Pytest, Mypy, Ruff, Isort, Black fixtures
+
+**Community Fixtures:**
 - [Rust](fixtures/rust.md) - Cargo, Clippy, Rustfmt fixtures
 - [Go](fixtures/go.md) - Go test, Golangci-lint, Gofmt fixtures
 - [Java](fixtures/java.md) - JUnit, Checkstyle, SpotBugs, Surefire fixtures
