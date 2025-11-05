@@ -27,6 +27,8 @@ export type ArtifactType =
   | 'go-test-ndjson'
   | 'go-test-json'
   | 'golangci-lint-json'
+  | 'isort-txt'
+  | 'black-txt'
   | 'binary'
   | 'unknown';
 

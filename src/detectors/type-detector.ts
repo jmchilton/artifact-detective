@@ -301,7 +301,17 @@ function detectTxtType(content: string): ArtifactType {
   // Plain text files are too ambiguous for reliable auto-detection.
   // Use validators instead to verify content matches expected format.
 
-  // Only detect flake8 as it has unique Python-specific pattern
+  // isort output: ERROR: ... Imports are incorrectly sorted
+  if (/ERROR:.*Imports are incorrectly sorted/.test(content)) {
+    return 'isort-txt';
+  }
+
+  // black formatter: All done! OR would reformat OR would be left unchanged
+  if (/All done!.*✨|would reformat|would be left unchanged/.test(content)) {
+    return 'black-txt';
+  }
+
+  // flake8: Python file path pattern (.py:line:col:)
   if (/\.py:\d+:\d+:/.test(content)) {
     return 'flake8-txt';
   }

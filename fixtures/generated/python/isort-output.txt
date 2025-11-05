@@ -1,0 +1,12 @@
+ERROR: /workspace/src/sample.py Imports are incorrectly sorted and/or formatted.
+--- /workspace/src/sample.py:before	2025-11-03 15:48:40.973206
++++ /workspace/src/sample.py:after	2025-11-05 01:18:04.203348
+@@ -1,7 +1,7 @@
+ """Sample Python code with deliberate linter and type violations."""
++import json  # F401: unused import (ruff)
+ import os
+ import sys
+-import json  # F401: unused import (ruff)
+ 
+ 
+ # E302: expected 2 blank lines (ruff)

@@ -295,6 +295,28 @@ golangci-lint-json:
 
     Success indicators: Root object has Issues array, each Issue has Line/Column/Text/Linter fields, Line/Column are positive integers, Text is descriptive, Linter field identifies source. Common errors: Missing Issues array, Line/Column as strings instead of numbers, Text empty or missing, Linter field missing, malformed JSON. Validate structure and numeric fields.
 
+isort-txt:
+  shortDescription: "Isort Python import sorter output showing import ordering violations and required changes"
+  toolUrl: "https://pycqa.github.io/isort/"
+  formatUrl: "https://pycqa.github.io/isort/"
+  parsingGuide: |
+    Isort text output shows import sorting violations in unified diff format. When run with --check-only --diff flags, it displays 'ERROR: <file> Imports are incorrectly sorted and/or formatted.' followed by a unified diff showing how imports should be reorganized. The diff shows the original import order (with - prefix) and the corrected order (with + prefix).
+
+    Parse by identifying ERROR lines with file paths, then extract the unified diff that follows. The diff format uses standard +++ and --- lines with file paths marked with "before" and "after" timestamps. Actual diff hunks show which import lines would be moved, removed, or reordered. No line/column information - the violation is at file level.
+
+    Success indicators: ERROR line present with 'Imports are incorrectly sorted' message, diff format is valid unified diff, file paths identifiable in before/after markers. Common errors: Diff format malformed, ERROR message absent (file already sorted), missing before/after markers in diff header. When imports are correctly sorted, there's no ERROR message or diff - this is not a failure but successful validation.
+
+black-txt:
+  shortDescription: "Black Python code formatter output showing formatting check results or diff of formatting changes"
+  toolUrl: "https://github.com/psf/black"
+  formatUrl: "https://black.readthedocs.io/"
+  parsingGuide: |
+    Black text output shows formatting status and optionally a diff of formatting changes. When run with --check --diff flags on a properly formatted file, it outputs 'All done! ✨ 🍰 ✨' with message about files being unchanged. When formatting issues are found, it shows 'would reformat <file>' followed by unified diff showing the formatting changes. Diff uses standard --- and +++ markers with line numbers in @@ hunks.
+
+    Parse by checking for status messages: 'All done!' means files are properly formatted (success), 'would reformat' means formatting needed (violation), 'error:' means black encountered an error. If diff is present, parse using standard unified diff format with @@ line number markers and +/- content lines showing formatting changes. No error codes - black is about formatting consistency, not code quality issues.
+
+    Success indicators: Status message present (All done/would reformat/error), if diff shown then valid unified diff format with proper @@ markers, file paths identifiable, +/- lines show formatting changes. Common errors: Parsing diff incorrectly, treating formatted files as failures (All done = success), status message missing or unclear, diff format malformed. Black success is 'All done!' - formatting violations are indicated by 'would reformat' message.
+
 binary:
   shortDescription: "Binary artifact - not text-parseable, represents compiled code or binary data"
   toolUrl: ""

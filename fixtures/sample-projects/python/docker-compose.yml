@@ -15,5 +15,9 @@ services:
       mypy src/ 2>&1 > /output/mypy-output.txt || true &&
       echo 'Running mypy (JSON)...' &&
       mypy src/ --output json 2>/dev/null > /output/mypy-results.json || true &&
+      echo 'Running isort...' &&
+      isort src/ --check-only --diff 2>&1 | tee /output/isort-output.txt || true &&
+      echo 'Running black...' &&
+      black src/ --check --diff 2>&1 | tee /output/black-output.txt || true &&
       echo 'Python artifact generation complete!'
       "

@@ -8,6 +8,14 @@ export function validateGofmtOutput(content: string): ValidationResult {
     };
   }
 
+  // Reject isort output (has ERROR: marker which is isort-specific)
+  if (/ERROR:.*Imports are incorrectly sorted/.test(content)) {
+    return {
+      valid: false,
+      error: 'Not valid gofmt diff output format (isort output detected)',
+    };
+  }
+
   // gofmt -d output format is unified diff:
   // Must have "---" and "+++" lines (diff headers)
   // AND either @@ markers (unified diff hunks) OR lines starting with +/- (changes)

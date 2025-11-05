@@ -124,10 +124,17 @@ Aim for 4-8 violations per tool.
 If introducing new artifact types:
 
 - Add to `src/types.ts` ArtifactType union
-- Add to `ARTIFACT_TYPE_REGISTRY` in `src/validators/index.ts`
-- Set `supportsAutoDetection` appropriately
+- Add to `ARTIFACT_TYPE_REGISTRY` in `src/validators/index.ts` with:
+  - `supportsAutoDetection` boolean
+  - `validator` function or null
+  - `extract` function or null (for linter/test output extraction)
 - Create validator function if possible
 - Update type detector in `src/detectors/type-detector.ts`
+- **Add documentation** in `src/docs/artifact-descriptions.yml`:
+  - `shortDescription`: 1-2 sentence overview
+  - `toolUrl`: Link to tool's official site
+  - `formatUrl`: Link to format specification
+  - `parsingGuide`: 2-3 paragraph guide for AI agents on validation/parsing approach
 
 ### 9. Generate Artifacts
 
@@ -192,11 +199,21 @@ Provide the user with:
 - go test, golangci-lint, go vet
 - 3 artifacts: gotest-json, golangci-json, govet-txt
 
+## API Changes to Be Aware Of
+
+The artifact-detective library includes these key capabilities:
+
+- **ValidationResult** now includes optional `description` field on successful validation
+- **convertToJSON()** returns `ConversionResult {json, description}` instead of plain string
+- **ARTIFACT_TYPE_REGISTRY** entries include `extract` capability for log-based artifact extraction
+- **getArtifactDescription()** provides structured documentation for AI agent parsing
+
 ## Best Practices
 
 - **Pin all versions** in Dockerfile and dependency files
 - **Keep it minimal** - small, focused test cases
 - **Deliberate failures** - ensure tools actually detect issues
+- **Document artifacts** - add entry to artifact-descriptions.yml for each new type
 - **Document quirks** - note tool-specific output patterns in manifest
 - **Commit artifacts** - they're version-controlled test data
 - **Test first** - verify type system supports artifacts before generating

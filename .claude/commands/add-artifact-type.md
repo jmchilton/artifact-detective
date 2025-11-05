@@ -131,8 +131,17 @@ Verify new artifact appears in `fixtures/generated/{language}/`
   "{tool}-{format}": {
     supportsAutoDetection: true/false,
     validator: validate{Tool}{Format} or null,
+    extract: extract{Tool}{Format} or null,
   }
   ```
+
+**Add artifact documentation** in `src/docs/artifact-descriptions.yml`:
+
+- Add entry under `{tool}-{format}` with:
+  - `shortDescription`: 1-2 sentence summary
+  - `toolUrl`: Link to tool official site
+  - `formatUrl`: Link to format spec/docs
+  - `parsingGuide`: 2-3 paragraph guide for AI agents on how to validate/parse
 
 **Export from `src/index.ts`** (if adding parser):
 
@@ -165,6 +174,8 @@ describe("{Tool} {Format}", () => {
     const content = readFileSync(artifactPath, "utf-8");
     const result = validate("{tool}-{format}", content);
     expect(result.valid).toBe(true);
+    expect(result.description).toBeDefined();  // Description added on success
+    expect(result.description?.type).toBe("{tool}-{format}");
   });
 
   // Add parser tests if applicable
@@ -179,9 +190,20 @@ describe("{Tool} {Format}", () => {
     expect(capabilities).toBeDefined();
     expect(capabilities.supportsAutoDetection).toBe(true/false);
     expect(capabilities.validator).toBeDefined/toBeNull();
+    expect(capabilities.extract).toBeDefined/toBeNull();
+  });
+
+  it("has comprehensive artifact description documentation", () => {
+    const description = getArtifactDescription("{tool}-{format}");
+    expect(description).toBeDefined();
+    expect(description.shortDescription).toBeTruthy();
+    expect(description.parsingGuide).toBeTruthy();
+    // Description should have tool and format URLs if applicable
   });
 });
 ```
+
+**Note on type system changes**: The `validate()` function now returns `ValidationResult` with optional `description` field. The `convertToJSON()` function now returns `ConversionResult {json, description}` instead of a string.
 
 ### 8. Run Tests
 
@@ -269,12 +291,36 @@ Provide user with:
 7. Any issues encountered
 8. Commit message used
 
+## API Changes to Be Aware Of
+
+**ValidationResult** now includes optional `description` field:
+```typescript
+// ValidationResult on success now includes description
+{ valid: true, description: ArtifactDescription }
+```
+
+**convertToJSON()** return type changed to ConversionResult:
+```typescript
+// Before: string | null
+// After: { json: object, description: ArtifactDescription } | null
+```
+
+**ARTIFACT_TYPE_REGISTRY** entries now include `extract` capability:
+```typescript
+"{tool}-{format}": {
+  supportsAutoDetection: boolean,
+  validator: Function | null,
+  extract: Function | null,        // New field
+}
+```
+
 ## Best Practices
 
 - **Pinned versions**: Add exact version to package.json/pom.xml/etc
 - **Fail gracefully**: Use `|| true` so build continues if tool fails
 - **Meaningful violations**: Ensure source code triggers actual violations
 - **Test thoroughly**: Verify detection, validation, parsing all work
+- **Document artifacts**: Always add entry to artifact-descriptions.yml with parsing guide
 - **Follow patterns**: Match existing artifact type implementations
 - **Document quirks**: Note tool-specific output patterns in code comments
 

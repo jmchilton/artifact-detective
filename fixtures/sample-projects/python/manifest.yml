@@ -9,6 +9,10 @@ tools:
     version: "0.1.9"
   - name: mypy
     version: "1.14.1"
+  - name: isort
+    version: "5.13.2"
+  - name: black
+    version: "23.12.1"
 
 artifacts:
   - file: "pytest-results.json"
@@ -40,6 +44,18 @@ artifacts:
     format: json
     description: "Mypy NDJSON: type checking errors in newline-delimited JSON format"
     coverage_target: "validators/mypy-validator.ts"
+
+  - file: "isort-output.txt"
+    type: isort-txt
+    format: txt
+    description: "Isort import sorting report with unsorted imports"
+    coverage_target: "validators/isort-validator.ts"
+
+  - file: "black-output.txt"
+    type: black-txt
+    format: txt
+    description: "Black code formatter diff output with formatting violations"
+    coverage_target: "validators/black-validator.ts"
 
 commands:
   generate: "docker-compose up --build"

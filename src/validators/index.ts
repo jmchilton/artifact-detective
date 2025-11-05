@@ -23,6 +23,8 @@ import { validateClippyNDJSON, validateClippyText } from './clippy-validator.js'
 import { validateRustfmtOutput } from './rustfmt-validator.js';
 import { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.js';
 import { validateGofmtOutput } from './gofmt-validator.js';
+import { validateIsortOutput } from './isort-validator.js';
+import { validateBlackOutput } from './black-validator.js';
 import { extractLinterOutput, convertMypyTextToNDJSON, type ExtractorConfig } from '../parsers/linters/extractors.js';
 import { extractPytestJSON } from '../parsers/html/pytest-html.js';
 import { extractJestJSON } from '../parsers/html/jest-html.js';
@@ -48,6 +50,8 @@ export { validateClippyNDJSON, validateClippyText } from './clippy-validator.js'
 export { validateRustfmtOutput } from './rustfmt-validator.js';
 export { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.js';
 export { validateGofmtOutput } from './gofmt-validator.js';
+export { validateIsortOutput } from './isort-validator.js';
+export { validateBlackOutput } from './black-validator.js';
 export type {
   ValidationResult,
   ValidatorFunction,
@@ -430,6 +434,24 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     normalizesTo: null,
     artificialType: false,
     isJSON: true,
+  },
+  'isort-txt': {
+    supportsAutoDetection: false,
+    validator: validateIsortOutput,
+    extract: null,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
+  },
+  'black-txt': {
+    supportsAutoDetection: false,
+    validator: validateBlackOutput,
+    extract: null,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
   },
   binary: {
     supportsAutoDetection: true,
