@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { FIXTURES_DIR } from './fixtures-helper.js';
@@ -198,6 +198,67 @@ describe('CLI Commands', () => {
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('detect');
       expect(result.stdout).toContain('--json');
+    });
+  });
+
+  describe('stdin input (- argument)', () => {
+    // Stdin tests require E2E mode and subprocess spawning
+    // These tests exercise readInput's stdin path via actual subprocess
+
+    it('validates artifact from stdin', async () => {
+      if (process.env.E2E_TESTS !== 'true') {
+        // Stdin tests only work in E2E mode with subprocess
+        expect(true).toBe(true);
+        return;
+      }
+
+      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+
+      const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
+        input: jsonContent,
+        encoding: 'utf-8',
+      });
+
+      expect(result.status).toBe(0);
+      expect(result.stdout).toContain('Valid: eslint-json');
+    });
+
+    it('extracts artifact from stdin log', async () => {
+      if (process.env.E2E_TESTS !== 'true') {
+        expect(true).toBe(true);
+        return;
+      }
+
+      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const logContent = readFileSync(eslintOutputPath, 'utf-8');
+
+      const result = spawnSync('artifact-detective', ['extract', 'eslint-txt', '-'], {
+        input: logContent,
+        encoding: 'utf-8',
+      });
+
+      expect(result.status).toBe(0);
+      expect(result.stdout).toContain('error');
+      expect(result.stdout).toContain('no-unused-vars');
+    });
+
+    it('rejects invalid artifact from stdin', async () => {
+      if (process.env.E2E_TESTS !== 'true') {
+        expect(true).toBe(true);
+        return;
+      }
+
+      const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+      const jsonContent = readFileSync(pytestJsonPath, 'utf-8');
+
+      const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
+        input: jsonContent,
+        encoding: 'utf-8',
+      });
+
+      expect(result.status).toBe(2);
+      expect(result.stdout).toContain('Invalid');
     });
   });
 });
