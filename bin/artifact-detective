@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import('../dist/cli/index.js').catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+import { createProgram } from '../dist/cli/index.js';
+
+const program = createProgram();
+program.parse();
