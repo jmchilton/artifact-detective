@@ -2,7 +2,20 @@
 export { detectArtifactType } from './detectors/type-detector.js';
 
 // JSON conversion utilities
-export { isJSON, canConvertToJSON, convertToJSON } from './validators/index.js';
+export {
+  isJSON,
+  canConvertToJSON,
+  convertToJSON,
+  validate,
+  extractArtifactFromLog,
+  extractArtifactToJson,
+} from './validators/index.js';
+
+// Artifact descriptions and documentation
+export {
+  loadArtifactDescriptions,
+  getArtifactDescription,
+} from './docs/artifact-descriptions.js';
 
 // HTML parsers
 export { extractPytestJSON } from './parsers/html/pytest-html.js';
@@ -39,3 +52,11 @@ export type {
   SpotBugsBug,
   SpotBugsReport,
 } from './types.js';
+
+// Validator and description types
+export type {
+  ValidationResult,
+  ArtifactDescription,
+  ConversionResult,
+  ArtifactJsonResult,
+} from './validators/index.js';

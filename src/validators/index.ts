@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, unlinkSync } from 'fs';
 import type { ArtifactType } from '../types.js';
-import type { ArtifactTypeCapabilities, ValidationResult } from './types.js';
+import type { ArtifactTypeCapabilities, ValidationResult, ArtifactDescription } from './types.js';
+import { getArtifactDescription } from '../docs/artifact-descriptions.js';
 import { validateJestJSON } from './jest-validator.js';
 import { validatePlaywrightJSON } from './playwright-validator.js';
 import { validatePytestJSON, validatePytestHTML } from './pytest-validator.js';
@@ -53,7 +54,9 @@ export type {
   ArtifactTypeCapabilities,
   ExtractFunction,
   NormalizeFunction,
+  ArtifactDescription,
 } from './types.js';
+export type { ConversionResult, ArtifactJsonResult } from './index.js';
 
 /**
  * Normalize function for pytest HTML artifacts
@@ -453,7 +456,7 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
  *
  * @param type - The artifact type to validate
  * @param content - The file content as a string
- * @returns ValidationResult indicating if content is valid for the given type
+ * @returns ValidationResult indicating if content is valid for the given type, includes description if valid
  */
 export function validate(type: ArtifactType, content: string): ValidationResult {
   const capabilities = ARTIFACT_TYPE_REGISTRY[type];
@@ -472,7 +475,17 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
     };
   }
 
-  return capabilities.validator(content);
+  const result = capabilities.validator(content);
+
+  // If valid, include description
+  if (result.valid) {
+    const description = getArtifactDescription(type);
+    if (description) {
+      return { ...result, description };
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -499,6 +512,15 @@ export function extractArtifactFromLog(
 export interface ArtifactJsonResult {
   json: string;
   effectiveType: ArtifactType;
+  description?: ArtifactDescription;
+}
+
+/**
+ * Result of converting artifact to JSON format
+ */
+export interface ConversionResult {
+  json: string;
+  description: ArtifactDescription;
 }
 
 /**
@@ -506,7 +528,7 @@ export interface ArtifactJsonResult {
  *
  * @param artifactType - Source artifact type
  * @param logContents - CI log file contents
- * @returns JSON content and effective type, or null if not possible
+ * @returns JSON content, effective type, and description, or null if not possible
  */
 export function extractArtifactToJson(
   artifactType: ArtifactType,
@@ -527,7 +549,12 @@ export function extractArtifactToJson(
   if (capabilities.isJSON) {
     try {
       JSON.parse(content); // Validate
-      return { json: content, effectiveType: artifactType };
+      const description = getArtifactDescription(artifactType);
+      return {
+        json: content,
+        effectiveType: artifactType,
+        description: description ?? undefined,
+      };
     } catch {
       return null;
     }
@@ -541,7 +568,12 @@ export function extractArtifactToJson(
       writeFileSync(tempFile, content);
       const normalized = capabilities.normalize(tempFile);
       if (normalized) {
-        return { json: normalized, effectiveType: capabilities.normalizesTo };
+        const description = getArtifactDescription(capabilities.normalizesTo);
+        return {
+          json: normalized,
+          effectiveType: capabilities.normalizesTo,
+          description: description ?? undefined,
+        };
       }
     } finally {
       try {
@@ -582,13 +614,18 @@ export function canConvertToJSON(result: { detectedType: ArtifactType }): boolea
  *
  * @param result - The detection result from detectArtifactType
  * @param filePath - Path to the artifact file
- * @returns JSON string if conversion is possible, null otherwise
+ * @returns ConversionResult with JSON and description if conversion is possible, null otherwise
  */
 export function convertToJSON(
   result: { detectedType: ArtifactType },
   filePath: string,
-): string | null {
+): ConversionResult | null {
   const capabilities = ARTIFACT_TYPE_REGISTRY[result.detectedType];
+  const description = getArtifactDescription(result.detectedType);
+
+  if (!description) {
+    return null;
+  }
 
   // If already JSON, read and return as-is
   if (capabilities?.isJSON) {
@@ -596,7 +633,7 @@ export function convertToJSON(
       const content = readFileSync(filePath, 'utf-8');
       // Validate it's valid JSON
       JSON.parse(content);
-      return content;
+      return { json: content, description };
     } catch {
       return null;
     }
@@ -604,7 +641,10 @@ export function convertToJSON(
 
   // If has normalize function, use it
   if (capabilities?.normalize) {
-    return capabilities.normalize(filePath);
+    const json = capabilities.normalize(filePath);
+    if (json) {
+      return { json, description };
+    }
   }
 
   return null;

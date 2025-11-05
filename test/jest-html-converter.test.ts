@@ -86,12 +86,13 @@ describe('Jest HTML converter', () => {
   });
 
   it('converts via convertToJSON utility', () => {
-    const json = convertToJSON({ detectedType: 'jest-html' }, jestHtmlPath);
+    const conversionResult = convertToJSON({ detectedType: 'jest-html' }, jestHtmlPath);
 
-    expect(json).toBeTruthy();
-    expect(() => JSON.parse(json!)).not.toThrow();
+    expect(conversionResult).toBeTruthy();
+    expect(conversionResult?.description).toBeTruthy();
+    expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
 
-    const report = JSON.parse(json!);
+    const report = JSON.parse(conversionResult!.json);
     expect(report.numTotalTests).toBe(8);
     expect(report.success).toBe(false);
   });

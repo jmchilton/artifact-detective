@@ -1,6 +1,18 @@
+/**
+ * Description of an artifact type for AI agents and documentation
+ */
+export interface ArtifactDescription {
+  type: string;
+  shortDescription: string;
+  toolUrl?: string;
+  formatUrl?: string;
+  parsingGuide: string;
+}
+
 export interface ValidationResult {
   valid: boolean;
   error?: string;
+  description?: ArtifactDescription;
 }
 
 export type ValidatorFunction = (content: string) => ValidationResult;

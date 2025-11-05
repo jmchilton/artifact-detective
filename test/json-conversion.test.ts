@@ -141,11 +141,13 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'jest-json' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.description.type).toBe('jest-json');
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('testResults');
     });
 
@@ -156,11 +158,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'pytest-json' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('tests');
     });
 
@@ -171,11 +174,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'pytest-html' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('tests');
     });
 
@@ -186,11 +190,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'jest-html' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('testResults');
       expect(parsed).toHaveProperty('numTotalTests');
     });
@@ -202,10 +207,11 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'playwright-json' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
     });
 
     it('returns valid JSON for eslint-json', () => {
@@ -215,10 +221,11 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'eslint-json' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
     });
 
     it('returns valid JSON for checkstyle-sarif-json', () => {
@@ -228,11 +235,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'checkstyle-sarif-json' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(parsed.version).toBe('2.1.0');
       expect(Array.isArray(parsed.runs)).toBe(true);
       expect(parsed.runs[0].tool.driver.name).toBe('Checkstyle');
@@ -245,11 +253,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'mypy-ndjson' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(Array.isArray(parsed)).toBe(true);
       expect(parsed.length).toBeGreaterThan(0);
       // Each item should have mypy-ndjson structure
@@ -266,11 +275,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'clippy-ndjson' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
-      const parsed = JSON.parse(json!);
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
+      const parsed = JSON.parse(conversionResult!.json);
       expect(Array.isArray(parsed)).toBe(true);
       expect(parsed.length).toBeGreaterThan(0);
       // Each item should have clippy-ndjson structure (compiler message)
@@ -331,12 +341,13 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'mypy-txt' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
-      expect(() => JSON.parse(json!)).not.toThrow();
+      expect(conversionResult).toBeTruthy();
+      expect(conversionResult?.description).toBeTruthy();
+      expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
 
-      const array = JSON.parse(json!);
+      const array = JSON.parse(conversionResult!.json);
       expect(Array.isArray(array)).toBe(true);
       expect(array.length).toBeGreaterThan(0);
 
@@ -358,12 +369,12 @@ describe('JSON conversion utilities', () => {
       }
 
       const result = { detectedType: 'mypy-txt' as ArtifactType };
-      const json = convertToJSON(result, fixture.path);
+      const conversionResult = convertToJSON(result, fixture.path);
 
-      expect(json).toBeTruthy();
+      expect(conversionResult).toBeTruthy();
 
       // Look for an error that has a note/hint
-      const array = JSON.parse(json!);
+      const array = JSON.parse(conversionResult!.json);
       const withHints = array.filter((obj) => obj.hint !== null && obj.hint !== undefined);
 
       // The fixture should have at least one error with a hint
