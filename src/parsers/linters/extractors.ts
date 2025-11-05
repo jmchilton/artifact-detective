@@ -5,6 +5,20 @@ export interface LinterMatch {
   content: string;
 }
 
+/**
+ * Configuration for extracting a section from logs with start/end markers.
+ * Useful for extracting structured tool output from CI logs.
+ * This interface is designed to be reusable across all extraction methods.
+ */
+export interface ExtractorConfig {
+  /** Regex to detect start of extraction section (matched against line) */
+  startMarker?: RegExp;
+  /** Regex to detect end of extraction section (matched against line) */
+  endMarker?: RegExp;
+  /** Whether to include the end marker line in output (default: true) */
+  includeEndMarker?: boolean;
+}
+
 // Pattern to detect linter types from job names or log content
 export const LINTER_PATTERNS = [
   { type: 'eslint', patterns: [/eslint/i, /npm run lint/i] },
@@ -30,7 +44,18 @@ export function detectLinterType(jobName: string, logContent: string): string | 
   return null;
 }
 
-export function extractLinterOutput(linterType: string, logContent: string): string | null {
+/**
+ * Extract linter output from log content using type-specific extractors.
+ * @param linterType Artifact type (e.g., 'eslint-txt', 'mypy-txt')
+ * @param logContent Full log content to extract from
+ * @param config Optional extraction configuration (start/end markers, etc.)
+ * @returns Extracted linter output or null if extraction failed
+ */
+export function extractLinterOutput(
+  linterType: string,
+  logContent: string,
+  config?: ExtractorConfig,
+): string | null {
   // Map artifact types to linter types (eslint-txt -> eslint, tsc-txt -> tsc)
   const normalizedType = linterType.replace(/-txt$/, '').replace(/-json$/, '');
 
@@ -38,7 +63,7 @@ export function extractLinterOutput(linterType: string, logContent: string): str
 
   switch (normalizedType) {
     case 'eslint':
-      return extractESLintOutput(lines);
+      return extractESLintOutput(lines, config);
 
     case 'prettier':
       return extractPrettierOutput(lines);
@@ -82,7 +107,62 @@ function cleanLogLine(line: string): string {
   return cleaned.trim();
 }
 
-function extractESLintOutput(lines: string[]): string | null {
+/**
+ * Generic section extractor for CI logs using start/end markers.
+ * Scans through lines to find a section bounded by regex patterns,
+ * cleans each line, and returns the extracted content.
+ *
+ * @param lines Array of log lines to search through
+ * @param config Extraction configuration with optional start/end markers
+ * @returns Extracted and cleaned content, or null if section not found
+ */
+function extractSectionFromLog(lines: string[], config?: ExtractorConfig): string | null {
+  if (!config?.startMarker) {
+    return null;
+  }
+
+  const outputLines: string[] = [];
+  let inSection = false;
+
+  for (const line of lines) {
+    // Check for start marker
+    if (!inSection && config.startMarker.test(line)) {
+      inSection = true;
+      continue; // Skip the start marker line itself
+    }
+
+    if (inSection) {
+      // Check for end marker
+      if (config.endMarker && config.endMarker.test(line)) {
+        const cleaned = cleanLogLine(line);
+        if (config.includeEndMarker !== false && cleaned) {
+          outputLines.push(cleaned);
+        }
+        break; // Stop at end marker
+      }
+
+      // Capture non-empty lines
+      if (line.trim()) {
+        const cleaned = cleanLogLine(line);
+        if (cleaned) {
+          outputLines.push(cleaned);
+        }
+      }
+    }
+  }
+
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
+}
+
+function extractESLintOutput(lines: string[], config?: ExtractorConfig): string | null {
+  // Default ESLint extraction markers
+  const defaultConfig: ExtractorConfig = {
+    startMarker: /eslint.*\.(js|ts|jsx|tsx)|npm run lint/i,
+    endMarker: /^\d+ problems?/,
+    includeEndMarker: true,
+    ...config,
+  };
+
   // Check if this looks like raw ESLint output or CI logs with embedded ESLint
   // Look for CI markers in first few lines
   const firstLines = lines.slice(0, 20).join('\n');
@@ -98,35 +178,8 @@ function extractESLintOutput(lines: string[]): string | null {
     return lines.map(cleanLogLine).filter((line) => line.trim()).join('\n').trim();
   }
 
-  // Otherwise, extract from CI logs
-  const outputLines: string[] = [];
-  let inOutput = false;
-
-  for (const line of lines) {
-    // Start of eslint output (usually after command line)
-    if (line.match(/eslint.*\.(js|ts|jsx|tsx)/i) || line.includes('npm run lint')) {
-      inOutput = true;
-      continue;
-    }
-
-    if (inOutput) {
-      // End markers
-      if (line.match(/^\d+ problem/)) {
-        outputLines.push(cleanLogLine(line));
-        break;
-      }
-
-      // Capture error/warning lines
-      if (line.trim()) {
-        const cleaned = cleanLogLine(line);
-        if (cleaned) {
-          outputLines.push(cleaned);
-        }
-      }
-    }
-  }
-
-  return outputLines.length > 0 ? outputLines.join('\n') : null;
+  // Extract from CI logs using generic section extractor
+  return extractSectionFromLog(lines, defaultConfig);
 }
 
 function extractPrettierOutput(lines: string[]): string | null {

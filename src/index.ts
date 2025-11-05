@@ -32,6 +32,8 @@ export {
   LINTER_PATTERNS,
 } from './parsers/linters/extractors.js';
 
+export type { ExtractorConfig } from './parsers/linters/extractors.js';
+
 // Types
 export type {
   ArtifactType,
