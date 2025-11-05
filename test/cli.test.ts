@@ -3,7 +3,7 @@ import { execSync, spawnSync } from 'child_process';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { FIXTURES_DIR } from './fixtures-helper.js';
-import { runCLI } from '../src/cli/test-helper.js';
+import { runCLI, runCLIInProcess } from '../src/cli/test-helper.js';
 
 describe('CLI Commands', () => {
   describe('detect command', () => {
@@ -342,7 +342,9 @@ describe('CLI Commands', () => {
 
         process.stdin.setEncoding = vi.fn(() => process.stdin);
 
-        const resultPromise = runCLI(['detect', '-']);
+        // Use runCLIInProcess to always run in-process (for coverage collection)
+        // even when E2E_TESTS=true
+        const resultPromise = runCLIInProcess(['detect', '-']);
 
         if (readableCallback) {
           readableCallback();

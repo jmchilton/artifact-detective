@@ -15,8 +15,9 @@ export interface CLITestResult {
 
 /**
  * Run CLI in current process using commander's built-in parsing
+ * Always runs in-process, useful for coverage collection
  */
-async function runCLIInProcess(args: string[]): Promise<CLITestResult> {
+export async function runCLIInProcess(args: string[]): Promise<CLITestResult> {
   let stdout = '';
   let stderr = '';
   let exitCode = 0;
