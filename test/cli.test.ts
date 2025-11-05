@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { execSync, spawnSync } from 'child_process';
 import { join } from 'path';
 import { readFileSync } from 'fs';
@@ -313,100 +313,193 @@ describe('CLI Commands', () => {
   });
 
   describe('stdin input (- argument)', () => {
-    // Stdin tests require E2E mode and subprocess spawning
-    // These tests exercise readInput's stdin path via actual subprocess
+    // In-process stdin tests - always run
+    // These exercise readInput's stdin path via runCLI in current process
 
-    it('detects artifact from stdin', async () => {
-      if (process.env.E2E_TESTS !== 'true') {
-        expect(true).toBe(true);
-        return;
-      }
+    describe('in-process stdin mode', () => {
+      it('reads from stdin in detect command', async () => {
+        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
 
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
-      const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+        // Mock stdin for in-process test
+        const originalStdinRead = process.stdin.read;
+        const originalStdinOn = process.stdin.on;
 
-      const result = spawnSync('artifact-detective', ['detect', '-'], {
-        input: jsonContent,
-        encoding: 'utf-8',
+        let readableCallback: (() => void) | null = null;
+        let endCallback: (() => void) | null = null;
+
+        process.stdin.read = vi.fn(() => {
+          const data = jsonContent;
+          process.stdin.read = vi.fn(() => null);
+          return data;
+        });
+
+        process.stdin.on = vi.fn(((event: string, callback: (() => void) | ((err: Error) => void)) => {
+          if (event === 'readable') readableCallback = callback as () => void;
+          if (event === 'end') endCallback = callback as () => void;
+          return process.stdin;
+        }) as typeof process.stdin.on);
+
+        process.stdin.setEncoding = vi.fn(() => process.stdin);
+
+        const resultPromise = runCLI(['detect', '-']);
+
+        if (readableCallback) {
+          readableCallback();
+          readableCallback();
+        }
+        if (endCallback) {
+          endCallback();
+        }
+
+        const result = await resultPromise;
+
+        expect(result.exitCode).toBe(0);
+        expect(result.stdout).toContain('Detected Type:');
+
+        process.stdin.read = originalStdinRead;
+        process.stdin.on = originalStdinOn;
       });
 
-      expect(result.status).toBe(0);
-      expect(result.stdout).toContain('Detected Type:');
+      it('reads from stdin in validate command', async () => {
+        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+
+        const originalStdinRead = process.stdin.read;
+        const originalStdinOn = process.stdin.on;
+
+        let readableCallback: (() => void) | null = null;
+        let endCallback: (() => void) | null = null;
+
+        process.stdin.read = vi.fn(() => {
+          const data = jsonContent;
+          process.stdin.read = vi.fn(() => null);
+          return data;
+        });
+
+        process.stdin.on = vi.fn(((event: string, callback: (() => void) | ((err: Error) => void)) => {
+          if (event === 'readable') readableCallback = callback as () => void;
+          if (event === 'end') endCallback = callback as () => void;
+          return process.stdin;
+        }) as typeof process.stdin.on);
+
+        process.stdin.setEncoding = vi.fn(() => process.stdin);
+
+        const resultPromise = runCLI(['validate', 'eslint-json', '-']);
+
+        if (readableCallback) {
+          readableCallback();
+          readableCallback();
+        }
+        if (endCallback) {
+          endCallback();
+        }
+
+        const result = await resultPromise;
+
+        expect(result.exitCode).toBe(0);
+        expect(result.stdout).toContain('Valid: eslint-json');
+
+        process.stdin.read = originalStdinRead;
+        process.stdin.on = originalStdinOn;
+      });
     });
 
-    it('validates artifact from stdin', async () => {
-      if (process.env.E2E_TESTS !== 'true') {
-        // Stdin tests only work in E2E mode with subprocess
-        expect(true).toBe(true);
-        return;
-      }
+    // E2E subprocess stdin tests - only run when E2E_TESTS=true
+    // These test the actual CLI binary reading from stdin via subprocess
 
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
-      const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+    describe('E2E subprocess stdin mode', () => {
+      it('detects artifact from stdin via subprocess', async () => {
+        if (process.env.E2E_TESTS !== 'true') {
+          expect(true).toBe(true);
+          return;
+        }
 
-      const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
-        input: jsonContent,
-        encoding: 'utf-8',
+        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+
+        const result = spawnSync('artifact-detective', ['detect', '-'], {
+          input: jsonContent,
+          encoding: 'utf-8',
+        });
+
+        expect(result.status).toBe(0);
+        expect(result.stdout).toContain('Detected Type:');
       });
 
-      expect(result.status).toBe(0);
-      expect(result.stdout).toContain('Valid: eslint-json');
-    });
+      it('validates artifact from stdin via subprocess', async () => {
+        if (process.env.E2E_TESTS !== 'true') {
+          expect(true).toBe(true);
+          return;
+        }
 
-    it('extracts artifact from stdin log', async () => {
-      if (process.env.E2E_TESTS !== 'true') {
-        expect(true).toBe(true);
-        return;
-      }
+        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
 
-      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
-      const logContent = readFileSync(eslintOutputPath, 'utf-8');
+        const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
+          input: jsonContent,
+          encoding: 'utf-8',
+        });
 
-      const result = spawnSync('artifact-detective', ['extract', 'eslint-txt', '-'], {
-        input: logContent,
-        encoding: 'utf-8',
+        expect(result.status).toBe(0);
+        expect(result.stdout).toContain('Valid: eslint-json');
       });
 
-      expect(result.status).toBe(0);
-      expect(result.stdout).toContain('error');
-      expect(result.stdout).toContain('no-unused-vars');
-    });
+      it('extracts artifact from stdin log via subprocess', async () => {
+        if (process.env.E2E_TESTS !== 'true') {
+          expect(true).toBe(true);
+          return;
+        }
 
-    it('rejects invalid artifact from stdin', async () => {
-      if (process.env.E2E_TESTS !== 'true') {
-        expect(true).toBe(true);
-        return;
-      }
+        const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+        const logContent = readFileSync(eslintOutputPath, 'utf-8');
 
-      const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
-      const jsonContent = readFileSync(pytestJsonPath, 'utf-8');
+        const result = spawnSync('artifact-detective', ['extract', 'eslint-txt', '-'], {
+          input: logContent,
+          encoding: 'utf-8',
+        });
 
-      const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
-        input: jsonContent,
-        encoding: 'utf-8',
+        expect(result.status).toBe(0);
+        expect(result.stdout).toContain('error');
+        expect(result.stdout).toContain('no-unused-vars');
       });
 
-      expect(result.status).toBe(2);
-      expect(result.stdout).toContain('Invalid');
-    });
+      it('rejects invalid artifact from stdin via subprocess', async () => {
+        if (process.env.E2E_TESTS !== 'true') {
+          expect(true).toBe(true);
+          return;
+        }
 
-    it('normalizes artifact from stdin with type override', async () => {
-      if (process.env.E2E_TESTS !== 'true') {
-        expect(true).toBe(true);
-        return;
-      }
+        const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+        const jsonContent = readFileSync(pytestJsonPath, 'utf-8');
 
-      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
-      const htmlContent = readFileSync(pytestHtmlPath, 'utf-8');
+        const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
+          input: jsonContent,
+          encoding: 'utf-8',
+        });
 
-      const result = spawnSync('artifact-detective', ['normalize', '--type', 'pytest-html', '-'], {
-        input: htmlContent,
-        encoding: 'utf-8',
+        expect(result.status).toBe(2);
+        expect(result.stdout).toContain('Invalid');
       });
 
-      expect(result.status).toBe(0);
-      const json = JSON.parse(result.stdout);
-      expect(json).toHaveProperty('tests');
+      it('normalizes artifact from stdin with type override via subprocess', async () => {
+        if (process.env.E2E_TESTS !== 'true') {
+          expect(true).toBe(true);
+          return;
+        }
+
+        const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+        const htmlContent = readFileSync(pytestHtmlPath, 'utf-8');
+
+        const result = spawnSync('artifact-detective', ['normalize', '--type', 'pytest-html', '-'], {
+          input: htmlContent,
+          encoding: 'utf-8',
+        });
+
+        expect(result.status).toBe(0);
+        const json = JSON.parse(result.stdout);
+        expect(json).toHaveProperty('tests');
+      });
     });
   });
 });
