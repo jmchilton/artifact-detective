@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
@@ -43,8 +44,8 @@ function generateArtifactTypesREADME() {
   const registryContent = registryMatch ? registryMatch[0] : '';
   
   // Parse type names from the registry
-  const typeMatches = registryContent.match(/(\w+-\w+(?:-\w+)?)\s*:/g) || [];
-  const artifactTypes = [...new Set(typeMatches.map(m => m.slice(0, -1).trim()))];
+  // const typeMatches = registryContent.match(/(\w+-\w+(?:-\w+)?)\s*:/g) || [];
+  // const artifactTypes = [...new Set(typeMatches.map(m => m.slice(0, -1).trim()))];
 
   let markdown = `# Artifact Types Reference
 

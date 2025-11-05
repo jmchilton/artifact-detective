@@ -36,7 +36,6 @@ describe('CLI Utils', () => {
 
     it('reads from stdin when path is -', async () => {
       const testData = 'stdin test data';
-      let stdoutData = '';
 
       // Mock stdin
       const originalStdinRead = process.stdin.read;
@@ -44,7 +43,6 @@ describe('CLI Utils', () => {
 
       let readableCallback: (() => void) | null = null;
       let endCallback: (() => void) | null = null;
-      let errorCallback: ((err: Error) => void) | null = null;
 
       process.stdin.read = vi.fn(() => {
         const data = testData;
@@ -53,12 +51,11 @@ describe('CLI Utils', () => {
         return data;
       });
 
-      process.stdin.on = vi.fn((event: string, callback: any) => {
-        if (event === 'readable') readableCallback = callback;
-        if (event === 'end') endCallback = callback;
-        if (event === 'error') errorCallback = callback;
+      process.stdin.on = vi.fn(((event: string, callback: (() => void) | ((err: Error) => void)) => {
+        if (event === 'readable') readableCallback = callback as () => void;
+        if (event === 'end') endCallback = callback as () => void;
         return process.stdin;
-      });
+      }) as typeof process.stdin.on);
 
       process.stdin.setEncoding = vi.fn(() => process.stdin);
 
@@ -128,7 +125,7 @@ describe('CLI Utils', () => {
       process.stdout.write = ((text: string) => {
         captured += text;
         return true;
-      }) as any;
+      }) as NodeJS.WriteStream['write'];
 
       writeOutput('test output', null);
 
@@ -144,7 +141,7 @@ describe('CLI Utils', () => {
       process.stdout.write = ((text: string) => {
         captured += text;
         return true;
-      }) as any;
+      }) as NodeJS.WriteStream['write'];
 
       writeOutput('test output\n', null);
 
@@ -162,7 +159,7 @@ describe('CLI Utils', () => {
       process.stderr.write = ((text: string) => {
         captured += text;
         return true;
-      }) as any;
+      }) as NodeJS.WriteStream['write'];
 
       writeError('error message');
 
@@ -178,7 +175,7 @@ describe('CLI Utils', () => {
       process.stderr.write = ((text: string) => {
         captured += text;
         return true;
-      }) as any;
+      }) as NodeJS.WriteStream['write'];
 
       writeError('error message\n');
 
