@@ -1,3 +1,28 @@
+# [1.8.0](https://github.com/jmchilton/artifact-detective/compare/v1.7.0...v1.8.0) (2025-11-05)
+
+
+### Bug Fixes
+
+* clean timestamps and CI markers from ESLint extraction ([becdc01](https://github.com/jmchilton/artifact-detective/commit/becdc01193188876d1db4d2cb292a3512e6f8a4e))
+* fixup release workflow for CLI test complexity. ([3ff19b8](https://github.com/jmchilton/artifact-detective/commit/3ff19b8d83d6b29abd23fccf7b6f753a74bb262f))
+* **lint:** resolve TypeScript and ESLint errors ([581ecb5](https://github.com/jmchilton/artifact-detective/commit/581ecb5780dfbd32f91493bb7116da5b56f80f19))
+* resolve pre-existing TypeScript linting errors ([d658fc9](https://github.com/jmchilton/artifact-detective/commit/d658fc9625548b611f5693263ef277cfc7326c6d))
+* resolve TypeScript linting errors in test helper and normalize command ([d4bb29b](https://github.com/jmchilton/artifact-detective/commit/d4bb29b2d312166036f4038dd153f44f114aa0d3))
+* **test:** remove flaky validate stdin mock test ([4e11cea](https://github.com/jmchilton/artifact-detective/commit/4e11cea1f4b8d8e700d06c8e5f9f5daffa026449))
+
+
+### Features
+
+* add comprehensive artifact type documentation system ([658a346](https://github.com/jmchilton/artifact-detective/commit/658a346783576bb3a249b56501e6ea987297e911))
+* add extraction test framework and command template ([a02be2d](https://github.com/jmchilton/artifact-detective/commit/a02be2da90ea859a0b904544372b028beeea133e))
+* add gofmt-txt artifact type support ([424c645](https://github.com/jmchilton/artifact-detective/commit/424c645caa25b4c96c3ea9008cdfec4bb0ea74c8))
+* add isort and black Python formatter support ([273c627](https://github.com/jmchilton/artifact-detective/commit/273c627e9f0c2e7674214e2d7f5aa94279b91ff9))
+* add Ruby RSpec artifact support with sample project ([ec6f020](https://github.com/jmchilton/artifact-detective/commit/ec6f0205404d3df070ca0e96b302d131ffed77aa))
+* **cli:** add command-line interface for artifact detection ([c1f6208](https://github.com/jmchilton/artifact-detective/commit/c1f6208bbea3b15087634198634051c13e190b0e))
+* export ARTIFACT_TYPE_REGISTRY and enhanced type utilities ([ffd87c0](https://github.com/jmchilton/artifact-detective/commit/ffd87c006b0059090fa9310c7c5657211d885219))
+* populate eslint-txt extraction test fixture with real CI log ([00cb092](https://github.com/jmchilton/artifact-detective/commit/00cb092ff41449e4f4b3ed86f38f2fc5f88a30c1))
+* setup docsify documentation site structure ([72b94a4](https://github.com/jmchilton/artifact-detective/commit/72b94a4ddfb7e75ad5ac8604a3f42718b94ae047))
+
 # [1.7.0](https://github.com/jmchilton/artifact-detective/compare/v1.6.0...v1.7.0) (2025-11-04)
 
 
