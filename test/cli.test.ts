@@ -316,6 +316,24 @@ describe('CLI Commands', () => {
     // Stdin tests require E2E mode and subprocess spawning
     // These tests exercise readInput's stdin path via actual subprocess
 
+    it('detects artifact from stdin', async () => {
+      if (process.env.E2E_TESTS !== 'true') {
+        expect(true).toBe(true);
+        return;
+      }
+
+      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
+
+      const result = spawnSync('artifact-detective', ['detect', '-'], {
+        input: jsonContent,
+        encoding: 'utf-8',
+      });
+
+      expect(result.status).toBe(0);
+      expect(result.stdout).toContain('Detected Type:');
+    });
+
     it('validates artifact from stdin', async () => {
       if (process.env.E2E_TESTS !== 'true') {
         // Stdin tests only work in E2E mode with subprocess
@@ -370,6 +388,25 @@ describe('CLI Commands', () => {
 
       expect(result.status).toBe(2);
       expect(result.stdout).toContain('Invalid');
+    });
+
+    it('normalizes artifact from stdin with type override', async () => {
+      if (process.env.E2E_TESTS !== 'true') {
+        expect(true).toBe(true);
+        return;
+      }
+
+      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+      const htmlContent = readFileSync(pytestHtmlPath, 'utf-8');
+
+      const result = spawnSync('artifact-detective', ['normalize', '--type', 'pytest-html', '-'], {
+        input: htmlContent,
+        encoding: 'utf-8',
+      });
+
+      expect(result.status).toBe(0);
+      const json = JSON.parse(result.stdout);
+      expect(json).toHaveProperty('tests');
     });
   });
 });
