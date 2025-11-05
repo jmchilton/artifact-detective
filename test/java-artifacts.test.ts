@@ -3,7 +3,8 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import { detectArtifactType } from '../src/detectors/type-detector.js';
 import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
-import { extractCheckstyleXML, extractSpotBugsXML } from '../src/index.js';
+import { extractCheckstyleXML } from '../src/parsers/xml/checkstyle-parser.js';
+import { extractSpotBugsXML } from '../src/parsers/xml/spotbugs-parser.js';
 import { FIXTURES_DIR } from './fixtures-helper.js';
 
 describe('Java Artifact Detection and Validation', () => {

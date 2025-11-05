@@ -15,21 +15,7 @@ export {
 // Artifact descriptions and documentation
 export { loadArtifactDescriptions, getArtifactDescription } from './docs/artifact-descriptions.js';
 
-// HTML parsers
-export { extractPytestJSON } from './parsers/html/pytest-html.js';
-export { extractJestJSON } from './parsers/html/jest-html.js';
-
-// XML parsers
-export { extractCheckstyleXML } from './parsers/xml/checkstyle-parser.js';
-export { extractSpotBugsXML } from './parsers/xml/spotbugs-parser.js';
-
-// Linter extractors
-export {
-  extractLinterOutput,
-  detectLinterType,
-  LINTER_PATTERNS,
-} from './parsers/linters/extractors.js';
-
+// Extractor configuration
 export type { ExtractorConfig } from './parsers/linters/extractors.js';
 
 // Types

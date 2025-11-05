@@ -42,30 +42,33 @@ console.log(result);
 // }
 ```
 
-### Parse HTML Reports
-
-````typescript
-import { extractPytestJSON } from 'artifact-detective';
-
-// pytest-html → structured JSON
-const pytestReport = extractPytestJSON('./pytest-report.html');
-console.log(pytestReport.tests);
-
-### Extract Linter Output
+### Validate Artifact Content
 
 ```typescript
-import { detectLinterType, extractLinterOutput } from 'artifact-detective';
+import { validate } from 'artifact-detective';
+
+const content = readFileSync('./report.json', 'utf-8');
+const result = validate('pytest-json', content);
+
+if (result.valid) {
+  console.log('Valid pytest JSON report');
+  console.log(result.description); // Includes parsing guide
+}
+```
+
+### Extract from CI Logs
+
+```typescript
+import { extractArtifactFromLog } from 'artifact-detective';
 
 const logContent = readFileSync('./ci-log.txt', 'utf-8');
 
-const linterType = detectLinterType('lint', logContent);
-// 'eslint' | 'ruff' | 'mypy' | ...
-
-if (linterType) {
-  const output = extractLinterOutput(linterType, logContent);
-  console.log(output); // Extracted linter-specific output
+// Extract linter output from logs
+const eslintOutput = extractArtifactFromLog('eslint-txt', logContent);
+if (eslintOutput) {
+  console.log('Extracted ESLint output:', eslintOutput);
 }
-````
+```
 
 ## Supported Formats
 
