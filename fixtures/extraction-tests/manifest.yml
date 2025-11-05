@@ -1,0 +1,17 @@
+extraction-tests:
+  - artifact-type: eslint-txt
+    description: "ESLint output from Galaxy project client unit tests"
+    log-file: "eslint-txt/logs.txt"
+    include:
+      - string: "VisualizationFrame.vue"
+      - string: "105"
+      - string: "vue/attributes-order"
+      - string: "should go before"
+      - regex: "^\\s*\\d+:\\d+"
+    exclude:
+      - string: "npm notice"
+      - string: "npm warn"
+      - string: "yarn install"
+      - string: "found 0 vulnerabilities"
+      - regex: "^##"
+      - regex: "^\\[.*\\]"

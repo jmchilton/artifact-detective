@@ -1,0 +1,3 @@
+# ESLint Log Placeholder
+# This file will be populated with actual CI log content
+# Use the setup-extraction-fixture command to populate this with real data
