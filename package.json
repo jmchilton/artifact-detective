@@ -22,6 +22,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "setup": "npm run build ; npm run permission ; npm link",
+    "permission": "chmod u+x bin/*",
     "build": "tsc --listFiles 2>&1 | grep 'src/types.ts' || tsc && cp src/docs/artifact-descriptions.yml dist/docs/",
     "test": "vitest run",
     "test:watch": "vitest",

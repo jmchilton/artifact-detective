@@ -28,10 +28,11 @@ describe('CLI Commands', () => {
     it('detects artifact type from file', () => {
       const result = runCLI(['detect', eslintJsonPath]);
 
-      expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('Detected Type: eslint-json');
       expect(result.stdout).toContain('Format: json');
       expect(result.stdout).toContain('Binary: no');
+
+      expect(result.exitCode).toBe(0);
     });
 
     it('outputs JSON with --json flag', () => {

@@ -21,6 +21,7 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm run setup  # needed because CLI tests test linked binary
 
       - name: Run tests with coverage
         run: npm run test:coverage
