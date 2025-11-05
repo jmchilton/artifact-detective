@@ -13,7 +13,7 @@ interface NormalizeOptions {
  */
 export interface NormalizeCoreResult {
   json: string;
-  description?: { parsingGuide: string; toolUrl: string };
+  description?: { parsingGuide: string; toolUrl?: string };
 }
 
 export async function normalizeCore(

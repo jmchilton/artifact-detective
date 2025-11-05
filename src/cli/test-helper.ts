@@ -29,17 +29,17 @@ async function runCLIInProcess(args: string[]): Promise<CLITestResult> {
     process.stdout.write = ((text: string) => {
       stdout += text;
       return true;
-    }) as any;
+    }) as NodeJS.WriteStream['write'];
 
     process.stderr.write = ((text: string) => {
       stderr += text;
       return true;
-    }) as any;
+    }) as NodeJS.WriteStream['write'];
 
-    process.exit = ((code?: number) => {
+    process.exit = ((code?: number): never => {
       exitCode = code || 0;
       throw new Error(`EXIT_${code || 0}`);
-    }) as any;
+    }) as typeof process.exit;
 
     try {
       const program = createProgram();
