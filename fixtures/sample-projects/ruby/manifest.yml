@@ -1,0 +1,22 @@
+language: ruby
+ruby_version: "3.3.0"
+tools:
+  - name: rspec
+    version: "3.12+"
+
+artifacts:
+  - file: "rspec-results.json"
+    type: rspec-json
+    format: json
+    description: "RSpec JSON: 6 pass, 2 fail, 1 skip"
+    coverage_target: "validators/rspec-validator.ts"
+
+  - file: "rspec-report.html"
+    type: rspec-html
+    format: html
+    description: "RSpec HTML report with test details"
+    coverage_target: "validators/rspec-validator.ts"
+
+commands:
+  generate: "docker-compose up --build"
+  clean: "docker-compose down -v && rm -rf ../../generated/ruby"

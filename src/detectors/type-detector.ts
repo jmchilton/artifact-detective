@@ -133,6 +133,14 @@ function detectHtmlType(content: string, lowerContent: string): ArtifactType {
     return 'jest-html';
   }
 
+  // RSpec HTML: Look for RSpec-specific markers
+  if (
+    lowerContent.includes('rspec') ||
+    lowerContent.includes('example') && lowerContent.includes('passed')
+  ) {
+    return 'rspec-html';
+  }
+
   // Surefire HTML: Look for maven surefire report markers
   if (
     lowerContent.includes('surefire') ||
@@ -252,6 +260,11 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
       if (obj.tests && Array.isArray(obj.tests)) {
         return 'pytest-json';
       }
+
+      // RSpec JSON: Has "examples" array and "summary" object
+      if (obj.examples && Array.isArray(obj.examples) && obj.summary && typeof obj.summary === 'object') {
+        return 'rspec-json';
+      }
     }
 
     // Check content for framework mentions as fallback
@@ -269,6 +282,9 @@ function detectJsonType(content: string, lowerContent: string): ArtifactType {
     }
     if (lowerContent.includes('pytest')) {
       return 'pytest-json';
+    }
+    if (lowerContent.includes('rspec')) {
+      return 'rspec-json';
     }
   } catch {
     // Invalid JSON, fall through to unknown

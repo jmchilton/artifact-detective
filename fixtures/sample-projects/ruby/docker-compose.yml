@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  generate:
+    build: .
+    volumes:
+      - ../../generated/ruby:/output
+    command: /bin/sh -c "
+      echo 'Running RSpec (JSON)...' &&
+      bundle exec rspec --format json --out /output/rspec-results.json || true &&
+      echo 'Running RSpec (HTML)...' &&
+      bundle exec rspec --format html --out /output/rspec-report.html || true &&
+      echo 'Ruby artifact generation complete!'
+      "

@@ -25,6 +25,7 @@ import { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.j
 import { validateGofmtOutput } from './gofmt-validator.js';
 import { validateIsortOutput } from './isort-validator.js';
 import { validateBlackOutput } from './black-validator.js';
+import { validateRspecJSON, validateRspecHTML } from './rspec-validator.js';
 import {
   extractLinterOutput,
   convertMypyTextToNDJSON,
@@ -56,6 +57,7 @@ export { validateGoTestNDJSON, validateGolangciLintJSON } from './go-validator.j
 export { validateGofmtOutput } from './gofmt-validator.js';
 export { validateIsortOutput } from './isort-validator.js';
 export { validateBlackOutput } from './black-validator.js';
+export { validateRspecJSON, validateRspecHTML } from './rspec-validator.js';
 export type {
   ValidationResult,
   ValidatorFunction,
@@ -451,6 +453,24 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
   'black-txt': {
     supportsAutoDetection: false,
     validator: validateBlackOutput,
+    extract: null,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
+  },
+  'rspec-json': {
+    supportsAutoDetection: true,
+    validator: validateRspecJSON,
+    extract: null,
+    normalize: null,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: true,
+  },
+  'rspec-html': {
+    supportsAutoDetection: true,
+    validator: validateRspecHTML,
     extract: null,
     normalize: null,
     normalizesTo: null,

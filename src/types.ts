@@ -29,6 +29,8 @@ export type ArtifactType =
   | 'golangci-lint-json'
   | 'isort-txt'
   | 'black-txt'
+  | 'rspec-json'
+  | 'rspec-html'
   | 'binary'
   | 'unknown';
 
