@@ -35,6 +35,17 @@ describe('CLI Commands', () => {
       expect(result.exitCode).not.toBe(0);
       expect(result.stderr).toContain('Error');
     });
+
+    it('outputs JSON format for detected file', async () => {
+      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const result = await runCLI(['detect', '--json', eslintJsonPath]);
+
+      expect(result.exitCode).toBe(0);
+      const json = JSON.parse(result.stdout);
+      expect(json).toHaveProperty('detectedType');
+      expect(json).toHaveProperty('originalFormat');
+      expect(json).toHaveProperty('isBinary');
+    });
   });
 
   describe('validate command', () => {
@@ -69,6 +80,32 @@ describe('CLI Commands', () => {
       expect(result.exitCode).toBe(0);
       expect(result.stderr).toContain('Parsing Guide');
     });
+
+    it('validates and outputs JSON with description', async () => {
+      const result = await runCLI(['validate', '--json', '--show-description', 'eslint-json', eslintJsonPath]);
+
+      expect(result.exitCode).toBe(0);
+      const json = JSON.parse(result.stdout);
+      expect(json.valid).toBe(true);
+      expect(json).toHaveProperty('description');
+    });
+
+    it('handles file not found in validate', async () => {
+      const result = await runCLI(['validate', 'eslint-json', '/nonexistent/file.json']);
+
+      expect(result.exitCode).not.toBe(0);
+      expect(result.stderr).toContain('Error');
+    });
+
+    it('includes error message for invalid artifact in JSON', async () => {
+      const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+      const result = await runCLI(['validate', '--json', 'eslint-json', pytestJsonPath]);
+
+      expect(result.exitCode).toBe(2);
+      const json = JSON.parse(result.stdout);
+      expect(json.valid).toBe(false);
+      expect(json).toHaveProperty('error');
+    });
   });
 
   describe('extract command', () => {
@@ -100,6 +137,29 @@ describe('CLI Commands', () => {
 
     it('handles extraction failure gracefully', async () => {
       const result = await runCLI(['extract', 'eslint-txt', '/nonexistent/file.txt']);
+
+      expect(result.exitCode).not.toBe(0);
+      expect(result.stderr).toContain('Error');
+    });
+
+    it('extracts with custom start marker', async () => {
+      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const result = await runCLI(['extract', 'eslint-txt', eslintOutputPath, '--start-marker', 'error']);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('error');
+    });
+
+    it('extracts with custom end marker', async () => {
+      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const result = await runCLI(['extract', 'eslint-txt', eslintOutputPath, '--end-marker', 'passing']);
+
+      expect(result.exitCode).toBe(0);
+    });
+
+    it('handles invalid regex in start marker', async () => {
+      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const result = await runCLI(['extract', 'eslint-txt', eslintOutputPath, '--start-marker', '[invalid(regex']);
 
       expect(result.exitCode).not.toBe(0);
       expect(result.stderr).toContain('Error');
@@ -156,6 +216,57 @@ describe('CLI Commands', () => {
 
       // JSON artifacts should still succeed (already JSON)
       expect(result.exitCode).toBe(0);
+    });
+
+    it('normalizes with explicit type override', async () => {
+      const jestHtmlPath = join(FIXTURES_DIR, 'generated/javascript/jest-report.html');
+      const result = await runCLI(['normalize', '--type', 'jest-html', jestHtmlPath]);
+
+      expect(result.exitCode).toBe(0);
+      const json = JSON.parse(result.stdout);
+      expect(json).toHaveProperty('testResults');
+    });
+
+    it('normalizes to file with --output', async () => {
+      const tmpFile = `/tmp/normalized-${Date.now()}.json`;
+      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+      const result = await runCLI(['normalize', pytestHtmlPath, '--output', tmpFile]);
+
+      expect(result.exitCode).toBe(0);
+      const content = readFileSync(tmpFile, 'utf-8');
+      const json = JSON.parse(content);
+      expect(json).toHaveProperty('tests');
+
+      // Cleanup
+      try {
+        execSync(`rm ${tmpFile}`);
+      } catch {
+        // Ignore cleanup errors
+      }
+    });
+
+    it('normalizes HTML and includes description', async () => {
+      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+      const result = await runCLI(['normalize', '--show-description', pytestHtmlPath]);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stderr).toContain('Parsing Guide');
+    });
+
+    it('handles file not found in normalize', async () => {
+      const result = await runCLI(['normalize', '/nonexistent/file.html']);
+
+      expect(result.exitCode).not.toBe(0);
+      expect(result.stderr).toContain('Error');
+    });
+
+    it('normalizes JSON with type override', async () => {
+      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const result = await runCLI(['normalize', '--type', 'eslint-json', eslintJsonPath]);
+
+      expect(result.exitCode).toBe(0);
+      const json = JSON.parse(result.stdout);
+      expect(json).toBeDefined();
     });
   });
 
