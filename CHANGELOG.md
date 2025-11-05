@@ -1,3 +1,15 @@
+# [1.9.0](https://github.com/jmchilton/artifact-detective/compare/v1.8.0...v1.9.0) (2025-11-05)
+
+
+### Bug Fixes
+
+* grant write permissions for gh-pages deployment in docs workflow ([fd64c68](https://github.com/jmchilton/artifact-detective/commit/fd64c68e081910297baf4a2f02853a3d701e161f)), closes [#pages](https://github.com/jmchilton/artifact-detective/issues/pages) [#pages](https://github.com/jmchilton/artifact-detective/issues/pages) [peaceiris/actions-#pages](https://github.com/peaceiris/actions-/issues/pages)
+
+
+### Features
+
+* claude command for setting up extraction feature ([a2c3b1e](https://github.com/jmchilton/artifact-detective/commit/a2c3b1ed799d949d296337fccc00d43330cbe5cd))
+
 # [1.8.0](https://github.com/jmchilton/artifact-detective/compare/v1.7.0...v1.8.0) (2025-11-05)
 
 
