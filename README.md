@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/node/v/artifact-detective.svg)](https://nodejs.org)
 
-Detect and parse CI artifact types for test frameworks and linters.
+📚 **[View Full Documentation](./docs/)** | Detect and parse CI artifact types for test frameworks and linters.
 
 ## Overview
 

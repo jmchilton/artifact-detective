@@ -32,6 +32,8 @@
     "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "docs:generate": "node scripts/generate-docs.js",
+    "docs:build": "npm run docs:generate",
     "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "keywords": [
