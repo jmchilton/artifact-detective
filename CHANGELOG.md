@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/jmchilton/artifact-detective/compare/v1.9.0...v1.9.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* repair artifact types table rendering in docsify ([7aa6623](https://github.com/jmchilton/artifact-detective/commit/7aa662325e4fa7d70676a9cde0d0a229bee517e6))
+
 # [1.9.0](https://github.com/jmchilton/artifact-detective/compare/v1.8.0...v1.9.0) (2025-11-05)
 
 
