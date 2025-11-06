@@ -35,14 +35,14 @@ function writeMarkdown(filePath, content) {
 // Generate artifact types table
 function generateArtifactTypesREADME() {
   const descriptions = readYAML(join(rootDir, 'src/docs/artifact-descriptions.yml'));
-  
+
   // Get artifact type registry from validators/index.ts by parsing it
   const validatorsContent = readFileSync(join(rootDir, 'src/validators/index.ts'), 'utf-8');
-  
+
   // Extract artifact types from the registry
   const registryMatch = validatorsContent.match(/export const ARTIFACT_TYPE_REGISTRY[^}]*?};/s);
   const registryContent = registryMatch ? registryMatch[0] : '';
-  
+
   // Parse type names from the registry
   // const typeMatches = registryContent.match(/(\w+-\w+(?:-\w+)?)\s*:/g) || [];
   // const artifactTypes = [...new Set(typeMatches.map(m => m.slice(0, -1).trim()))];
@@ -71,6 +71,13 @@ This documentation covers:
     'Formatters': ['rustfmt-txt', 'gofmt-txt', 'isort-txt', 'black-txt'],
   };
 
+  // Create mapping of type to category page
+  const categoryMap = {
+    'Test Frameworks': 'test-frameworks.md',
+    'Linters': 'linters.md',
+    'Formatters': 'formatters.md',
+  };
+
   for (const [category, types] of Object.entries(categories)) {
     for (const type of types) {
       if (!descriptions[type]) continue;
@@ -86,7 +93,10 @@ This documentation covers:
       const extract = shouldExtract(type) ? '✓' : '—';
       const normalize = shouldNormalize(type) ? '✓' : '—';
 
-      markdown += `| ${category} | [\`${type}\`](#${type}) | ${shortDesc} | ${autoDetect} | ${extract} | ${normalize} | ${format} | [${toolName}](${toolUrl}) |\n`;
+      // Create proper cross-page link
+      const categoryPage = categoryMap[category];
+      const typeLink = `${categoryPage}#${type}`;
+      markdown += `| ${category} | [\`${type}\`](${typeLink}) | ${shortDesc} | ${autoDetect} | ${extract} | ${normalize} | ${format} | [${toolName}](${toolUrl}) |\n`;
     }
   }
 
