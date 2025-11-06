@@ -60,8 +60,8 @@ This documentation covers:
 
 ## Complete Artifact Types Table
 
-| Type | Description | Auto-Detect | Extract | Normalize | Format | Tool |
-|------|-------------|-------------|---------|-----------|--------|------|
+| Category | Type | Description | Auto-Detect | Extract | Normalize | Format | Tool |
+|----------|------|-------------|-------------|---------|-----------|--------|------|
 `;
 
   // Group types by category for better organization
@@ -72,23 +72,21 @@ This documentation covers:
   };
 
   for (const [category, types] of Object.entries(categories)) {
-    markdown += `\n### ${category}\n\n`;
-    
     for (const type of types) {
       if (!descriptions[type]) continue;
-      
+
       const desc = descriptions[type];
       const shortDesc = desc.shortDescription || 'No description';
       const toolUrl = desc.toolUrl || '#';
       const toolName = extractToolName(type);
-      
+
       // Determine capabilities from type name and format
       const format = getFormatFromType(type);
       const autoDetect = '✓'; // Most types support auto-detection
       const extract = shouldExtract(type) ? '✓' : '—';
       const normalize = shouldNormalize(type) ? '✓' : '—';
-      
-      markdown += `| [\`${type}\`](#${type}) | ${shortDesc} | ${autoDetect} | ${extract} | ${normalize} | ${format} | [${toolName}](${toolUrl}) |\n`;
+
+      markdown += `| ${category} | [\`${type}\`](#${type}) | ${shortDesc} | ${autoDetect} | ${extract} | ${normalize} | ${format} | [${toolName}](${toolUrl}) |\n`;
     }
   }
 
