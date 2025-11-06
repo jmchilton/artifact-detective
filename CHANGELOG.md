@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/jmchilton/artifact-detective/compare/v1.9.1...v1.10.0) (2025-11-06)
+
+
+### Bug Fixes
+
+* remove broken link from artifact types page ([fc17a81](https://github.com/jmchilton/artifact-detective/commit/fc17a811bc30477a128c6e6539c9aa6227904b2f))
+
+
+### Features
+
+* add typedoc configuration and complete doc scripts ([2bcd6e7](https://github.com/jmchilton/artifact-detective/commit/2bcd6e7cf51c4de6e2396554acc575400bf86067))
+* implement individual artifact category pages ([b559723](https://github.com/jmchilton/artifact-detective/commit/b55972330368520d8815100c8d6183c61ddbb440))
+
 ## [1.9.1](https://github.com/jmchilton/artifact-detective/compare/v1.9.0...v1.9.1) (2025-11-06)
 
 
