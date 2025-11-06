@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/jmchilton/artifact-detective/compare/v1.10.2...v1.10.3) (2025-11-06)
+
+
+### Bug Fixes
+
+* workflow should commit all generated docs and run on every push to main ([014e8dc](https://github.com/jmchilton/artifact-detective/commit/014e8dcb502fa7f968d33b567c56193446b8e702))
+
 ## [1.10.2](https://github.com/jmchilton/artifact-detective/compare/v1.10.1...v1.10.2) (2025-11-06)
 
 
