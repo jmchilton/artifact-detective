@@ -1,3 +1,10 @@
+## [1.10.4](https://github.com/jmchilton/artifact-detective/compare/v1.10.3...v1.10.4) (2025-11-06)
+
+
+### Bug Fixes
+
+* use relative links in artifact types table for proper docsify routing ([b40dc20](https://github.com/jmchilton/artifact-detective/commit/b40dc200bc2fae72e05aaec62b808f554063e78d))
+
 ## [1.10.3](https://github.com/jmchilton/artifact-detective/compare/v1.10.2...v1.10.3) (2025-11-06)
 
 
