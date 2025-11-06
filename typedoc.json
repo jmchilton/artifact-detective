@@ -1,0 +1,15 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api/typedoc",
+  "name": "artifact-detective API",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "readme": "none",
+  "navigationLinks": {
+    "Documentation": "https://jmchilton.github.io/artifact-detective"
+  },
+  "theme": "default",
+  "searchInComments": true
+}

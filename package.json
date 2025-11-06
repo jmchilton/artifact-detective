@@ -33,7 +33,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:generate": "node scripts/generate-docs.js",
-    "docs:build": "npm run docs:generate",
+    "docs:api": "typedoc --out docs/api/typedoc src/index.ts",
+    "docs:build": "npm run docs:generate && npm run docs:api",
+    "docs:dev": "npm run docs:generate && docsify serve docs",
     "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "keywords": [
@@ -69,10 +71,12 @@
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^24.9.2",
     "@vitest/coverage-v8": "^4.0.6",
+    "docsify-cli": "^4.4.4",
     "eslint": "^9.39.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
     "semantic-release": "^24.2.9",
+    "typedoc": "^0.26.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
     "vitest": "^4.0.6",
