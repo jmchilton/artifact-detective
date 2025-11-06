@@ -73,9 +73,9 @@ This documentation covers:
 
   // Create mapping of type to category page
   const categoryMap = {
-    'Test Frameworks': 'test-frameworks.md',
-    'Linters': 'linters.md',
-    'Formatters': 'formatters.md',
+    'Test Frameworks': 'artifact-types/test-frameworks.md',
+    'Linters': 'artifact-types/linters.md',
+    'Formatters': 'artifact-types/formatters.md',
   };
 
   for (const [category, types] of Object.entries(categories)) {

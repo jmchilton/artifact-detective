@@ -1,12 +1,17 @@
-name: Deploy Docs
+name: Generate Docs
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'scripts/**'
+      - 'src/docs/**'
+      - 'package.json'
+      - '.github/workflows/docs.yml'
 
 jobs:
-  deploy:
+  generate:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,8 +26,12 @@ jobs:
 
       - run: npm run docs:build
 
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          cname: artifact-detective.example.com  # Optional: if using custom domain
+      - name: Commit generated docs
+        run: |
+          if [[ -n $(git status -s docs/api/typedoc/) ]]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add docs/api/typedoc/
+            git commit -m 'docs: regenerate API documentation'
+            git push
+          fi
