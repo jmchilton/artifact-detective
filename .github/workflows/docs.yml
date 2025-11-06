@@ -19,8 +19,7 @@ jobs:
 
       - run: npm install
 
-      - run: npm run docs:generate
-        # If you have: "docs:generate": "node scripts/generate-docs.js"
+      - run: npm run docs:build
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
