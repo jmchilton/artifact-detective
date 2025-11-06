@@ -1,3 +1,11 @@
+## [1.10.1](https://github.com/jmchilton/artifact-detective/compare/v1.10.0...v1.10.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* correct artifact type links to point to category pages ([1b72ac3](https://github.com/jmchilton/artifact-detective/commit/1b72ac3e54cece7a323722d1cbe131a779ee3bd6))
+* use docs:build instead of docs:generate to include api docs in deployment ([8b8a436](https://github.com/jmchilton/artifact-detective/commit/8b8a436291aa282972c38e411e68d831f896d0b5))
+
 # [1.10.0](https://github.com/jmchilton/artifact-detective/compare/v1.9.1...v1.10.0) (2025-11-06)
 
 
