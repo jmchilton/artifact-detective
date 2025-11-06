@@ -40,6 +40,9 @@ This documentation covers:
 | Formatters | [`isort-txt`](#isort-txt) | Isort Python import sorter output showing import ordering violations and required changes | ✓ | ✓ | — | txt | [Isort](https://pycqa.github.io/isort/) |
 | Formatters | [`black-txt`](#black-txt) | Black Python code formatter output showing formatting check results or diff of formatting changes | ✓ | ✓ | — | txt | [Black](https://github.com/psf/black) |
 
-## Detailed Type Documentation
+## More Information
 
-For detailed information on each artifact type, including parsing guides and examples, see the [specific category pages](artifact-types/test-frameworks.md).
+- See [API Functions Guide](../api/functions.md) for how to work with artifacts programmatically
+- See [CLI Reference](../cli/) for command-line usage examples
+- See [Guides](../guides/) for workflows and best practices
+- Browse [Fixtures](../fixtures/) for real-world artifact examples

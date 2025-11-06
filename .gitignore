@@ -38,11 +38,8 @@ yarn-error.log*
 .parcel-cache/
 .turbo/
 
-# Generated documentation
+# Generated documentation - auto-generated, can be safely deleted
 docs/api/typedoc/
-docs/artifact-types/test-frameworks.md
-docs/artifact-types/linters.md
-docs/artifact-types/formatters.md
 docs/fixtures/javascript.md
 docs/fixtures/python.md
 docs/fixtures/rust.md

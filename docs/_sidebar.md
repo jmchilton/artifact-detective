@@ -11,6 +11,9 @@
 
 - **Artifact Types**
   - [Overview](artifact-types/)
+  - [Test Frameworks](artifact-types/test-frameworks.md)
+  - [Linters](artifact-types/linters.md)
+  - [Formatters](artifact-types/formatters.md)
 
 - **API Documentation**
   - [Overview](api/)

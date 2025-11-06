@@ -436,16 +436,106 @@ artifact-detective normalize pytest-report.html
   writeMarkdown(join(docsDir, 'cli', 'README.md'), markdown);
 }
 
+// Generate individual artifact category pages
+function generateArtifactCategoryPages() {
+  const descriptions = readYAML(join(rootDir, 'src/docs/artifact-descriptions.yml'));
+
+  const categories = {
+    'test-frameworks': {
+      title: 'Test Frameworks',
+      types: ['jest-json', 'jest-html', 'playwright-json', 'pytest-json', 'pytest-html', 'junit-xml', 'surefire-html', 'go-test-ndjson', 'cargo-test-txt', 'rspec-json', 'rspec-html'],
+    },
+    'linters': {
+      title: 'Linters',
+      types: ['eslint-txt', 'eslint-json', 'tsc-txt', 'mypy-txt', 'mypy-ndjson', 'ruff-txt', 'flake8-txt', 'clippy-txt', 'clippy-ndjson', 'golangci-lint-json', 'checkstyle-xml', 'checkstyle-sarif-json', 'spotbugs-xml', 'rubocop-json', 'brakeman-json'],
+    },
+    'formatters': {
+      title: 'Formatters',
+      types: ['rustfmt-txt', 'gofmt-txt', 'isort-txt', 'black-txt'],
+    },
+  };
+
+  for (const [categorySlug, categoryInfo] of Object.entries(categories)) {
+    let markdown = `# ${categoryInfo.title}
+
+Reference documentation for all ${categoryInfo.title.toLowerCase()} artifact types.
+
+## Overview
+
+This section covers detailed information for each artifact type in the **${categoryInfo.title}** category.
+
+`;
+
+    for (const type of categoryInfo.types) {
+      if (!descriptions[type]) continue;
+
+      const desc = descriptions[type];
+      const toolName = extractToolName(type);
+      const format = getFormatFromType(type);
+
+      // Get capabilities
+      const autoDetect = '✓'; // Most types support auto-detection
+      const extract = shouldExtract(type) ? '✓' : '—';
+      const normalize = shouldNormalize(type) ? '✓' : '—';
+
+      markdown += `## ${type}
+
+**${desc.shortDescription}**
+
+### Capabilities
+
+| Feature | Support |
+|---------|---------|
+| Auto-Detect | ${autoDetect} |
+| Extract from Log | ${extract} |
+| Convert to JSON | ${normalize} |
+| Format | ${format} |
+
+### Tool Information
+
+- **Tool**: [${toolName}](${desc.toolUrl})
+- **Format Spec**: [${format.toUpperCase()} Format](${desc.formatUrl})
+
+### Parsing Guide
+
+${desc.parsingGuide}
+
+### Related Information
+
+- See [CLI Reference](../cli/) for command-line usage
+- See [API Functions](../api/functions.md) for programmatic usage
+- See [Fixtures](../fixtures/) for real-world examples
+
+---
+
+`;
+    }
+
+    // Add navigation links
+    markdown += `## Other Categories
+
+- [Test Frameworks](./test-frameworks.md)
+- [Linters](./linters.md)
+- [Formatters](./formatters.md)
+
+See [Artifact Types Overview](./README.md) for the complete reference table.
+`;
+
+    writeMarkdown(join(docsDir, 'artifact-types', `${categorySlug}.md`), markdown);
+  }
+}
+
 // Main execution
 console.log('Generating documentation...\n');
 
 try {
   generateArtifactTypesREADME();
+  generateArtifactCategoryPages();
   generateFixturePages();
   generateFixturesREADME();
   generateCLIPages();
   generateCLIREADME();
-  
+
   console.log('\n✓ Documentation generation complete!');
 } catch (error) {
   console.error('Error generating documentation:', error);
