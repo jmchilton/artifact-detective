@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'scripts/**'
-      - 'src/docs/**'
-      - 'package.json'
-      - '.github/workflows/docs.yml'
 
 jobs:
   generate:
@@ -26,12 +21,12 @@ jobs:
 
       - run: npm run docs:build
 
-      - name: Commit generated docs
+      - name: Commit generated docs if changed
         run: |
-          if [[ -n $(git status -s docs/api/typedoc/) ]]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email 'github-actions[bot]@users.noreply.github.com'
-            git add docs/api/typedoc/
-            git commit -m 'docs: regenerate API documentation'
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          if [[ -n $(git status -s docs/) ]]; then
+            git add docs/
+            git commit -m 'docs: regenerate documentation'
             git push
           fi
