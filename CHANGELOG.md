@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/jmchilton/artifact-detective/compare/v1.10.1...v1.10.2) (2025-11-06)
+
+
+### Bug Fixes
+
+* use full paths in artifact type links for docsify routing ([5376e20](https://github.com/jmchilton/artifact-detective/commit/5376e206d9db6af6bb1bcdfd0bcc20729b651b4b))
+
 ## [1.10.1](https://github.com/jmchilton/artifact-detective/compare/v1.10.0...v1.10.1) (2025-11-06)
 
 
