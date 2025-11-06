@@ -71,11 +71,11 @@ This documentation covers:
     'Formatters': ['rustfmt-txt', 'gofmt-txt', 'isort-txt', 'black-txt'],
   };
 
-  // Create mapping of type to category page
+  // Create mapping of type to category page (relative links from artifact-types/README.md)
   const categoryMap = {
-    'Test Frameworks': 'artifact-types/test-frameworks.md',
-    'Linters': 'artifact-types/linters.md',
-    'Formatters': 'artifact-types/formatters.md',
+    'Test Frameworks': './test-frameworks.md',
+    'Linters': './linters.md',
+    'Formatters': './formatters.md',
   };
 
   for (const [category, types] of Object.entries(categories)) {
