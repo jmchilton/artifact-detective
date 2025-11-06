@@ -90,9 +90,12 @@ This documentation covers:
     }
   }
 
-  markdown += `\n## Detailed Type Documentation
+  markdown += `\n## More Information
 
-For detailed information on each artifact type, including parsing guides and examples, see the [specific category pages](artifact-types/test-frameworks.md).\n`;
+- See [API Functions Guide](../api/functions.md) for how to work with artifacts programmatically
+- See [CLI Reference](../cli/) for command-line usage examples
+- See [Guides](../guides/) for workflows and best practices
+- Browse [Fixtures](../fixtures/) for real-world artifact examples\n`;
 
   writeMarkdown(join(docsDir, 'artifact-types', 'README.md'), markdown);
 }
