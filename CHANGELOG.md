@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/jmchilton/artifact-detective/compare/v1.12.0...v1.12.1) (2025-11-07)
+
+
+### Bug Fixes
+
+* wire up fileExtension in runtime artifact description loading ([bf708f4](https://github.com/jmchilton/artifact-detective/commit/bf708f441a66e0315a6ad89cd9a143c5e9592dfd))
+
 # [1.12.0](https://github.com/jmchilton/artifact-detective/compare/v1.11.0...v1.12.0) (2025-11-07)
 
 
