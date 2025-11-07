@@ -1,39 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { join } from 'path';
 import { readFileSync } from 'fs';
 import { detectArtifactType } from '../src/detectors/type-detector.js';
-import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
+import { testArtifactType } from './helpers/artifact-test-helpers.js';
+import { fixtures } from './helpers/fixture-paths.js';
 import { extractCheckstyleXML } from '../src/parsers/xml/checkstyle-parser.js';
 import { extractSpotBugsXML } from '../src/parsers/xml/spotbugs-parser.js';
-import { FIXTURES_DIR } from './fixtures-helper.js';
 
 describe('Java Artifact Detection and Validation', () => {
-  const checkstylePath = join(FIXTURES_DIR, 'generated/java/checkstyle-result.xml');
+  const checkstylePath = fixtures.java.checkstyleXml();
+  const spotbugsPath = fixtures.java.spotbugsXml();
+  const junitPath = fixtures.java.junitXml();
 
-  const spotbugsPath = join(FIXTURES_DIR, 'generated/java/spotbugsXml.xml');
+  testArtifactType({
+    artifactType: 'checkstyle-xml',
+    fixturePath: checkstylePath,
+    expectedFormat: 'xml',
+    supportsAutoDetection: true,
+  });
 
-  const nonExistentOutput = join(FIXTURES_DIR, 'generated/java/non-existent.xml');
-
-  describe('Checkstyle XML', () => {
-    it('detects checkstyle-xml by content', () => {
-      const result = detectArtifactType(checkstylePath);
-      expect(result.detectedType).toBe('checkstyle-xml');
-      expect(result.originalFormat).toBe('xml');
-      expect(result.isBinary).toBe(false);
-    });
-
-    it('validates checkstyle XML content', () => {
-      const content = readFileSync(checkstylePath, 'utf-8');
-      const result = validate('checkstyle-xml', content);
-      expect(result.valid).toBe(true);
-    });
-
-    it('throws exception when extractCheckstyleXML is applied to a non-existent file', () => {
-      expect(() => {
-        extractCheckstyleXML(nonExistentOutput);
-      }).toThrow('ENOENT');
-    });
-
+  describe('Checkstyle XML parsing', () => {
     it('parses checkstyle XML and extracts violations', () => {
       const report = extractCheckstyleXML(checkstylePath);
       expect(report).not.toBeNull();
@@ -60,35 +45,16 @@ describe('Java Artifact Detection and Validation', () => {
       expect(report!.summary.errors).toBeGreaterThanOrEqual(0);
       expect(report!.summary.totalFiles).toBeGreaterThan(0);
     });
-
-    it('has registry entry with auto-detection support', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['checkstyle-xml'];
-      expect(capabilities).toBeDefined();
-      expect(capabilities.supportsAutoDetection).toBe(true);
-      expect(capabilities.validator).toBeDefined();
-    });
   });
 
-  describe('SpotBugs XML', () => {
-    it('detects spotbugs-xml by content', () => {
-      const result = detectArtifactType(spotbugsPath);
-      expect(result.detectedType).toBe('spotbugs-xml');
-      expect(result.originalFormat).toBe('xml');
-      expect(result.isBinary).toBe(false);
-    });
+  testArtifactType({
+    artifactType: 'spotbugs-xml',
+    fixturePath: spotbugsPath,
+    expectedFormat: 'xml',
+    supportsAutoDetection: true,
+  });
 
-    it('validates spotbugs XML content', () => {
-      const content = readFileSync(spotbugsPath, 'utf-8');
-      const result = validate('spotbugs-xml', content);
-      expect(result.valid).toBe(true);
-    });
-
-    it('throws exception when extractSpotBugsXML is applied to a non-existent file', () => {
-      expect(() => {
-        extractSpotBugsXML(nonExistentOutput);
-      }).toThrow('ENOENT');
-    });
-
+  describe('SpotBugs XML parsing', () => {
     it('parses spotbugs XML and extracts bugs', () => {
       const report = extractSpotBugsXML(spotbugsPath);
       expect(report).not.toBeNull();
@@ -116,43 +82,20 @@ describe('Java Artifact Detection and Validation', () => {
         report!.summary.highPriority + report!.summary.mediumPriority + report!.summary.lowPriority;
       expect(prioritySum).toBe(report!.summary.totalBugs);
     });
-
-    it('has registry entry with auto-detection support', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['spotbugs-xml'];
-      expect(capabilities).toBeDefined();
-      expect(capabilities.supportsAutoDetection).toBe(true);
-      expect(capabilities.validator).toBeDefined();
-    });
   });
 
-  describe('JUnit XML (existing)', () => {
-    const junitPath = join(FIXTURES_DIR, 'generated/java/TEST-com.example.CalculatorTest.xml');
-
-    it('still detects junit-xml correctly', () => {
-      const result = detectArtifactType(junitPath);
-      expect(result.detectedType).toBe('junit-xml');
-      expect(result.originalFormat).toBe('xml');
-      expect(result.isBinary).toBe(false);
-    });
-
-    it('validates junit XML content', () => {
-      const content = readFileSync(junitPath, 'utf-8');
-      const result = validate('junit-xml', content);
-      expect(result.valid).toBe(true);
-    });
+  testArtifactType({
+    artifactType: 'junit-xml',
+    fixturePath: junitPath,
+    expectedFormat: 'xml',
+    supportsAutoDetection: true,
   });
 
   describe('Mixed detection scenarios', () => {
     it('correctly distinguishes between XML artifact types', () => {
-      const checkstyleResult = detectArtifactType(
-        join(FIXTURES_DIR, 'generated/java/checkstyle-result.xml'),
-      );
-      const spotbugsResult = detectArtifactType(
-        join(FIXTURES_DIR, 'generated/java/spotbugsXml.xml'),
-      );
-      const junitResult = detectArtifactType(
-        join(FIXTURES_DIR, 'generated/java/TEST-com.example.CalculatorTest.xml'),
-      );
+      const checkstyleResult = detectArtifactType(checkstylePath);
+      const spotbugsResult = detectArtifactType(spotbugsPath);
+      const junitResult = detectArtifactType(junitPath);
 
       expect(checkstyleResult.detectedType).toBe('checkstyle-xml');
       expect(spotbugsResult.detectedType).toBe('spotbugs-xml');

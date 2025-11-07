@@ -1,27 +1,20 @@
 import { describe, it, expect } from 'vitest';
-import { join } from 'path';
 import { readFileSync } from 'fs';
-import { detectArtifactType } from '../src/detectors/type-detector.js';
-import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
-import { FIXTURES_DIR } from './fixtures-helper.js';
+import { testArtifactType, validateFixture } from './helpers/artifact-test-helpers.js';
+import { fixtures } from './helpers/fixture-paths.js';
 
 describe('ESLint Artifacts', () => {
-  describe('ESLint JSON', () => {
-    const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+  const eslintJsonPath = fixtures.javascript.eslintJson();
 
-    it('detects eslint-json by content', () => {
-      const result = detectArtifactType(eslintJsonPath);
-      expect(result.detectedType).toBe('eslint-json');
-      expect(result.originalFormat).toBe('json');
-      expect(result.isBinary).toBe(false);
-    });
+  testArtifactType({
+    artifactType: 'eslint-json',
+    fixturePath: eslintJsonPath,
+    expectedFormat: 'json',
+    supportsAutoDetection: true,
+    invalidSamples: ['{"not": "eslint"}', '[]', '{invalid json}'],
+  });
 
-    it('validates eslint JSON content', () => {
-      const content = readFileSync(eslintJsonPath, 'utf-8');
-      const result = validate('eslint-json', content);
-      expect(result.valid).toBe(true);
-    });
-
+  describe('ESLint JSON structure', () => {
     it('parses eslint JSON with proper structure', () => {
       const content = readFileSync(eslintJsonPath, 'utf-8');
       const data = JSON.parse(content);
@@ -60,34 +53,6 @@ describe('ESLint Artifacts', () => {
       // Check for expected rules
       const ruleIds = firstResult.messages.map((msg: Record<string, unknown>) => msg.ruleId);
       expect(ruleIds).toContain('no-unused-vars');
-    });
-
-    it('has registry entry with auto-detection support', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['eslint-json'];
-      expect(capabilities).toBeDefined();
-      expect(capabilities.supportsAutoDetection).toBe(true);
-      expect(capabilities.validator).toBeDefined();
-    });
-
-    it('rejects invalid eslint JSON', () => {
-      const invalidJson = '{"not": "eslint"}';
-      const result = validate('eslint-json', invalidJson);
-      expect(result.valid).toBe(false);
-      expect(result.error).toBeTruthy();
-    });
-
-    it('rejects empty eslint array', () => {
-      const emptyArray = '[]';
-      const result = validate('eslint-json', emptyArray);
-      expect(result.valid).toBe(false);
-      expect(result.error).toContain('empty');
-    });
-
-    it('rejects malformed JSON', () => {
-      const malformedJson = '{invalid json}';
-      const result = validate('eslint-json', malformedJson);
-      expect(result.valid).toBe(false);
-      expect(result.error).toContain('Invalid JSON');
     });
   });
 });
