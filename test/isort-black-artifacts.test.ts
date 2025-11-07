@@ -21,8 +21,8 @@ describe('Isort and Black Artifacts', () => {
       const content = readFileSync(isortPath, 'utf-8');
       const result = validate('isort-txt', content);
       expect(result.valid).toBe(true);
-      expect(result.description).toBeDefined();
-      expect(result.description?.type).toBe('isort-txt');
+      expect(result.artifact).toBeDefined();
+      expect(result.artifact?.artifactType).toBe('isort-txt');
     });
 
     it('has isort in error message', () => {
@@ -88,8 +88,8 @@ describe('Isort and Black Artifacts', () => {
       const content = readFileSync(blackPath, 'utf-8');
       const result = validate('black-txt', content);
       expect(result.valid).toBe(true);
-      expect(result.description).toBeDefined();
-      expect(result.description?.type).toBe('black-txt');
+      expect(result.artifact).toBeDefined();
+      expect(result.artifact?.artifactType).toBe('black-txt');
     });
 
     it('has black completion message', () => {

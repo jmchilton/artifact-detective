@@ -92,7 +92,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
         expect(result.exitCode).toBe(0);
         const json = JSON.parse(result.stdout);
         expect(json.valid).toBe(true);
-        expect(json).toHaveProperty('description');
+        expect(json).toHaveProperty('artifact');
       });
 
       it('handles file not found in validate', async () => {

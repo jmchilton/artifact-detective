@@ -15,7 +15,7 @@ export interface ArtifactDescription {
 export interface ValidationResult {
   valid: boolean;
   error?: string;
-  description?: ArtifactDescription;
+  artifact?: ArtifactDescriptor;
 }
 
 export type ValidatorFunction = (content: string) => ValidationResult;

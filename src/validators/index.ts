@@ -551,11 +551,11 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 
   const result = capabilities.validator(content);
 
-  // If valid, include description
+  // If valid, include artifact descriptor
   if (result.valid) {
-    const description = getArtifactDescription(type);
-    if (description) {
-      return { ...result, description };
+    const descriptor = buildArtifactDescriptor(type);
+    if (descriptor) {
+      return { ...result, artifact: descriptor };
     }
   }
 

@@ -8,7 +8,7 @@ import type { ArtifactType } from '../../types.js';
 export interface ValidateCoreResult {
   valid: boolean;
   error?: string;
-  description?: { parsingGuide: string };
+  artifact?: { parsingGuide: string };
 }
 
 export async function validateCore(
@@ -49,8 +49,8 @@ export async function validateArtifact(
     if (data.error) {
       output.error = data.error;
     }
-    if (data.description && options.showDescription) {
-      output.description = data.description;
+    if (data.artifact && options.showDescription) {
+      output.artifact = data.artifact;
     }
     writeOutput(formatJSON(output), null);
   } else {
@@ -61,10 +61,10 @@ export async function validateArtifact(
       writeError(`  ${data.error}`);
     }
 
-    if (data.valid && data.description && options.showDescription) {
+    if (data.valid && data.artifact && options.showDescription) {
       writeError('');
       writeError(`Parsing Guide:`);
-      writeError(data.description.parsingGuide);
+      writeError(data.artifact.parsingGuide);
     }
   }
 

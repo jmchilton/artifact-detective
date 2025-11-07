@@ -13,7 +13,7 @@ interface NormalizeOptions {
  */
 export interface NormalizeCoreResult {
   json: string;
-  description?: { parsingGuide: string; toolUrl?: string };
+  artifact?: { parsingGuide: string; toolUrl?: string };
 }
 
 export async function normalizeCore(
@@ -82,7 +82,7 @@ export async function normalizeCore(
       }
     }
 
-    return { success: true, data: { json: conversionResult.json, description: conversionResult.description } };
+    return { success: true, data: { json: conversionResult.json, artifact: conversionResult.description } };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return { success: false, error: `Failed to normalize artifact: ${message}` };
@@ -105,9 +105,9 @@ export async function normalize(
   const data = result.data;
   writeOutput(data.json, options.output || null);
 
-  if (options.showDescription && data.description) {
+  if (options.showDescription && data.artifact) {
     writeError('');
-    writeError(`Parsing Guide (${data.description.toolUrl}):`);
-    writeError(data.description.parsingGuide);
+    writeError(`Parsing Guide (${data.artifact.toolUrl}):`);
+    writeError(data.artifact.parsingGuide);
   }
 }
