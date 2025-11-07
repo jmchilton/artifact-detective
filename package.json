@@ -1,6 +1,6 @@
 {
   "name": "artifact-detective",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "description": "Detect and parse CI artifact types for test frameworks and linters",
   "type": "module",
   "main": "./dist/index.js",

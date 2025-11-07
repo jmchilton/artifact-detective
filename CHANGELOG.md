@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/jmchilton/artifact-detective/compare/v1.12.1...v1.13.0) (2025-11-07)
+
+
+### Features
+
+* add validate option to extract function ([6d139e0](https://github.com/jmchilton/artifact-detective/commit/6d139e075e620fed08a945e4c2a24b80a42e7493))
+
 ## [1.12.1](https://github.com/jmchilton/artifact-detective/compare/v1.12.0...v1.12.1) (2025-11-07)
 
 
