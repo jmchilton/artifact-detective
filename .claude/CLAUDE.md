@@ -96,3 +96,12 @@ See **docs/guides/adding-artifact-types.md** for complete checklist.
 6. `fixtures/extraction-tests/<type>/logs.txt` - Add sample log file
 
 The most common mistake: skipping #4 causes extraction to return null even when code is correct.
+
+## Implementing Normalizers
+
+See **docs/guides/implementing-normalizers.md** for complete checklist.
+
+Normalizers convert artifact types (e.g., `jest-txt` → `jest-json`). Use:
+- `npm run validate:normalizer <source> <target>` - Validate normalizer wiring
+- Tests automatically validate that normalizers produce correct output structure
+- Document limitations - target may be incompletely populated from source data

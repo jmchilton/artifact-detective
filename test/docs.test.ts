@@ -168,4 +168,67 @@ describe('Artifact Descriptions', () => {
       }
     });
   });
+
+  describe('Normalizer validation', () => {
+    it('all normalizers in registry have target types defined', () => {
+      const registryKeys = Object.keys(ARTIFACT_TYPE_REGISTRY) as ArtifactType[];
+      const misconfigurations: string[] = [];
+
+      for (const type of registryKeys) {
+        const capabilities = ARTIFACT_TYPE_REGISTRY[type];
+        if (capabilities.normalize && !capabilities.normalizesTo) {
+          misconfigurations.push(`${type} has normalizer but normalizesTo is null`);
+        }
+      }
+
+      if (misconfigurations.length > 0) {
+        throw new Error(
+          `Normalizer configuration errors:\n${misconfigurations.join('\n')}\n\n` +
+            'When adding a normalizer, set both normalize and normalizesTo in registry entry.',
+        );
+      }
+
+      expect(misconfigurations).toHaveLength(0);
+    });
+
+    it('all target types for normalizers exist in registry', () => {
+      const registryKeys = Object.keys(ARTIFACT_TYPE_REGISTRY) as ArtifactType[];
+      const missingTargets: string[] = [];
+
+      for (const type of registryKeys) {
+        const capabilities = ARTIFACT_TYPE_REGISTRY[type];
+        if (capabilities.normalizesTo && !ARTIFACT_TYPE_REGISTRY[capabilities.normalizesTo]) {
+          missingTargets.push(`${type} normalizes to ${capabilities.normalizesTo}, but ${capabilities.normalizesTo} not in registry`);
+        }
+      }
+
+      if (missingTargets.length > 0) {
+        throw new Error(
+          `Normalizer target type errors:\n${missingTargets.join('\n')}\n\n` +
+            'Add missing types to src/types.ts and ARTIFACT_TYPE_REGISTRY.',
+        );
+      }
+
+      expect(missingTargets).toHaveLength(0);
+    });
+
+    it('artificial types are marked correctly', () => {
+      const descriptions = loadArtifactDescriptions();
+      const artificialTypes: ArtifactType[] = ['mypy-json', 'go-test-json', 'clippy-json'];
+
+      for (const type of artificialTypes) {
+        const capabilities = ARTIFACT_TYPE_REGISTRY[type];
+        expect(capabilities.artificialType).toBe(
+          true,
+          `${type} should be marked artificialType: true since it's only created via normalization`,
+        );
+
+        const desc = descriptions[type];
+        expect(desc?.shortDescription).toContain(
+          'artificial',
+          `${type} description should mention it's an artificial type`,
+        );
+      }
+    });
+  });
 });

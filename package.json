@@ -38,6 +38,7 @@
     "docs:dev": "npm run docs:generate && docsify serve docs",
     "validate:new-artifact": "node scripts/validate-artifact-type.js",
     "generate:extraction-wrapper": "node scripts/generate-extraction-wrapper.js",
+    "validate:normalizer": "node scripts/validate-normalizer.js",
     "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "keywords": [
