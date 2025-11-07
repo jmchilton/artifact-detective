@@ -51,7 +51,7 @@ function validate(type: ArtifactType, content: string): ValidationResult
 **Returns:** `ValidationResult` with:
 - `valid` - Boolean indicating if validation passed
 - `error` - Error message if validation failed (optional)
-- `description` - Artifact description if valid (optional)
+- `artifact` - ArtifactDescriptor with full metadata if valid (optional)
 
 **Example:**
 ```typescript
@@ -62,7 +62,8 @@ const result = validate('jest-json', fileContent);
 
 if (result.valid) {
   console.log('✓ Valid Jest JSON');
-  console.log('Tool:', result.description?.toolUrl);
+  console.log('Tool:', result.artifact?.toolUrl);
+  console.log('Format:', result.artifact?.fileExtension);
 } else {
   console.error('✗ Invalid:', result.error);
 }

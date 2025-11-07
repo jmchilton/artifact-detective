@@ -146,7 +146,7 @@ Result of artifact validation:
 interface ValidationResult {
   valid: boolean;
   error?: string;
-  description?: ArtifactDescription;
+  artifact?: ArtifactDescriptor;
 }
 ```
 
@@ -254,7 +254,8 @@ async function validateArtifacts(files: string[]) {
       file,
       valid: result.valid,
       error: result.error,
-      description: result.description
+      artifact: result.artifact,
+      parsingGuide: result.artifact?.parsingGuide
     });
   }
 

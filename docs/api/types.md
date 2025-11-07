@@ -78,9 +78,9 @@ Result of validating artifact content.
 
 ```typescript
 interface ValidationResult {
-  valid: boolean;                   // Validation passed
-  error?: string;                   // Error message if invalid
-  description?: ArtifactDescription; // Artifact info if valid
+  valid: boolean;                  // Validation passed
+  error?: string;                  // Error message if invalid
+  artifact?: ArtifactDescriptor;    // Full artifact metadata if valid
 }
 ```
 
@@ -91,7 +91,8 @@ import { validate } from 'artifact-detective';
 const result = validate('jest-json', content);
 if (result.valid) {
   console.log('Valid artifact');
-  console.log(result.description?.toolUrl);
+  console.log(result.artifact?.toolUrl);
+  console.log(result.artifact?.fileExtension);
 }
 ```
 
