@@ -1,3 +1,15 @@
+# [1.15.0](https://github.com/jmchilton/artifact-detective/compare/v1.14.0...v1.15.0) (2025-11-07)
+
+
+### Bug Fixes
+
+* use correct yaml parser import to resolve module not found error ([112e7fa](https://github.com/jmchilton/artifact-detective/commit/112e7faa76653843026ace77d67a7f30c17b1f03))
+
+
+### Features
+
+* add CLI validation options and artifact descriptor output ([3f6a21c](https://github.com/jmchilton/artifact-detective/commit/3f6a21c04de2c5597b460543a03691b56fc2f086))
+
 # [1.14.0](https://github.com/jmchilton/artifact-detective/compare/v1.13.0...v1.14.0) (2025-11-07)
 
 
