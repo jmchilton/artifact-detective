@@ -331,4 +331,58 @@ this is not json
       expect(result!.effectiveType).not.toBe('go-test-ndjson');
     });
   });
+
+  describe('Validation within extraction', () => {
+    it('extract with validate option includes validationResult for valid content', async () => {
+      const { extract } = await import('../src/validators/index.js');
+      const eslintPath = join(FIXTURES_DIR_GENERATED, 'javascript/eslint-results.json');
+      const content = readFileSync(eslintPath, 'utf-8');
+
+      const result = extract('eslint-json', content, { validate: true });
+
+      expect(result).not.toBeNull();
+      expect(result!).toHaveProperty('validationResult');
+      expect(result!.validationResult).toBeDefined();
+      expect(result!.validationResult!.valid).toBe(true);
+      expect(result!.validationResult!.artifact).toBeDefined();
+      expect(result!.validationResult!.artifact?.artifactType).toBe('eslint-json');
+    });
+
+    it('extract without validate option does not include validationResult', async () => {
+      const { extract } = await import('../src/validators/index.js');
+      const eslintPath = join(FIXTURES_DIR_GENERATED, 'javascript/eslint-results.json');
+      const content = readFileSync(eslintPath, 'utf-8');
+
+      const result = extract('eslint-json', content);
+
+      expect(result).not.toBeNull();
+      expect(result!.validationResult).toBeUndefined();
+    });
+
+    it('extract with validate option detects invalid content', async () => {
+      const { extract } = await import('../src/validators/index.js');
+      const invalidContent = 'not valid json {[}';
+
+      const result = extract('eslint-json', invalidContent, { validate: true });
+
+      expect(result).not.toBeNull();
+      expect(result!.validationResult).toBeDefined();
+      expect(result!.validationResult!.valid).toBe(false);
+      expect(result!.validationResult!.error).toBeDefined();
+    });
+
+    it('validate option works with normalized extraction', async () => {
+      const { extract } = await import('../src/validators/index.js');
+      const eslintPath = join(FIXTURES_DIR_GENERATED, 'javascript/eslint-results.json');
+      const content = readFileSync(eslintPath, 'utf-8');
+
+      // Extract with both normalize and validate options
+      const result = extract('eslint-json', content, { normalize: false, validate: true });
+
+      expect(result).not.toBeNull();
+      expect(result!.validationResult).toBeDefined();
+      expect(result!.validationResult!.valid).toBe(true);
+      expect(result!.validationResult!.artifact?.artifactType).toBe('eslint-json');
+    });
+  });
 });

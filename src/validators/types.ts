@@ -64,6 +64,7 @@ export interface ArtifactDescriptor {
 export interface ExtractResult {
   content: string;
   artifact: ArtifactDescriptor;
+  validationResult?: ValidationResult;
 }
 
 /**

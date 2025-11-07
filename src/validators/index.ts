@@ -584,10 +584,25 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 export function extract(
   artifactType: ArtifactType,
   logContents: string,
-  options?: { normalize?: boolean; config?: ExtractorConfig },
+  options?: { normalize?: boolean; config?: ExtractorConfig; validate?: boolean },
 ): ExtractResult | null {
   const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
   if (!capabilities) return null;
+
+  // Helper to build result with optional validation
+  const buildResult = (content: string, type: ArtifactType, normalizedFrom?: ArtifactType): ExtractResult | null => {
+    const descriptor = buildArtifactDescriptor(type, normalizedFrom);
+    if (!descriptor) return null;
+
+    const result: ExtractResult = { content, artifact: descriptor };
+
+    // If validate requested, run validation on extracted content
+    if (options?.validate) {
+      result.validationResult = validate(type, content);
+    }
+
+    return result;
+  };
 
   // Step 1: Extract from log if extractor exists, otherwise use raw content
   let content = logContents;
@@ -599,18 +614,14 @@ export function extract(
 
   // Step 2: If normalize not requested or not available, return raw
   if (!options?.normalize) {
-    const descriptor = buildArtifactDescriptor(artifactType);
-    if (!descriptor) return null;
-    return { content, artifact: descriptor };
+    return buildResult(content, artifactType);
   }
 
   // Step 3: If already JSON, return as-is with descriptor
   if (capabilities.isJSON) {
     try {
       JSON.parse(content); // Validate
-      const descriptor = buildArtifactDescriptor(artifactType);
-      if (!descriptor) return null;
-      return { content, artifact: descriptor };
+      return buildResult(content, artifactType);
     } catch {
       return null;
     }
@@ -624,9 +635,7 @@ export function extract(
       writeFileSync(tempFile, content);
       const normalized = capabilities.normalize(tempFile);
       if (normalized) {
-        const descriptor = buildArtifactDescriptor(capabilities.normalizesTo, artifactType);
-        if (!descriptor) return null;
-        return { content: normalized, artifact: descriptor };
+        return buildResult(normalized, capabilities.normalizesTo, artifactType);
       }
     } finally {
       try {
