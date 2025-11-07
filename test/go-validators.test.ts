@@ -2,11 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { testArtifactType } from './helpers/artifact-test-helpers.js';
 import { fixtures } from './helpers/fixture-paths.js';
-import {
-  validateGoTestNDJSON,
-  validateGolangciLintJSON,
-  canConvertToJSON,
-} from '../src/validators/index.js';
+import { canConvertToJSON } from '../src/validators/index.js';
 
 describe('Go artifact types', () => {
   const goTestPath = fixtures.go.goTestJson();

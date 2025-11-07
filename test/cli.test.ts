@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { execSync, spawnSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { fixtures } from './helpers/fixture-paths.js';
-import { withTempFile, withTempFileSync } from './helpers/temp-file.js';
+import { withTempFile } from './helpers/temp-file.js';
 import { runCLIInProcess, runCLISubprocess, type CLITestResult } from '../src/cli/test-helper.js';
 
 /**

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
-import { testArtifactType, testValidationRejection, validateFixture } from './helpers/artifact-test-helpers.js';
+import { testArtifactType, validateFixture } from './helpers/artifact-test-helpers.js';
 import { fixtures } from './helpers/fixture-paths.js';
 
 describe('Mypy Artifacts', () => {
@@ -70,7 +70,6 @@ describe('Mypy Artifacts', () => {
 
     it('fails to validate non-mypy NDJSON', () => {
       const nonMypyJsonPath = fixtures.javascript.eslintJson();
-      const content = readFileSync(nonMypyJsonPath, 'utf-8');
       const result = validateFixture('mypy-ndjson', nonMypyJsonPath);
       expect(result.valid).toBe(false);
     });

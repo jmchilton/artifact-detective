@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateSurefireHTML, canConvertToJSON } from '../src/validators/index.js';
+import { canConvertToJSON } from '../src/validators/index.js';
 import { readFileSync } from 'fs';
 import { testArtifactType } from './helpers/artifact-test-helpers.js';
 import { fixtures } from './helpers/fixture-paths.js';

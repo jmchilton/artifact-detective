@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'fs';
 import { detectArtifactType } from '../src/detectors/type-detector.js';
 import { testArtifactType } from './helpers/artifact-test-helpers.js';
 import { fixtures } from './helpers/fixture-paths.js';

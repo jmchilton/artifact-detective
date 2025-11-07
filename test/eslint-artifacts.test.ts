@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
-import { testArtifactType, validateFixture } from './helpers/artifact-test-helpers.js';
+import { testArtifactType } from './helpers/artifact-test-helpers.js';
 import { fixtures } from './helpers/fixture-paths.js';
 
 describe('ESLint Artifacts', () => {
