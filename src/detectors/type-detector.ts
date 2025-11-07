@@ -1,5 +1,7 @@
 import { statSync, openSync, readSync, closeSync } from 'fs';
 import type { ArtifactType, OriginalFormat, DetectionResult } from '../types.js';
+import { validate, ARTIFACT_TYPE_REGISTRY } from '../validators/index.js';
+import { getArtifactDescription } from '../docs/artifact-descriptions.js';
 
 const BINARY_EXTENSIONS = new Set([
   '.png',
@@ -45,19 +47,65 @@ const CONTENT_SAMPLE_SIZE = 50000; // 50KB should be enough for HTML <head> and 
  * console.log(result.isBinary);       // false
  * ```
  *
+ * @param validate - Optional boolean to validate detected type matches content
+ *
  * @see {@link validate} to validate detected type matches actual content
  * @see {@link convertToJSON} to convert detected artifact to JSON
  */
-export function detectArtifactType(filePath: string): DetectionResult {
+export function detectArtifactType(filePath: string, options?: { validate?: boolean }): DetectionResult {
   const fileName = filePath.toLowerCase();
+
+  // Helper to build artifact descriptor from description and capabilities
+  const buildArtifactDescriptor = (type: ArtifactType): DetectionResult['artifact'] | null => {
+    const description = getArtifactDescription(type);
+    const capabilities = ARTIFACT_TYPE_REGISTRY[type];
+
+    if (!description || !capabilities) return null;
+
+    return {
+      artifactType: type,
+      fileExtension: description.fileExtension,
+      shortDescription: description.shortDescription,
+      toolUrl: description.toolUrl,
+      formatUrl: description.formatUrl,
+      parsingGuide: description.parsingGuide,
+      isJSON: capabilities.isJSON,
+    };
+  };
+
+  // Helper to build result with optional artifact and validation
+  const buildResult = (detectedType: ArtifactType, originalFormat: OriginalFormat, isBinary: boolean, content?: string): DetectionResult => {
+    const result: DetectionResult = {
+      detectedType,
+      originalFormat,
+      isBinary,
+    };
+
+    // If validate requested, include artifact descriptor and run validation
+    if (options?.validate) {
+      const descriptor = buildArtifactDescriptor(detectedType);
+      if (descriptor) {
+        result.artifact = descriptor;
+
+        // Only validate if we have content
+        if (content !== undefined) {
+          result.validationResult = validate(detectedType, content);
+        }
+      }
+    } else if (!isBinary) {
+      // If not validating but not binary, still include artifact descriptor
+      const descriptor = buildArtifactDescriptor(detectedType);
+      if (descriptor) {
+        result.artifact = descriptor;
+      }
+    }
+
+    return result;
+  };
 
   // Check for binary files by extension first (no need to read content)
   if (isBinaryFile(fileName)) {
-    return {
-      detectedType: 'binary',
-      originalFormat: 'binary',
-      isBinary: true,
-    };
+    return buildResult('binary', 'binary', true);
   }
 
   // Determine format by extension
@@ -69,27 +117,15 @@ export function detectArtifactType(filePath: string): DetectionResult {
       const content = readFileSample(filePath);
       const detectedType = detectByContent(content, originalFormat);
 
-      return {
-        detectedType,
-        originalFormat,
-        isBinary: false,
-      };
+      return buildResult(detectedType, originalFormat, false, options?.validate ? content : undefined);
     } catch {
       // File read error, fall back to unknown
-      return {
-        detectedType: 'unknown',
-        originalFormat,
-        isBinary: false,
-      };
+      return buildResult('unknown', originalFormat, false);
     }
   }
 
   // Unknown binary
-  return {
-    detectedType: 'unknown',
-    originalFormat: 'binary',
-    isBinary: true,
-  };
+  return buildResult('unknown', 'binary', true);
 }
 
 function isBinaryFile(fileName: string): boolean {

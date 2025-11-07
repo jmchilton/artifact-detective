@@ -129,4 +129,69 @@ describe('detectArtifactType', () => {
       expect(htmlResult.detectedType).toBe('unknown');
     });
   });
+
+  describe('Artifact descriptor and validation', () => {
+    it('includes artifact descriptor for non-binary types', () => {
+      const result = detectArtifactType(join(FIXTURES_DIR, 'json/jest-json-sample.json'));
+
+      expect(result.artifact).toBeDefined();
+      expect(result.artifact?.artifactType).toBe('jest-json');
+      expect(result.artifact?.shortDescription).toBeTruthy();
+      expect(result.artifact?.toolUrl).toBeTruthy();
+      expect(result.artifact?.parsingGuide).toBeTruthy();
+      expect(result.artifact?.fileExtension).toBe('json');
+      expect(result.artifact?.isJSON).toBe(true);
+    });
+
+    it('does not include artifact for binary types', () => {
+      const result = detectArtifactType('/path/to/image.png');
+
+      expect(result.artifact).toBeUndefined();
+      expect(result.isBinary).toBe(true);
+    });
+
+    it('validate option includes validationResult for valid artifacts', () => {
+      const result = detectArtifactType(
+        join(FIXTURES_DIR, 'json/jest-json-sample.json'),
+        { validate: true }
+      );
+
+      expect(result.artifact).toBeDefined();
+      expect(result.validationResult).toBeDefined();
+      expect(result.validationResult?.valid).toBe(true);
+      expect(result.validationResult?.artifact).toBeDefined();
+      expect(result.validationResult?.artifact?.artifactType).toBe('jest-json');
+    });
+
+    it('validate option detects invalid artifacts', () => {
+      const result = detectArtifactType(
+        join(FIXTURES_DIR, 'json/generic-data.json'),
+        { validate: true }
+      );
+
+      // generic-data.json is detected as unknown but still has artifact for that type
+      expect(result.artifact?.artifactType).toBe('unknown');
+      // Validation should fail for unknown type since it has no validator
+      expect(result.validationResult?.valid).toBe(false);
+    });
+
+    it('validate option omitted when not requested', () => {
+      const result = detectArtifactType(
+        join(FIXTURES_DIR, 'json/jest-json-sample.json')
+      );
+
+      expect(result.artifact).toBeDefined();
+      expect(result.validationResult).toBeUndefined();
+    });
+
+    it('includes artifact descriptor even without validation for detected types', () => {
+      const result = detectArtifactType(
+        join(FIXTURES_DIR, 'json/playwright-json-sample.json')
+      );
+
+      expect(result.artifact).toBeDefined();
+      expect(result.artifact?.artifactType).toBe('playwright-json');
+      expect(result.validationResult).toBeUndefined(); // No validation without validate option
+    });
+  });
 });

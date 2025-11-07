@@ -41,6 +41,8 @@ export interface DetectionResult {
   detectedType: ArtifactType;
   originalFormat: OriginalFormat;
   isBinary: boolean;
+  artifact?: import('./validators/types.js').ArtifactDescriptor;
+  validationResult?: import('./validators/types.js').ValidationResult;
 }
 
 // Catalog entry for an artifact
