@@ -82,3 +82,17 @@ No manual `npm version` or `npm publish` needed.
 - A release bot is constantly pushing release information to the changelog, so
 always fetch and rebase before pushing to origin main.
 - Lint and format your changes before committing.
+
+## Adding New Artifact Types
+
+See **docs/guides/adding-artifact-types.md** for complete checklist.
+
+6 locations must be updated (in order):
+1. `src/types.ts` - Add to ArtifactType union
+2. `src/parsers/linters/extractors.ts` - Implement extraction logic (if needed)
+3. `src/validators/index.ts` - Create wrapper + register in ARTIFACT_TYPE_REGISTRY
+4. `src/docs/artifact-descriptions.yml` - Add description (MANDATORY - tests validate this)
+5. `fixtures/extraction-tests/manifest.yml` - Add test entry with include/exclude patterns
+6. `fixtures/extraction-tests/<type>/logs.txt` - Add sample log file
+
+The most common mistake: skipping #4 causes extraction to return null even when code is correct.

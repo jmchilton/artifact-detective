@@ -3,6 +3,7 @@ import {
   loadArtifactDescriptions,
   getArtifactDescription,
 } from '../src/docs/artifact-descriptions.js';
+import { ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
 import type { ArtifactType } from '../src/types.js';
 
 describe('Artifact Descriptions', () => {
@@ -11,6 +12,23 @@ describe('Artifact Descriptions', () => {
       const descriptions = loadArtifactDescriptions();
       expect(descriptions).toBeTruthy();
       expect(Object.keys(descriptions).length).toBeGreaterThan(0);
+    });
+
+    it('all registered artifact types have descriptions (prevents extraction null bugs)', () => {
+      const descriptions = loadArtifactDescriptions();
+      const registryKeys = Object.keys(ARTIFACT_TYPE_REGISTRY) as ArtifactType[];
+
+      const missingDescriptions = registryKeys.filter((type) => !descriptions[type]);
+
+      if (missingDescriptions.length > 0) {
+        throw new Error(
+          `${missingDescriptions.length} artifact type(s) registered in ARTIFACT_TYPE_REGISTRY but missing descriptions in artifact-descriptions.yml: ${missingDescriptions.join(', ')}. ` +
+            'This causes extract() to return null even when extraction logic works correctly. ' +
+            'Add entries to src/docs/artifact-descriptions.yml for these types.',
+        );
+      }
+
+      expect(missingDescriptions).toHaveLength(0);
     });
 
     it('has entries for all expected artifact types', () => {
