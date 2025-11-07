@@ -10,6 +10,56 @@ Learn how to extract test framework and linter artifacts from CI logs.
 
 The extraction feature helps you pull structured artifact data from CI log output, where tools often print their results inline with other log messages.
 
+The library provides a unified API through the `extract()` function that can extract raw content or optionally normalize to JSON in a single call, and returns rich metadata about the artifact type.
+
+## Programmatic API
+
+### Extract from Logs
+
+```typescript
+import { extract } from 'artifact-detective';
+
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Extract raw linter output
+const result = extract('eslint-txt', logContent);
+if (result) {
+  console.log(result.content); // Extracted content
+  console.log(result.artifact.artifactType); // 'eslint-txt'
+  console.log(result.artifact.toolUrl); // Link to ESLint docs
+  console.log(result.artifact.isJSON); // false
+}
+```
+
+### Extract and Normalize to JSON
+
+```typescript
+import { extract } from 'artifact-detective';
+
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Extract and normalize to JSON in one call
+const result = extract('mypy-txt', logContent, { normalize: true });
+if (result) {
+  const errors = JSON.parse(result.content);
+  console.log(result.artifact.artifactType); // 'mypy-json' (normalized)
+  console.log(result.artifact.normalizedFrom); // 'mypy-txt' (original)
+}
+```
+
+### Custom Extraction Markers
+
+```typescript
+import { extract, type ExtractorConfig } from 'artifact-detective';
+
+const config: ExtractorConfig = {
+  startMarker: /^Running ESLint/,
+  endMarker: /^\d+ problems?/
+};
+
+const result = extract('eslint-txt', logContent, { config });
+```
+
 ## Common Extraction Scenarios
 
 ### Extracting ESLint Output

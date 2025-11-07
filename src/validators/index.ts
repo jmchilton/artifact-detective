@@ -66,6 +66,8 @@ export type {
   ExtractFromLogFunction,
   NormalizeFunction,
   ArtifactDescription,
+  ArtifactDescriptor,
+  ExtractResult,
 } from './types.js';
 
 /**
@@ -177,6 +179,31 @@ function extractMypyFromLog(logContents: string, config?: ExtractorConfig): stri
 
 function extractClippyFromLog(logContents: string, config?: ExtractorConfig): string | null {
   return extractLinterOutput('clippy', logContents, config);
+}
+
+/**
+ * Build an ArtifactDescriptor from registry and description data
+ */
+function buildArtifactDescriptor(
+  type: ArtifactType,
+  normalizedFrom?: ArtifactType,
+): ArtifactDescriptor | null {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[type];
+  const description = getArtifactDescription(type);
+
+  if (!capabilities || !description) {
+    return null;
+  }
+
+  return {
+    artifactType: type,
+    shortDescription: description.shortDescription,
+    toolUrl: description.toolUrl,
+    formatUrl: description.formatUrl,
+    parsingGuide: description.parsingGuide,
+    isJSON: capabilities.isJSON,
+    normalizedFrom,
+  };
 }
 
 /**
@@ -535,79 +562,60 @@ export function validate(type: ArtifactType, content: string): ValidationResult 
 }
 
 /**
- * Extract artifact content from CI log file
+ * Extract artifact content from CI log
  *
- * @param artifactType - Target artifact type (must have extractor)
+ * @param artifactType - Target artifact type
  * @param logContents - CI log file contents
- * @returns Extracted artifact content or null if extraction not supported/failed
+ * @param options - Extraction options
+ * @param options.normalize - If true, attempt to normalize to JSON format (default: false)
+ * @param options.config - Extractor configuration
+ * @returns ExtractResult with content and artifact metadata, or null if extraction not supported/failed
+ *
+ * @example
+ * ```typescript
+ * // Extract raw linter output from log
+ * const result = await extract('eslint-txt', logContents);
+ *
+ * // Extract and normalize to JSON
+ * const jsonResult = await extract('pytest-html', logContents, { normalize: true });
+ * ```
  */
-export function extractArtifactFromLog(
+export function extract(
   artifactType: ArtifactType,
   logContents: string,
-  config?: ExtractorConfig,
-): string | null {
-  const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
-  if (!capabilities?.extract) {
-    return null;
-  }
-  return capabilities.extract(logContents, config);
-}
-
-/**
- * Result of extracting and converting artifact to JSON
- */
-export interface ArtifactJsonResult {
-  json: string;
-  effectiveType: ArtifactType;
-  description?: ArtifactDescription;
-}
-
-/**
- * Result of converting artifact to JSON format
- */
-export interface ConversionResult {
-  json: string;
-  description: ArtifactDescription;
-}
-
-/**
- * Extract artifact from log and convert to JSON
- *
- * @param artifactType - Source artifact type
- * @param logContents - CI log file contents
- * @returns JSON content, effective type, and description, or null if not possible
- */
-export function extractArtifactToJson(
-  artifactType: ArtifactType,
-  logContents: string,
-): ArtifactJsonResult | null {
+  options?: { normalize?: boolean; config?: ExtractorConfig },
+): ExtractResult | null {
   const capabilities = ARTIFACT_TYPE_REGISTRY[artifactType];
   if (!capabilities) return null;
 
   // Step 1: Extract from log if extractor exists, otherwise use raw content
   let content = logContents;
   if (capabilities.extract) {
-    const extracted = capabilities.extract(logContents);
+    const extracted = capabilities.extract(logContents, options?.config);
     if (!extracted) return null;
     content = extracted;
   }
 
-  // Step 2: If already JSON, return as-is
+  // Step 2: If normalize not requested or not available, return raw
+  if (!options?.normalize) {
+    const descriptor = buildArtifactDescriptor(artifactType);
+    if (!descriptor) return null;
+    return { content, artifact: descriptor };
+  }
+
+  // Step 3: If already JSON, return as-is with descriptor
   if (capabilities.isJSON) {
     try {
       JSON.parse(content); // Validate
-      const description = getArtifactDescription(artifactType);
-      return {
-        json: content,
-        effectiveType: artifactType,
-        description: description ?? undefined,
-      };
+      const descriptor = buildArtifactDescriptor(artifactType);
+      if (!descriptor) return null;
+      return { content, artifact: descriptor };
     } catch {
       return null;
     }
   }
 
-  // Step 3: If has normalizer, convert to JSON
+  // Step 4: If has normalizer, convert to JSON
   if (capabilities.normalize && capabilities.normalizesTo) {
     // Write to temp file for normalize function
     const tempFile = `/tmp/artifact-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.txt`;
@@ -615,12 +623,9 @@ export function extractArtifactToJson(
       writeFileSync(tempFile, content);
       const normalized = capabilities.normalize(tempFile);
       if (normalized) {
-        const description = getArtifactDescription(capabilities.normalizesTo);
-        return {
-          json: normalized,
-          effectiveType: capabilities.normalizesTo,
-          description: description ?? undefined,
-        };
+        const descriptor = buildArtifactDescriptor(capabilities.normalizesTo, artifactType);
+        if (!descriptor) return null;
+        return { content: normalized, artifact: descriptor };
       }
     } finally {
       try {
@@ -632,6 +637,70 @@ export function extractArtifactToJson(
   }
 
   return null;
+}
+
+/**
+ * Extract artifact content from CI log file
+ *
+ * @deprecated Use extract() instead
+ * @param artifactType - Target artifact type (must have extractor)
+ * @param logContents - CI log file contents
+ * @returns Extracted artifact content or null if extraction not supported/failed
+ */
+export function extractArtifactFromLog(
+  artifactType: ArtifactType,
+  logContents: string,
+  config?: ExtractorConfig,
+): string | null {
+  const result = extract(artifactType, logContents, { normalize: false, config });
+  return result?.content ?? null;
+}
+
+/**
+ * Result of extracting and converting artifact to JSON
+ * @deprecated Use ExtractResult from extract() instead
+ */
+export interface ArtifactJsonResult {
+  json: string;
+  effectiveType: ArtifactType;
+  description?: ArtifactDescription;
+}
+
+/**
+ * Result of converting artifact to JSON format
+ * @deprecated Use ExtractResult from extract() instead
+ */
+export interface ConversionResult {
+  json: string;
+  description: ArtifactDescription;
+}
+
+/**
+ * Extract artifact from log and convert to JSON
+ *
+ * @deprecated Use extract(type, logContents, { normalize: true }) instead
+ * @param artifactType - Source artifact type
+ * @param logContents - CI log file contents
+ * @returns JSON content, effective type, and description, or null if not possible
+ */
+export function extractArtifactToJson(
+  artifactType: ArtifactType,
+  logContents: string,
+): ArtifactJsonResult | null {
+  const result = extract(artifactType, logContents, { normalize: true });
+  if (!result) return null;
+
+  return {
+    json: result.content,
+    effectiveType: result.artifact.artifactType,
+    description: {
+      type: result.artifact.artifactType,
+      shortDescription: result.artifact.shortDescription,
+      toolUrl: result.artifact.toolUrl,
+      formatUrl: result.artifact.formatUrl,
+      parsingGuide: result.artifact.parsingGuide,
+    },
+  };
 }
 
 /**

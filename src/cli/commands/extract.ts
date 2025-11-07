@@ -1,4 +1,4 @@
-import { extractArtifactFromLog } from '../../validators/index.js';
+import { extract as extractFromLog } from '../../validators/index.js';
 import { readInput, writeOutput, exitError } from '../utils.js';
 import type { ArtifactType } from '../../types.js';
 import type { ExtractorConfig } from '../../parsers/linters/extractors.js';
@@ -38,13 +38,13 @@ export async function extractCore(
       }
     }
 
-    const result = extractArtifactFromLog(type as ArtifactType, logContent, config);
+    const result = extractFromLog(type as ArtifactType, logContent, { config });
 
     if (!result) {
       return { success: false, error: `No ${type} output found in log` };
     }
 
-    return { success: true, data: result };
+    return { success: true, data: result.content };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return { success: false, error: `Failed to extract artifact: ${message}` };
@@ -63,7 +63,9 @@ export async function extract(
 
   if (!result.success) {
     exitError(result.error);
+    return;
   }
 
-  writeOutput(result.data, options.output || null);
+  const { data } = result as { success: true; data: string };
+  writeOutput(data, options.output || null);
 }

@@ -44,6 +44,27 @@ export interface ArtifactTypeCapabilities {
 }
 
 /**
+ * Flattened descriptor containing all metadata about an artifact type
+ */
+export interface ArtifactDescriptor {
+  artifactType: ArtifactType;
+  shortDescription: string;
+  toolUrl?: string;
+  formatUrl?: string;
+  parsingGuide: string;
+  isJSON: boolean;
+  normalizedFrom?: ArtifactType;
+}
+
+/**
+ * Result of extracting artifact content
+ */
+export interface ExtractResult {
+  content: string;
+  artifact: ArtifactDescriptor;
+}
+
+/**
  * Helper function to check if content is valid JSON
  * @param content - The content to check
  * @returns true if content can be parsed as JSON, false otherwise

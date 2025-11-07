@@ -7,6 +7,7 @@ export {
   canConvertToJSON,
   convertToJSON,
   validate,
+  extract,
   extractArtifactFromLog,
   extractArtifactToJson,
   ARTIFACT_TYPE_REGISTRY,
@@ -43,6 +44,8 @@ export type {
 export type {
   ValidationResult,
   ArtifactDescription,
+  ArtifactDescriptor,
+  ExtractResult,
   ConversionResult,
   ArtifactJsonResult,
   ArtifactTypeCapabilities,

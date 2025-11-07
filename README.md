@@ -59,14 +59,20 @@ if (result.valid) {
 ### Extract from CI Logs
 
 ```typescript
-import { extractArtifactFromLog } from 'artifact-detective';
+import { extract } from 'artifact-detective';
 
 const logContent = readFileSync('./ci-log.txt', 'utf-8');
 
 // Extract linter output from logs
-const eslintOutput = extractArtifactFromLog('eslint-txt', logContent);
-if (eslintOutput) {
-  console.log('Extracted ESLint output:', eslintOutput);
+const result = extract('eslint-txt', logContent);
+if (result) {
+  console.log('Extracted content:', result.content);
+  console.log('Artifact type:', result.artifact.artifactType);
+  console.log('Format info:', {
+    isJSON: result.artifact.isJSON,
+    toolUrl: result.artifact.toolUrl,
+    parsingGuide: result.artifact.parsingGuide
+  });
 }
 ```
 
@@ -75,7 +81,7 @@ if (eslintOutput) {
 For custom CI environments, you can provide markers to control extraction:
 
 ```typescript
-import { extractArtifactFromLog, type ExtractorConfig } from 'artifact-detective';
+import { extract, type ExtractorConfig } from 'artifact-detective';
 
 const logContent = readFileSync('./ci-log.txt', 'utf-8');
 
@@ -86,12 +92,34 @@ const config: ExtractorConfig = {
   includeEndMarker: true, // Include end marker line in output (default: true)
 };
 
-const eslintOutput = extractArtifactFromLog('eslint-txt', logContent, config);
+const result = extract('eslint-txt', logContent, { config });
+if (result) {
+  console.log('Extracted:', result.content);
+}
 ```
 
-### Convert to JSON
+### Convert to JSON or Normalize
 
-Many artifact types can be normalized to JSON for programmatic access:
+Many artifact types can be normalized to JSON for programmatic access. Use the unified `extract()` function with the `normalize` option:
+
+```typescript
+import { extract } from 'artifact-detective';
+
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Extract and normalize to JSON in one step
+const result = extract('mypy-txt', logContent, { normalize: true });
+if (result) {
+  const errors = JSON.parse(result.content);
+  console.log(`Extracted ${errors.length} type errors`);
+  console.log('Normalized type:', result.artifact.artifactType); // 'mypy-json'
+  console.log('Original type was:', result.artifact.normalizedFrom); // 'mypy-txt'
+}
+```
+
+#### File-based Normalization
+
+For file-based normalization (without extraction from logs):
 
 ```typescript
 import { detectArtifactType, convertToJSON, canConvertToJSON } from 'artifact-detective';
@@ -107,24 +135,6 @@ if (canConvertToJSON(result)) {
     console.log(`Found ${data.tests.length} tests`);
     console.log('Parsing guide:', conversion.description.parsingGuide);
   }
-}
-```
-
-### Extract and Convert in One Step
-
-Combine log extraction with JSON conversion:
-
-```typescript
-import { extractArtifactToJson } from 'artifact-detective';
-
-const logContent = readFileSync('./ci-log.txt', 'utf-8');
-
-// Extract mypy output from logs and convert to JSON
-const result = extractArtifactToJson('mypy-txt', logContent);
-if (result) {
-  const errors = JSON.parse(result.json);
-  console.log(`Extracted ${errors.length} type errors`);
-  console.log('Effective type:', result.effectiveType); // 'mypy-ndjson'
 }
 ```
 

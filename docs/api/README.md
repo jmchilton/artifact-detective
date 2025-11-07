@@ -50,41 +50,77 @@ const result = validateArtifact('jest-json', 'results.json');
 - `isValid`: Whether the artifact is valid for the type
 - `errors`: Array of validation errors (if any)
 
-### Extraction
+### Extraction & Normalization
 
-#### `extractFromLog(type: ArtifactType, logPath: string, options?)`
+#### `extract(type: ArtifactType, logContents: string, options?)`
 
-Extract an artifact from CI log output.
+Unified extraction function that can optionally normalize to JSON. Extract artifact content from CI logs or normalize to JSON format.
 
 ```typescript
-import { extractFromLog } from 'artifact-detective';
+import { extract } from 'artifact-detective';
 
-const artifact = extractFromLog('eslint-txt', 'build.log', {
-  startMarker: /ESLint:/,
-  endMarker: /^$/
-});
+const logContent = readFileSync('./ci-log.txt', 'utf-8');
+
+// Extract raw linter output from logs
+const result = extract('eslint-txt', logContent);
+if (result) {
+  console.log('Content:', result.content);
+  console.log('Type:', result.artifact.artifactType);
+  console.log('Is JSON:', result.artifact.isJSON);
+}
+
+// Extract and normalize to JSON in one step
+const normalized = extract('mypy-txt', logContent, { normalize: true });
+if (normalized) {
+  const errors = JSON.parse(normalized.content);
+  console.log(`Extracted ${errors.length} type errors`);
+  console.log('Normalized from:', normalized.artifact.normalizedFrom);
+}
 ```
 
 **Options:**
-- `startMarker`: RegExp to detect section start
-- `endMarker`: RegExp to detect section end
+- `normalize` (boolean, default: false): If true, attempt to convert to JSON format
+- `config` (ExtractorConfig): Extraction configuration with custom markers
+  - `startMarker`: RegExp to detect section start
+  - `endMarker`: RegExp to detect section end
+  - `includeEndMarker`: Include end marker line in output (default: true)
 
-### Normalization
+**Returns:**
+- `ExtractResult` with:
+  - `content`: Raw or normalized content
+  - `artifact`: ArtifactDescriptor with full metadata
+    - `artifactType`: The artifact type
+    - `shortDescription`: Human-readable description
+    - `toolUrl`: Link to tool documentation
+    - `formatUrl`: Link to format documentation
+    - `parsingGuide`: Detailed parsing guide
+    - `isJSON`: Whether format is JSON
+    - `normalizedFrom`: Original type if normalized (undefined if raw)
 
-#### `normalizeArtifact(filePath: string, options?)`
+### File-based Normalization
 
-Convert artifact to JSON format.
+#### `convertToJSON(result: DetectionResult, filePath: string)`
+
+Convert a detected artifact file to JSON format.
 
 ```typescript
-import { normalizeArtifact } from 'artifact-detective';
+import { detectArtifactType, convertToJSON, canConvertToJSON } from 'artifact-detective';
 
-const json = normalizeArtifact('pytest-report.html');
-const data = JSON.parse(json);
-console.log(data.tests);
+const detected = detectArtifactType('./pytest-report.html');
+if (canConvertToJSON(detected)) {
+  const result = convertToJSON(detected, './pytest-report.html');
+  if (result) {
+    const data = JSON.parse(result.json);
+    console.log(data.tests);
+    console.log('Guide:', result.description.parsingGuide);
+  }
+}
 ```
 
-**Options:**
-- `type`: Override auto-detected artifact type
+**Returns:**
+- `ConversionResult` with:
+  - `json`: The JSON content as a string
+  - `description`: ArtifactDescription with metadata
 
 ## Type Definitions
 
@@ -108,8 +144,8 @@ Result of artifact validation:
 
 ```typescript
 interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
+  valid: boolean;
+  error?: string;
   description?: ArtifactDescription;
 }
 ```
@@ -120,72 +156,109 @@ Metadata about an artifact type:
 
 ```typescript
 interface ArtifactDescription {
+  type: string;
   shortDescription: string;
-  toolUrl: string;
-  formatUrl: string;
+  toolUrl?: string;
+  formatUrl?: string;
   parsingGuide: string;
+}
+```
+
+### `ArtifactDescriptor`
+
+Flattened descriptor containing all metadata about an artifact type:
+
+```typescript
+interface ArtifactDescriptor {
+  artifactType: ArtifactType;
+  shortDescription: string;
+  toolUrl?: string;
+  formatUrl?: string;
+  parsingGuide: string;
+  isJSON: boolean;
+  normalizedFrom?: ArtifactType;
+}
+```
+
+### `ExtractResult`
+
+Result of extracting artifact content:
+
+```typescript
+interface ExtractResult {
+  content: string;
+  artifact: ArtifactDescriptor;
 }
 ```
 
 ## Examples
 
-### Example 1: Process Test Results
+### Example 1: Extract from Log and Access Metadata
 
 ```typescript
-import { detectArtifactType, normalizeArtifact } from 'artifact-detective';
+import { extract } from 'artifact-detective';
 
-async function processResults(filePath: string) {
-  // Auto-detect type
-  const detected = detectArtifactType(filePath);
-  console.log(`Detected: ${detected.detectedType}`);
-  
-  // Convert to JSON
-  if (detected.detectedType) {
-    const json = normalizeArtifact(filePath);
-    return JSON.parse(json);
+async function extractArtifact(logFile: string) {
+  const logContent = readFileSync(logFile, 'utf-8');
+
+  // Extract linter output from log
+  const result = extract('eslint-txt', logContent);
+
+  if (result) {
+    console.log('Content:', result.content);
+    console.log('Type:', result.artifact.artifactType);
+    console.log('Tool:', result.artifact.toolUrl);
+    console.log('Is JSON:', result.artifact.isJSON);
+    console.log('Parsing Guide:', result.artifact.parsingGuide);
+
+    return result.content;
   }
 }
 ```
 
-### Example 2: Validate Multiple Artifacts
+### Example 2: Extract and Normalize to JSON
 
 ```typescript
-import { validateArtifact } from 'artifact-detective';
+import { extract } from 'artifact-detective';
 
-async function validateResults(files: string[]) {
+async function extractAndNormalize(logFile: string) {
+  const logContent = readFileSync(logFile, 'utf-8');
+
+  // Extract mypy output and convert to JSON in one step
+  const result = extract('mypy-txt', logContent, { normalize: true });
+
+  if (result) {
+    const errors = JSON.parse(result.content);
+    console.log(`Found ${errors.length} type errors`);
+    console.log('Normalized type:', result.artifact.artifactType);
+    console.log('Original was:', result.artifact.normalizedFrom);
+
+    return errors;
+  }
+}
+```
+
+### Example 3: Validate Artifacts
+
+```typescript
+import { validate } from 'artifact-detective';
+
+async function validateArtifacts(files: string[]) {
   const results = [];
-  
+
   for (const file of files) {
-    const result = validateArtifact('jest-json', file);
+    const content = readFileSync(file, 'utf-8');
+    const result = validate('jest-json', content);
+
     results.push({
       file,
-      valid: result.isValid,
-      errors: result.errors
+      valid: result.valid,
+      error: result.error,
+      description: result.description
     });
   }
-  
+
   return results;
-}
-```
-
-### Example 3: Extract from CI Log
-
-```typescript
-import { extractFromLog, validateArtifact } from 'artifact-detective';
-
-async function extractAndValidate(logFile: string) {
-  // Extract ESLint output from log
-  const artifact = extractFromLog('eslint-txt', logFile);
-  
-  if (artifact) {
-    // Save extracted artifact
-    const fs = require('fs');
-    fs.writeFileSync('eslint-output.txt', artifact);
-    
-    // Validate extracted artifact
-    const validation = validateArtifact('eslint-txt', 'eslint-output.txt');
-    console.log('Valid:', validation.isValid);
-  }
 }
 ```
 
