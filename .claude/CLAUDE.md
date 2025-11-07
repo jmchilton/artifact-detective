@@ -76,3 +76,9 @@ Automated via semantic-release:
 7. GitHub release created
 
 No manual `npm version` or `npm publish` needed.
+
+## git
+
+- A release bot is constantly pushing release information to the changelog, so
+always fetch and rebase before pushing to origin main.
+- Lint and format your changes before committing.

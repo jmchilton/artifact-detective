@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, unlinkSync } from 'fs';
 import type { ArtifactType } from '../types.js';
-import type { ArtifactTypeCapabilities, ValidationResult, ArtifactDescription } from './types.js';
+import type { ArtifactTypeCapabilities, ValidationResult, ArtifactDescription, ArtifactDescriptor, ExtractResult } from './types.js';
 import { getArtifactDescription } from '../docs/artifact-descriptions.js';
 import { validateJestJSON } from './jest-validator.js';
 import { validatePlaywrightJSON } from './playwright-validator.js';
