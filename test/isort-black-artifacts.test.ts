@@ -1,29 +1,27 @@
 import { describe, it, expect } from 'vitest';
-import { join } from 'path';
 import { readFileSync } from 'fs';
+import { testArtifactType } from './helpers/artifact-test-helpers.js';
+import { fixtures } from './helpers/fixture-paths.js';
 import { detectArtifactType } from '../src/detectors/type-detector.js';
-import { validate, ARTIFACT_TYPE_REGISTRY } from '../src/validators/index.js';
 import { getArtifactDescription } from '../src/docs/artifact-descriptions.js';
-import { FIXTURES_DIR } from './fixtures-helper.js';
+import { validate } from '../src/validators/index.js';
 
 describe('Isort and Black Artifacts', () => {
-  describe('Isort Text Output', () => {
-    const isortPath = join(FIXTURES_DIR, 'generated/python/isort-output.txt');
+  const isortPath = fixtures.python.isortTxt();
+  const blackPath = fixtures.python.blackTxt();
 
-    it('detects isort-txt by content', () => {
-      const result = detectArtifactType(isortPath);
-      expect(result.detectedType).toBe('isort-txt');
-      expect(result.originalFormat).toBe('txt');
-      expect(result.isBinary).toBe(false);
-    });
+  testArtifactType({
+    artifactType: 'isort-txt',
+    fixturePath: isortPath,
+    expectedFormat: 'txt',
+    supportsAutoDetection: false,
+    invalidSamples: [
+      'Some random text without isort markers',
+      '--- file.py\n+++ file.py\n-import os',
+    ],
+  });
 
-    it('validates isort output content', () => {
-      const content = readFileSync(isortPath, 'utf-8');
-      const result = validate('isort-txt', content);
-      expect(result.valid).toBe(true);
-      expect(result.artifact).toBeDefined();
-      expect(result.artifact?.artifactType).toBe('isort-txt');
-    });
+  describe('Isort Text Output specific tests', () => {
 
     it('has isort in error message', () => {
       const content = readFileSync(isortPath, 'utf-8');
@@ -42,28 +40,6 @@ describe('Isort and Black Artifacts', () => {
       expect(content).toMatch(/^[+-]\s*import\s+/m);
     });
 
-    it('rejects invalid isort output', () => {
-      const invalidOutput = 'Some random text without isort markers';
-      const result = validate('isort-txt', invalidOutput);
-      expect(result.valid).toBe(false);
-      expect(result.error).toBeTruthy();
-    });
-
-    it('rejects output without ERROR marker', () => {
-      const noErrorOutput = '--- file.py\n+++ file.py\n-import os';
-      const result = validate('isort-txt', noErrorOutput);
-      expect(result.valid).toBe(false);
-    });
-
-    it('has registry entry without auto-detection', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['isort-txt'];
-      expect(capabilities).toBeDefined();
-      expect(capabilities.supportsAutoDetection).toBe(false);
-      expect(capabilities.validator).toBeDefined();
-      expect(capabilities.extract).toBeNull();
-      expect(capabilities.isJSON).toBe(false);
-    });
-
     it('has comprehensive artifact description', () => {
       const description = getArtifactDescription('isort-txt');
       expect(description).toBeDefined();
@@ -74,23 +50,17 @@ describe('Isort and Black Artifacts', () => {
     });
   });
 
-  describe('Black Text Output', () => {
-    const blackPath = join(FIXTURES_DIR, 'generated/python/black-output.txt');
+  testArtifactType({
+    artifactType: 'black-txt',
+    fixturePath: blackPath,
+    expectedFormat: 'txt',
+    supportsAutoDetection: false,
+    invalidSamples: [
+      'Just some random formatter output',
+    ],
+  });
 
-    it('detects black-txt by content', () => {
-      const result = detectArtifactType(blackPath);
-      expect(result.detectedType).toBe('black-txt');
-      expect(result.originalFormat).toBe('txt');
-      expect(result.isBinary).toBe(false);
-    });
-
-    it('validates black output content', () => {
-      const content = readFileSync(blackPath, 'utf-8');
-      const result = validate('black-txt', content);
-      expect(result.valid).toBe(true);
-      expect(result.artifact).toBeDefined();
-      expect(result.artifact?.artifactType).toBe('black-txt');
-    });
+  describe('Black Text Output specific tests', () => {
 
     it('has black completion message', () => {
       const content = readFileSync(blackPath, 'utf-8');
@@ -109,13 +79,6 @@ describe('Isort and Black Artifacts', () => {
       expect(content).toMatch(/would be left unchanged|would reformat/);
     });
 
-    it('rejects invalid black output', () => {
-      const invalidOutput = 'Just some random formatter output';
-      const result = validate('black-txt', invalidOutput);
-      expect(result.valid).toBe(false);
-      expect(result.error).toBeTruthy();
-    });
-
     it('accepts black completion without changes', () => {
       const completionMessage = 'All done! ✨ 🍰 ✨\n2 files would be left unchanged.';
       const result = validate('black-txt', completionMessage);
@@ -126,15 +89,6 @@ describe('Isort and Black Artifacts', () => {
       const reformatMessage = 'would reformat src/file.py\nAll done! ✨ 🍰 ✨';
       const result = validate('black-txt', reformatMessage);
       expect(result.valid).toBe(true);
-    });
-
-    it('has registry entry without auto-detection', () => {
-      const capabilities = ARTIFACT_TYPE_REGISTRY['black-txt'];
-      expect(capabilities).toBeDefined();
-      expect(capabilities.supportsAutoDetection).toBe(false);
-      expect(capabilities.validator).toBeDefined();
-      expect(capabilities.extract).toBeNull();
-      expect(capabilities.isJSON).toBe(false);
     });
 
     it('has comprehensive artifact description', () => {
@@ -149,12 +103,12 @@ describe('Isort and Black Artifacts', () => {
 
   describe('Type Detection Integration', () => {
     it('detects isort before black', () => {
-      const result = detectArtifactType(join(FIXTURES_DIR, 'generated/python/isort-output.txt'));
+      const result = detectArtifactType(fixtures.python.isortTxt());
       expect(result.detectedType).toBe('isort-txt');
     });
 
     it('distinguishes black from other formatters', () => {
-      const result = detectArtifactType(join(FIXTURES_DIR, 'generated/python/black-output.txt'));
+      const result = detectArtifactType(fixtures.python.blackTxt());
       expect(result.detectedType).toBe('black-txt');
     });
   });
