@@ -45,6 +45,7 @@ export function loadArtifactDescriptions(): Record<ArtifactType, ArtifactDescrip
   for (const [type, data] of Object.entries(raw)) {
     descriptionsCache[type as ArtifactType] = {
       type,
+      fileExtension: data.fileExtension,
       shortDescription: data.shortDescription,
       toolUrl: data.toolUrl,
       formatUrl: data.formatUrl,

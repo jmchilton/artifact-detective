@@ -197,6 +197,7 @@ function buildArtifactDescriptor(
 
   return {
     artifactType: type,
+    fileExtension: description.fileExtension,
     shortDescription: description.shortDescription,
     toolUrl: description.toolUrl,
     formatUrl: description.formatUrl,
