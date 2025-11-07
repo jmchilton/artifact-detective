@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { execSync, spawnSync } from 'child_process';
-import { join } from 'path';
 import { readFileSync } from 'fs';
-import { FIXTURES_DIR } from './fixtures-helper.js';
+import { fixtures } from './helpers/fixture-paths.js';
+import { withTempFile, withTempFileSync } from './helpers/temp-file.js';
 import { runCLIInProcess, runCLISubprocess, type CLITestResult } from '../src/cli/test-helper.js';
 
 /**
@@ -12,7 +12,7 @@ import { runCLIInProcess, runCLISubprocess, type CLITestResult } from '../src/cl
 function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: string) {
   describe(`CLI Commands (${mode} mode)`, () => {
     describe('detect command', () => {
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const eslintJsonPath = fixtures.javascript.eslintJson();
 
       it('detects artifact type from file', async () => {
         const result = await runCommand(['detect', eslintJsonPath]);
@@ -42,7 +42,6 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('outputs JSON format for detected file', async () => {
-        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
         const result = await runCommand(['detect', '--json', eslintJsonPath]);
 
         expect(result.exitCode).toBe(0);
@@ -54,7 +53,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
     });
 
     describe('validate command', () => {
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const eslintJsonPath = fixtures.javascript.eslintJson();
 
       it('validates artifact against type', async () => {
         const result = await runCommand(['validate', 'eslint-json', eslintJsonPath]);
@@ -64,7 +63,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('rejects invalid artifact', async () => {
-        const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+        const pytestJsonPath = fixtures.python.pytestJson();
         const result = await runCommand(['validate', 'eslint-json', pytestJsonPath]);
 
         expect(result.exitCode).toBe(2);
@@ -103,7 +102,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('includes error message for invalid artifact in JSON', async () => {
-        const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+        const pytestJsonPath = fixtures.python.pytestJson();
         const result = await runCommand(['validate', '--json', 'eslint-json', pytestJsonPath]);
 
         expect(result.exitCode).toBe(2);
@@ -114,7 +113,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
     });
 
     describe('extract command', () => {
-      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const eslintOutputPath = fixtures.javascript.eslintTxt();
 
       it('extracts artifact from log file', async () => {
         const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath]);
@@ -125,19 +124,13 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('writes output to file with --output', async () => {
-        const tmpFile = `/tmp/extracted-${Date.now()}.txt`;
-        const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath, '--output', tmpFile]);
+        await withTempFile(async (tmpFile) => {
+          const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath, '--output', tmpFile]);
 
-        expect(result.exitCode).toBe(0);
-        const content = readFileSync(tmpFile, 'utf-8');
-        expect(content).toContain('error');
-
-        // Cleanup
-        try {
-          execSync(`rm ${tmpFile}`);
-        } catch {
-          // Ignore cleanup errors
-        }
+          expect(result.exitCode).toBe(0);
+          const content = readFileSync(tmpFile, 'utf-8');
+          expect(content).toContain('error');
+        }, 'extracted');
       });
 
       it('handles extraction failure gracefully', async () => {
@@ -148,7 +141,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('extracts with custom start marker', async () => {
-        const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+        const eslintOutputPath = fixtures.javascript.eslintTxt();
         const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath, '--start-marker', 'error']);
 
         expect(result.exitCode).toBe(0);
@@ -156,14 +149,14 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('extracts with custom end marker', async () => {
-        const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+        const eslintOutputPath = fixtures.javascript.eslintTxt();
         const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath, '--end-marker', 'passing']);
 
         expect(result.exitCode).toBe(0);
       });
 
       it('handles invalid regex in start marker', async () => {
-        const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+        const eslintOutputPath = fixtures.javascript.eslintTxt();
         const result = await runCommand(['extract', 'eslint-txt', eslintOutputPath, '--start-marker', '[invalid(regex']);
 
         expect(result.exitCode).not.toBe(0);
@@ -172,8 +165,8 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
     });
 
     describe('normalize command', () => {
-      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
-      const jestHtmlPath = join(FIXTURES_DIR, 'generated/javascript/jest-report.html');
+      const pytestHtmlPath = fixtures.python.pytestHtml();
+      const jestHtmlPath = fixtures.javascript.jestHtml();
 
       it('converts HTML artifact to JSON', async () => {
         const result = await runCommand(['normalize', pytestHtmlPath]);
@@ -184,20 +177,14 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('outputs to file with --output', async () => {
-        const tmpFile = `/tmp/normalized-${Date.now()}.json`;
-        const result = await runCommand(['normalize', pytestHtmlPath, '--output', tmpFile]);
+        await withTempFile(async (tmpFile) => {
+          const result = await runCommand(['normalize', pytestHtmlPath, '--output', tmpFile]);
 
-        expect(result.exitCode).toBe(0);
-        const content = readFileSync(tmpFile, 'utf-8');
-        const json = JSON.parse(content);
-        expect(json).toHaveProperty('tests');
-
-        // Cleanup
-        try {
-          execSync(`rm ${tmpFile}`);
-        } catch {
-          // Ignore cleanup errors
-        }
+          expect(result.exitCode).toBe(0);
+          const content = readFileSync(tmpFile, 'utf-8');
+          const json = JSON.parse(content);
+          expect(json).toHaveProperty('tests');
+        }, 'normalized');
       });
 
       it('includes description with --show-description', async () => {
@@ -216,7 +203,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('handles conversion failure', async () => {
-        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const eslintJsonPath = fixtures.javascript.eslintJson();
         const result = await runCommand(['normalize', eslintJsonPath]);
 
         // JSON artifacts should still succeed (already JSON)
@@ -224,7 +211,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('normalizes with explicit type override', async () => {
-        const jestHtmlPath = join(FIXTURES_DIR, 'generated/javascript/jest-report.html');
+        const jestHtmlPath = fixtures.javascript.jestHtml();
         const result = await runCommand(['normalize', '--type', 'jest-html', jestHtmlPath]);
 
         expect(result.exitCode).toBe(0);
@@ -233,25 +220,19 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('normalizes to file with --output', async () => {
-        const tmpFile = `/tmp/normalized-${Date.now()}.json`;
-        const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
-        const result = await runCommand(['normalize', pytestHtmlPath, '--output', tmpFile]);
+        const pytestHtmlPath = fixtures.python.pytestHtml();
+        await withTempFile(async (tmpFile) => {
+          const result = await runCommand(['normalize', pytestHtmlPath, '--output', tmpFile]);
 
-        expect(result.exitCode).toBe(0);
-        const content = readFileSync(tmpFile, 'utf-8');
-        const json = JSON.parse(content);
-        expect(json).toHaveProperty('tests');
-
-        // Cleanup
-        try {
-          execSync(`rm ${tmpFile}`);
-        } catch {
-          // Ignore cleanup errors
-        }
+          expect(result.exitCode).toBe(0);
+          const content = readFileSync(tmpFile, 'utf-8');
+          const json = JSON.parse(content);
+          expect(json).toHaveProperty('tests');
+        }, 'normalized');
       });
 
       it('normalizes HTML and includes description', async () => {
-        const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+        const pytestHtmlPath = fixtures.python.pytestHtml();
         const result = await runCommand(['normalize', '--show-description', pytestHtmlPath]);
 
         expect(result.exitCode).toBe(0);
@@ -266,7 +247,7 @@ function testCLI(runCommand: (args: string[]) => Promise<CLITestResult>, mode: s
       });
 
       it('normalizes JSON with type override', async () => {
-        const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+        const eslintJsonPath = fixtures.javascript.eslintJson();
         const result = await runCommand(['normalize', '--type', 'eslint-json', eslintJsonPath]);
 
         expect(result.exitCode).toBe(0);
@@ -331,7 +312,7 @@ describe('help and version', () => {
 describe('stdin input (- argument)', () => {
   describe('in-process stdin mode', () => {
     it('reads from stdin in detect command', async () => {
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const eslintJsonPath = fixtures.javascript.eslintJson();
       const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
 
       // Mock stdin for in-process test
@@ -382,7 +363,7 @@ describe('stdin input (- argument)', () => {
         return;
       }
 
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const eslintJsonPath = fixtures.javascript.eslintJson();
       const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
 
       const result = spawnSync('artifact-detective', ['detect', '-'], {
@@ -400,7 +381,7 @@ describe('stdin input (- argument)', () => {
         return;
       }
 
-      const eslintJsonPath = join(FIXTURES_DIR, 'generated/javascript/eslint-results.json');
+      const eslintJsonPath = fixtures.javascript.eslintJson();
       const jsonContent = readFileSync(eslintJsonPath, 'utf-8');
 
       const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
@@ -418,7 +399,7 @@ describe('stdin input (- argument)', () => {
         return;
       }
 
-      const eslintOutputPath = join(FIXTURES_DIR, 'generated/javascript/eslint-output.txt');
+      const eslintOutputPath = fixtures.javascript.eslintTxt();
       const logContent = readFileSync(eslintOutputPath, 'utf-8');
 
       const result = spawnSync('artifact-detective', ['extract', 'eslint-txt', '-'], {
@@ -437,7 +418,7 @@ describe('stdin input (- argument)', () => {
         return;
       }
 
-      const pytestJsonPath = join(FIXTURES_DIR, 'generated/python/pytest-results.json');
+      const pytestJsonPath = fixtures.python.pytestJson();
       const jsonContent = readFileSync(pytestJsonPath, 'utf-8');
 
       const result = spawnSync('artifact-detective', ['validate', 'eslint-json', '-'], {
@@ -455,7 +436,7 @@ describe('stdin input (- argument)', () => {
         return;
       }
 
-      const pytestHtmlPath = join(FIXTURES_DIR, 'generated/python/pytest-report.html');
+      const pytestHtmlPath = fixtures.python.pytestHtml();
       const htmlContent = readFileSync(pytestHtmlPath, 'utf-8');
 
       const result = spawnSync('artifact-detective', ['normalize', '--type', 'pytest-html', '-'], {
