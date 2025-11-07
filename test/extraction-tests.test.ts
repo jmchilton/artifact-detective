@@ -178,6 +178,7 @@ describe('Extract and Convert to JSON', () => {
       // Description should be included
       expect(result!.description).toBeTruthy();
       expect(result!.description?.toolUrl).toContain('eslint');
+      expect(result!.description?.fileExtension).toBe('json');
     });
 
     it('pytest-json: returns valid JSON with test data', () => {
@@ -194,6 +195,7 @@ describe('Extract and Convert to JSON', () => {
 
       // Description for pytest-json
       expect(result!.description?.toolUrl).toContain('pytest');
+      expect(result!.description?.fileExtension).toBe('json');
     });
 
     it('go-test-ndjson: handles NDJSON test output', () => {
@@ -211,6 +213,9 @@ describe('Extract and Convert to JSON', () => {
       const json = JSON.parse(result!.json);
       expect(Array.isArray(json)).toBe(true);
       expect(json.length).toBe(2);
+
+      // Description should have json fileExtension after normalization
+      expect(result!.description?.fileExtension).toBe('json');
     });
   });
 
@@ -234,6 +239,7 @@ describe('Extract and Convert to JSON', () => {
 
       // Description should be for clippy
       expect(result!.description?.toolUrl).toContain('clippy');
+      expect(result!.description?.fileExtension).toBe('json');
     });
   });
 

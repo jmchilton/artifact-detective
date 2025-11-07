@@ -72,6 +72,11 @@ describe('Artifact Descriptions', () => {
           3,
         );
 
+        // fileExtension should be present and valid
+        expect(desc.fileExtension).toBeDefined();
+        expect(typeof desc.fileExtension).toBe('string');
+        expect(['json', 'xml', 'html', 'txt', 'ndjson', 'other']).toContain(desc.fileExtension);
+
         // Optional fields should be strings if present
         if (desc.toolUrl) {
           expect(typeof desc.toolUrl).toBe('string');

@@ -696,6 +696,7 @@ export function extractArtifactToJson(
     effectiveType: result.artifact.artifactType,
     description: {
       type: result.artifact.artifactType,
+      fileExtension: result.artifact.fileExtension,
       shortDescription: result.artifact.shortDescription,
       toolUrl: result.artifact.toolUrl,
       formatUrl: result.artifact.formatUrl,
