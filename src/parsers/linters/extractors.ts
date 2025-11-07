@@ -86,6 +86,9 @@ export function extractLinterOutput(
     case 'clippy':
       return extractClippyOutput(lines);
 
+    case 'jest':
+      return extractJestOutput(lines);
+
     case 'cargo-test':
     case 'rustfmt':
       // Raw output files, no extraction needed
@@ -369,6 +372,61 @@ function extractClippyOutput(lines: string[]): string | null {
         outputLines.push(line);
       } else if (line.match(/\d+\s+warnings?\s+emitted/)) {
         outputLines.push(line);
+        break;
+      }
+    }
+  }
+
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
+}
+
+function extractJestOutput(lines: string[]): string | null {
+  const outputLines: string[] = [];
+  let inJestOutput = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const cleaned = cleanLogLine(line);
+
+    // Detect start of Jest output - look for jest command
+    if (!inJestOutput && line.includes('$ jest')) {
+      inJestOutput = true;
+      continue;
+    }
+
+    if (inJestOutput) {
+      // Jest test result lines start with PASS/FAIL
+      if (cleaned.match(/^\s*(PASS|FAIL)\s+/)) {
+        outputLines.push(cleaned);
+      }
+      // Capture test summary lines
+      else if (
+        cleaned.match(/^Test Suites:/) ||
+        cleaned.match(/^Tests:/) ||
+        cleaned.match(/^Snapshots:/) ||
+        cleaned.match(/^Time:/) ||
+        cleaned.match(/Summary of all failing tests/) ||
+        cleaned.match(/^FAIL\s+/) ||
+        cleaned.match(/^\s+●/) ||
+        cleaned.match(/^\s+expect\(/) ||
+        cleaned.match(/Expected:|Received:/) ||
+        cleaned.match(/at Object\.<anonymous>/) ||
+        cleaned.match(/Ran all test suites/)
+      ) {
+        if (cleaned) {
+          outputLines.push(cleaned);
+        }
+      }
+      // End of Jest output
+      else if (
+        line.match(/^##\[/) ||
+        cleaned.match(/error Command failed/) ||
+        cleaned.match(/Visit https:\/\//)
+      ) {
+        // Add final summary lines if present
+        if (cleaned.match(/error Command failed/)) {
+          outputLines.push(cleaned);
+        }
         break;
       }
     }

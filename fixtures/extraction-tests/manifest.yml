@@ -62,3 +62,23 @@ extraction-tests:
       - string: "Current runner version"
       - string: "Runner Image"
       - string: "GITHUB_TOKEN Permissions"
+
+  - artifact-type: jest-txt
+    description: "Jest text output from a Galaxy build"
+    log-file: "jest-txt/logs.txt"
+    include:
+      # Test result markers - these definitely appear in every test run
+      - string: "PASS"
+      - string: "FAIL"
+      # Test file extensions - present in many test files
+      - string: ".test.ts"
+      - string: ".test.js"
+      # Summary section header
+      - string: "Summary of all failing tests"
+      # Test counts summary
+      - string: "Test Suites:"
+    exclude:
+      # Timestamps should be removed from output
+      - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+      # GitHub Actions markers should be removed
+      - string: "##["

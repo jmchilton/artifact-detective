@@ -181,6 +181,10 @@ function extractClippyFromLog(logContents: string, config?: ExtractorConfig): st
   return extractLinterOutput('clippy', logContents, config);
 }
 
+function extractJestFromLog(logContents: string, config?: ExtractorConfig): string | null {
+  return extractLinterOutput('jest', logContents, config);
+}
+
 /**
  * Build an ArtifactDescriptor from registry and description data
  */
@@ -249,6 +253,15 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     validator: null,
     extract: null,
     normalize: normalizeJestHTML,
+    normalizesTo: null,
+    artificialType: false,
+    isJSON: false,
+  },
+  'jest-txt': {
+    supportsAutoDetection: false,
+    validator: null,
+    extract: extractJestFromLog,
+    normalize: null,
     normalizesTo: null,
     artificialType: false,
     isJSON: false,

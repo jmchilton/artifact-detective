@@ -1,0 +1,579 @@
+﻿2025-11-07T04:03:33.7017743Z Current runner version: '2.329.0'
+2025-11-07T04:03:33.7040901Z ##[group]Runner Image Provisioner
+2025-11-07T04:03:33.7041897Z Hosted Compute Agent
+2025-11-07T04:03:33.7042407Z Version: 20251016.436
+2025-11-07T04:03:33.7043145Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-07T04:03:33.7043796Z Build Date: 2025-10-15T20:44:12Z
+2025-11-07T04:03:33.7044372Z ##[endgroup]
+2025-11-07T04:03:33.7044949Z ##[group]Operating System
+2025-11-07T04:03:33.7045546Z Ubuntu
+2025-11-07T04:03:33.7046153Z 24.04.3
+2025-11-07T04:03:33.7046710Z LTS
+2025-11-07T04:03:33.7047132Z ##[endgroup]
+2025-11-07T04:03:33.7047623Z ##[group]Runner Image
+2025-11-07T04:03:33.7048262Z Image: ubuntu-24.04
+2025-11-07T04:03:33.7048732Z Version: 20251030.96.2
+2025-11-07T04:03:33.7049731Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251030.96/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-07T04:03:33.7051288Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251030.96
+2025-11-07T04:03:33.7052250Z ##[endgroup]
+2025-11-07T04:03:33.7054691Z ##[group]GITHUB_TOKEN Permissions
+2025-11-07T04:03:33.7056925Z Actions: write
+2025-11-07T04:03:33.7057573Z Attestations: write
+2025-11-07T04:03:33.7058114Z Checks: write
+2025-11-07T04:03:33.7058569Z Contents: write
+2025-11-07T04:03:33.7059117Z Deployments: write
+2025-11-07T04:03:33.7059608Z Discussions: write
+2025-11-07T04:03:33.7060139Z Issues: write
+2025-11-07T04:03:33.7060564Z Metadata: read
+2025-11-07T04:03:33.7061132Z Models: read
+2025-11-07T04:03:33.7061577Z Packages: write
+2025-11-07T04:03:33.7062060Z Pages: write
+2025-11-07T04:03:33.7062623Z PullRequests: write
+2025-11-07T04:03:33.7063161Z RepositoryProjects: write
+2025-11-07T04:03:33.7063700Z SecurityEvents: write
+2025-11-07T04:03:33.7064351Z Statuses: write
+2025-11-07T04:03:33.7064852Z ##[endgroup]
+2025-11-07T04:03:33.7067006Z Secret source: Actions
+2025-11-07T04:03:33.7068198Z Prepare workflow directory
+2025-11-07T04:03:33.7392694Z Prepare all required actions
+2025-11-07T04:03:33.7430656Z Getting action download info
+2025-11-07T04:03:34.1371806Z Download action repository 'actions/checkout@v5' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2025-11-07T04:03:34.4354931Z Download action repository 'actions/setup-node@v6' (SHA:2028fbc5c25fe9cf00d9f06a71cc4710d4507903)
+2025-11-07T04:03:35.2079846Z Download action repository 'actions/upload-artifact@v5' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2025-11-07T04:03:36.0157702Z Complete job name: client-unit-test
+2025-11-07T04:03:36.0961480Z ##[group]Run actions/checkout@v5
+2025-11-07T04:03:36.0962792Z with:
+2025-11-07T04:03:36.0963611Z   persist-credentials: false
+2025-11-07T04:03:36.0964598Z   repository: jmchilton/galaxy
+2025-11-07T04:03:36.0965948Z   token: ***
+2025-11-07T04:03:36.0966721Z   ssh-strict: true
+2025-11-07T04:03:36.0967504Z   ssh-user: git
+2025-11-07T04:03:36.0968257Z   clean: true
+2025-11-07T04:03:36.0969073Z   sparse-checkout-cone-mode: true
+2025-11-07T04:03:36.0970067Z   fetch-depth: 1
+2025-11-07T04:03:36.0970849Z   fetch-tags: false
+2025-11-07T04:03:36.0971694Z   show-progress: true
+2025-11-07T04:03:36.0972508Z   lfs: false
+2025-11-07T04:03:36.0973259Z   submodules: false
+2025-11-07T04:03:36.0974095Z   set-safe-directory: true
+2025-11-07T04:03:36.0975248Z ##[endgroup]
+2025-11-07T04:03:36.1927032Z Syncing repository: jmchilton/galaxy
+2025-11-07T04:03:36.1929596Z ##[group]Getting Git version info
+2025-11-07T04:03:36.1931081Z Working directory is '/home/runner/work/galaxy/galaxy'
+2025-11-07T04:03:36.1932995Z [command]/usr/bin/git version
+2025-11-07T04:03:36.1994424Z git version 2.51.2
+2025-11-07T04:03:36.2014605Z ##[endgroup]
+2025-11-07T04:03:36.2029402Z Temporarily overriding HOME='/home/runner/work/_temp/8e55de20-dbdd-4953-97c9-019556d9e6bc' before making global git config changes
+2025-11-07T04:03:36.2032566Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-07T04:03:36.2035379Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/galaxy/galaxy
+2025-11-07T04:03:36.2069265Z Deleting the contents of '/home/runner/work/galaxy/galaxy'
+2025-11-07T04:03:36.2072315Z ##[group]Initializing the repository
+2025-11-07T04:03:36.2076680Z [command]/usr/bin/git init /home/runner/work/galaxy/galaxy
+2025-11-07T04:03:36.2189770Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-07T04:03:36.2191885Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-07T04:03:36.2194369Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-07T04:03:36.2196495Z hint:
+2025-11-07T04:03:36.2197498Z hint: 	git config --global init.defaultBranch <name>
+2025-11-07T04:03:36.2199281Z hint:
+2025-11-07T04:03:36.2200419Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-07T04:03:36.2202450Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-07T04:03:36.2204317Z hint:
+2025-11-07T04:03:36.2205110Z hint: 	git branch -m <name>
+2025-11-07T04:03:36.2206154Z hint:
+2025-11-07T04:03:36.2207401Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-07T04:03:36.2209371Z Initialized empty Git repository in /home/runner/work/galaxy/galaxy/.git/
+2025-11-07T04:03:36.2212368Z [command]/usr/bin/git remote add origin https://github.com/jmchilton/galaxy
+2025-11-07T04:03:36.2240602Z ##[endgroup]
+2025-11-07T04:03:36.2242188Z ##[group]Disabling automatic garbage collection
+2025-11-07T04:03:36.2244375Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-07T04:03:36.2274361Z ##[endgroup]
+2025-11-07T04:03:36.2276898Z ##[group]Setting up auth
+2025-11-07T04:03:36.2281436Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-07T04:03:36.2314752Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-07T04:03:36.2640175Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-07T04:03:36.2672400Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-07T04:03:36.2887653Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-07T04:03:36.2921749Z ##[endgroup]
+2025-11-07T04:03:36.2924538Z ##[group]Fetching the repository
+2025-11-07T04:03:36.2934389Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +acbafa762cad70943e69008324fd0ba0ca00e454:refs/remotes/origin/structured_linting
+2025-11-07T04:03:39.3869131Z From https://github.com/jmchilton/galaxy
+2025-11-07T04:03:39.3870039Z  * [new ref]         acbafa762cad70943e69008324fd0ba0ca00e454 -> origin/structured_linting
+2025-11-07T04:03:39.3902404Z ##[endgroup]
+2025-11-07T04:03:39.3903045Z ##[group]Determining the checkout info
+2025-11-07T04:03:39.3904091Z ##[endgroup]
+2025-11-07T04:03:39.3909956Z [command]/usr/bin/git sparse-checkout disable
+2025-11-07T04:03:39.3954811Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-07T04:03:39.3982118Z ##[group]Checking out the ref
+2025-11-07T04:03:39.3987961Z [command]/usr/bin/git checkout --progress --force -B structured_linting refs/remotes/origin/structured_linting
+2025-11-07T04:03:40.1084288Z Switched to a new branch 'structured_linting'
+2025-11-07T04:03:40.1086279Z branch 'structured_linting' set up to track 'origin/structured_linting'.
+2025-11-07T04:03:40.1122493Z ##[endgroup]
+2025-11-07T04:03:40.1161719Z [command]/usr/bin/git log -1 --format=%H
+2025-11-07T04:03:40.1183784Z acbafa762cad70943e69008324fd0ba0ca00e454
+2025-11-07T04:03:40.1195466Z ##[group]Removing auth
+2025-11-07T04:03:40.1201528Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-07T04:03:40.1235149Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-07T04:03:40.1496555Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-07T04:03:40.1523296Z http.https://github.com/.extraheader
+2025-11-07T04:03:40.1534908Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-11-07T04:03:40.1571082Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-07T04:03:40.1815038Z ##[endgroup]
+2025-11-07T04:03:40.1980322Z ##[group]Run echo "version=$(cat 'client/.node_version')" >> $GITHUB_OUTPUT
+2025-11-07T04:03:40.1980879Z [36;1mecho "version=$(cat 'client/.node_version')" >> $GITHUB_OUTPUT[0m
+2025-11-07T04:03:40.2015020Z shell: /usr/bin/bash -e {0}
+2025-11-07T04:03:40.2015290Z ##[endgroup]
+2025-11-07T04:03:40.2199953Z ##[group]Run actions/setup-node@v6
+2025-11-07T04:03:40.2200219Z with:
+2025-11-07T04:03:40.2200399Z   node-version: 22.13.0
+2025-11-07T04:03:40.2200612Z   cache: yarn
+2025-11-07T04:03:40.2200844Z   cache-dependency-path: client/yarn.lock
+2025-11-07T04:03:40.2201095Z   always-auth: false
+2025-11-07T04:03:40.2201284Z   check-latest: false
+2025-11-07T04:03:40.2201593Z   token: ***
+2025-11-07T04:03:40.2201777Z   package-manager-cache: true
+2025-11-07T04:03:40.2202004Z ##[endgroup]
+2025-11-07T04:03:40.3664389Z Attempting to download 22.13.0...
+2025-11-07T04:03:40.3829492Z (node:2106) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-07T04:03:40.3830458Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-07T04:03:41.2497872Z Acquiring 22.13.0 - x64 from https://github.com/actions/node-versions/releases/download/22.13.0-12683784390/node-22.13.0-linux-x64.tar.gz
+2025-11-07T04:03:41.9051825Z Extracting ...
+2025-11-07T04:03:41.9180032Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/9658b339-65bb-4d28-b1bf-95ad0eb27445 -f /home/runner/work/_temp/8fd14ebe-0d70-4692-88ad-db816e8492d2
+2025-11-07T04:03:43.0473765Z Adding to the cache ...
+2025-11-07T04:03:45.1866529Z ##[group]Environment details
+2025-11-07T04:03:45.5748583Z node: v22.13.0
+2025-11-07T04:03:45.5748961Z npm: 10.9.2
+2025-11-07T04:03:45.5749128Z yarn: 1.22.22
+2025-11-07T04:03:45.5749709Z ##[endgroup]
+2025-11-07T04:03:45.5888341Z [command]/usr/local/bin/yarn --version
+2025-11-07T04:03:45.7014852Z 1.22.22
+2025-11-07T04:03:45.7127681Z [command]/usr/local/bin/yarn cache dir
+2025-11-07T04:03:45.8640205Z /home/runner/.cache/yarn/v6
+2025-11-07T04:03:45.8824634Z [command]/usr/local/bin/yarn config get enableGlobalCache
+2025-11-07T04:03:46.0342449Z undefined
+2025-11-07T04:03:46.2344027Z Cache hit for: node-cache-Linux-x64-yarn-5d38e5d10d09ec3c1db436fb92691071ec92f9f6342135991562f50c94d8b631
+2025-11-07T04:03:46.2456589Z (node:2106) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2025-11-07T04:03:47.4786404Z Received 37748736 of 337571386 (11.2%), 36.0 MBs/sec
+2025-11-07T04:03:48.4782079Z Received 167772160 of 337571386 (49.7%), 80.0 MBs/sec
+2025-11-07T04:03:49.4787467Z Received 322961408 of 337571386 (95.7%), 102.6 MBs/sec
+2025-11-07T04:03:49.6076526Z Received 337571386 of 337571386 (100.0%), 102.9 MBs/sec
+2025-11-07T04:03:49.6078412Z Cache Size: ~322 MB (337571386 B)
+2025-11-07T04:03:49.6132125Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c532dba7-6fb8-45b4-b9e1-fa120f558a9b/cache.tzst -P -C /home/runner/work/galaxy/galaxy --use-compress-program unzstd
+2025-11-07T04:03:55.0017676Z Cache restored successfully
+2025-11-07T04:03:55.0693543Z Cache restored from key: node-cache-Linux-x64-yarn-5d38e5d10d09ec3c1db436fb92691071ec92f9f6342135991562f50c94d8b631
+2025-11-07T04:03:55.0871112Z ##[group]Run yarn install --frozen-lockfile
+2025-11-07T04:03:55.0871463Z [36;1myarn install --frozen-lockfile[0m
+2025-11-07T04:03:55.0906851Z shell: /usr/bin/bash -e {0}
+2025-11-07T04:03:55.0907204Z ##[endgroup]
+2025-11-07T04:03:55.2131767Z yarn install v1.22.22
+2025-11-07T04:03:55.2957382Z [1/4] Resolving packages...
+2025-11-07T04:03:55.5694542Z warning Resolution field "chokidar@3.5.3" is incompatible with requested version "chokidar@^4.0.1"
+2025-11-07T04:03:55.6418669Z warning Resolution field "chokidar@3.5.3" is incompatible with requested version "chokidar@^3.6.0"
+2025-11-07T04:03:55.6977825Z [2/4] Fetching packages...
+2025-11-07T04:03:56.3924172Z [3/4] Linking dependencies...
+2025-11-07T04:03:56.3953351Z warning "dexie > karma-safari-launcher@1.0.0" has unmet peer dependency "karma@>=0.9".
+2025-11-07T04:03:56.3963303Z warning " > vue-rx@6.2.0" has incorrect peer dependency "rxjs@^6.0.0".
+2025-11-07T04:03:56.3995579Z warning " > autoprefixer@10.4.16" has unmet peer dependency "postcss@^8.1.0".
+2025-11-07T04:03:56.4019453Z warning " > jsdom-worker@0.3.0" has unmet peer dependency "node-fetch@*".
+2025-11-07T04:03:56.4022422Z warning " > postcss-loader@7.3.3" has unmet peer dependency "postcss@^7.0.0 || ^8.0.1".
+2025-11-07T04:03:56.4237998Z warning Workspaces can only be enabled in private projects.
+2025-11-07T04:04:24.5085425Z [4/4] Building fresh packages...
+2025-11-07T04:04:26.3477908Z Done in 31.14s.
+2025-11-07T04:04:26.4022028Z ##[group]Run yarn run gulp client
+2025-11-07T04:04:26.4022328Z [36;1myarn run gulp client[0m
+2025-11-07T04:04:26.4054359Z shell: /usr/bin/bash -e {0}
+2025-11-07T04:04:26.4054593Z ##[endgroup]
+2025-11-07T04:04:26.5246541Z yarn run v1.22.22
+2025-11-07T04:04:26.5614098Z $ gulp client
+2025-11-07T04:04:26.8726439Z [04:04:26] Using gulpfile ~/work/galaxy/galaxy/client/gulpfile.js
+2025-11-07T04:04:26.8732525Z [04:04:26] Starting 'client'...
+2025-11-07T04:04:26.8742713Z [04:04:26] Starting 'stageLibs'...
+2025-11-07T04:04:26.8745545Z [04:04:26] Starting 'icons'...
+2025-11-07T04:04:26.8772530Z [04:04:26] Finished 'stageLibs' after 2.74 ms
+2025-11-07T04:04:26.8874860Z Building icon pack "galaxy"
+2025-11-07T04:04:26.8887582Z  - loading icon "gxd galaxyLogo" from file "galaxyLogo.duotone.svg"
+2025-11-07T04:04:26.8944523Z  - loading icon "gxd textLarger" from file "textLarger.duotone.svg"
+2025-11-07T04:04:26.8956383Z  - loading icon "gxd textSmaller" from file "textSmaller.duotone.svg"
+2025-11-07T04:04:26.8966560Z Saving generated Icon Pack to: "./src/assets/icons.json"
+2025-11-07T04:04:26.8979352Z Icons built successfully
+2025-11-07T04:04:26.8986793Z Generated Galaxy icons TypeScript exports at: /home/runner/work/galaxy/galaxy/client/src/components/icons/galaxyIcons.ts
+2025-11-07T04:04:26.8989084Z Exported 3 icons: galaxyLogo, textLarger, textSmaller
+2025-11-07T04:04:26.8991014Z [04:04:26] Finished 'icons' after 24 ms
+2025-11-07T04:04:26.8993618Z [04:04:26] Finished 'client' after 26 ms
+2025-11-07T04:04:26.9130711Z Done in 0.39s.
+2025-11-07T04:04:26.9262753Z ##[group]Run yarn jest --json --outputFile ../jest-report.json
+2025-11-07T04:04:26.9263187Z [36;1myarn jest --json --outputFile ../jest-report.json[0m
+2025-11-07T04:04:26.9296907Z shell: /usr/bin/bash -e {0}
+2025-11-07T04:04:26.9297130Z ##[endgroup]
+2025-11-07T04:04:27.0494690Z yarn run v1.22.22
+2025-11-07T04:04:27.0879898Z $ jest --config tests/jest/jest.config.js --json --outputFile ../jest-report.json
+2025-11-07T04:04:28.8337237Z Browserslist: caniuse-lite is outdated. Please run:
+2025-11-07T04:04:28.8342837Z   npx update-browserslist-db@latest
+2025-11-07T04:04:28.8346321Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-11-07T04:04:28.8962347Z Browserslist: caniuse-lite is outdated. Please run:
+2025-11-07T04:04:28.8969702Z   npx update-browserslist-db@latest
+2025-11-07T04:04:28.8970472Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-11-07T04:04:28.9828947Z Browserslist: caniuse-lite is outdated. Please run:
+2025-11-07T04:04:28.9835969Z   npx update-browserslist-db@latest
+2025-11-07T04:04:28.9837390Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-11-07T04:04:44.2581495Z (node:2423) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-07T04:04:44.2586966Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-07T04:04:44.4048811Z PASS src/composables/resourceWatcher.test.ts (14.83 s)
+2025-11-07T04:04:45.6072950Z (node:2416) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-07T04:04:45.6078289Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-07T04:04:45.6093161Z PASS src/components/Workflow/Editor/modules/terminals.test.ts (15.782 s)
+2025-11-07T04:05:01.2728138Z PASS src/components/FilesDialog/FilesDialog.test.ts (15.643 s)
+2025-11-07T04:05:04.2310624Z PASS src/composables/userToolCredentials.test.ts
+2025-11-07T04:05:04.3925283Z (node:2417) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-07T04:05:04.3928411Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-07T04:05:04.4053017Z PASS src/components/Form/Elements/FormData/FormData.test.js (34.697 s)
+2025-11-07T04:05:05.4457611Z PASS src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js (21.02 s)
+2025-11-07T04:05:08.7619095Z PASS src/components/History/Export/HistoryExportWizard.test.ts
+2025-11-07T04:05:09.0354089Z PASS src/utils/filtering.test.js
+2025-11-07T04:05:09.7168292Z PASS src/components/Common/FilterMenu.test.ts (5.283 s)
+2025-11-07T04:05:10.2151285Z PASS src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
+2025-11-07T04:05:12.0879187Z PASS src/components/ScrollList/ScrollList.test.ts
+2025-11-07T04:05:12.6151849Z PASS src/components/Workflow/Editor/Actions/actions.test.ts
+2025-11-07T04:05:16.4277611Z PASS src/components/Dataset/DatasetView.test.js (7.369 s)
+2025-11-07T04:05:16.7109921Z PASS src/components/Panels/utilities.test.ts
+2025-11-07T04:05:16.7445135Z PASS src/components/Markdown/parse.test.js
+2025-11-07T04:05:19.7183044Z PASS src/components/Downloads/DownloadItemCard.test.ts
+2025-11-07T04:05:21.0925057Z PASS src/components/History/HistoryView.test.js
+2025-11-07T04:05:21.1975222Z PASS src/composables/selectedItems/selectedItems.test.ts
+2025-11-07T04:05:23.7727903Z PASS src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+2025-11-07T04:05:24.0265413Z PASS src/utils/upload-queue.test.js
+2025-11-07T04:05:24.0698929Z PASS src/components/History/SwitchToHistoryLink.test.ts
+2025-11-07T04:05:25.4546491Z PASS src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts (13.351 s)
+2025-11-07T04:05:25.4695393Z PASS src/components/Landing/fetchModels.test.ts
+2025-11-07T04:05:26.4892552Z PASS src/components/PageDisplay/PageForm.test.js
+2025-11-07T04:05:27.2358124Z PASS src/components/TagsMultiselect/HeadlessMultiselect.test.ts
+2025-11-07T04:05:29.5824954Z PASS src/components/Panels/InteractiveToolsPanel.test.ts
+2025-11-07T04:05:29.8391521Z PASS src/utils/upload-payload.test.js
+2025-11-07T04:05:30.3510939Z PASS src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
+2025-11-07T04:05:31.2447050Z PASS src/components/Markdown/Sections/MarkdownGalaxy.test.js
+2025-11-07T04:05:31.5361445Z PASS src/components/Panels/ToolPanel.test.ts (5.024 s)
+2025-11-07T04:05:32.0062370Z PASS src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+2025-11-07T04:05:33.7011768Z PASS src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts
+2025-11-07T04:05:34.3153818Z PASS src/components/Workflow/WorkflowNavigationTitle.test.ts
+2025-11-07T04:05:34.5467311Z PASS src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
+2025-11-07T04:05:35.2223832Z PASS src/stores/workflowEditorCommentStore.test.ts
+2025-11-07T04:05:35.8658382Z PASS src/stores/collectionElementsStore.test.ts
+2025-11-07T04:05:35.9104492Z PASS src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
+2025-11-07T04:05:36.5055590Z PASS src/components/Grid/GridList.test.js
+2025-11-07T04:05:36.7719639Z PASS src/components/Form/Elements/FormDirectory.test.js
+2025-11-07T04:05:38.1377110Z PASS src/components/Common/RDMDestinationSelector.test.ts
+2025-11-07T04:05:38.6198160Z PASS src/composables/taskMonitor.test.ts
+2025-11-07T04:05:40.1417594Z PASS src/components/admin/Notifications/BroadcastForm.test.ts
+2025-11-07T04:05:40.3099316Z PASS src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
+2025-11-07T04:05:41.4607051Z PASS src/components/Workflow/WorkflowAnnotation.test.ts
+2025-11-07T04:05:41.4609826Z PASS src/utils/filterConversion.test.js
+2025-11-07T04:05:42.3553399Z PASS src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
+2025-11-07T04:05:43.2905118Z PASS src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+2025-11-07T04:05:43.6122311Z PASS src/components/Form/FormDisplay.test.js
+2025-11-07T04:05:43.7467303Z PASS src/components/Popper/Popper.test.js
+2025-11-07T04:05:44.1607093Z PASS src/components/History/Archiving/HistoryArchiveExportSelector.test.ts
+2025-11-07T04:05:44.6977840Z PASS src/composables/keyedCache.test.ts
+2025-11-07T04:05:45.2193988Z PASS src/components/Collections/pairing.test.ts
+2025-11-07T04:05:45.7863893Z PASS src/components/WorkflowInvocationState/JobStep.test.ts
+2025-11-07T04:05:46.8483388Z PASS src/components/History/Content/Collection/CollectionDescription.test.ts
+2025-11-07T04:05:47.4590455Z PASS src/components/DataDialog/DataDialog.test.js
+2025-11-07T04:05:48.0360888Z PASS src/components/Login/LoginForm.test.ts
+2025-11-07T04:05:48.1938314Z PASS src/components/Form/utilities.test.js
+2025-11-07T04:05:48.5646130Z PASS src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+2025-11-07T04:05:49.0770217Z PASS src/components/ActivityBar/ActivitySettings.test.js
+2025-11-07T04:05:49.7823182Z PASS src/utils/tool-version.test.ts
+2025-11-07T04:05:51.5944374Z PASS src/components/ObjectStore/Instances/UpgradeForm.test.ts
+2025-11-07T04:05:51.9241198Z PASS src/components/DatasetInformation/DatasetError.test.ts
+2025-11-07T04:05:52.0632979Z PASS src/utils/utils.test.js
+2025-11-07T04:05:53.1055231Z PASS src/components/admin/RoleForm.test.js
+2025-11-07T04:05:53.5296024Z PASS src/components/History/Modals/SelectorModal.test.js
+2025-11-07T04:05:54.1184770Z PASS src/components/Workflow/Editor/Lint.test.js
+2025-11-07T04:05:56.3177406Z PASS src/components/ObjectStore/Instances/CreateForm.test.ts
+2025-11-07T04:05:57.5620596Z PASS src/components/Notifications/NotificationCard.test.ts
+2025-11-07T04:05:59.1962099Z PASS src/components/User/DiskUsage/DiskUsageSummary.test.ts
+2025-11-07T04:05:59.8734405Z PASS src/components/InteractiveTools/InteractiveTools.test.js
+2025-11-07T04:06:00.0916456Z PASS src/components/Workflow/Editor/Index.test.ts (11.002 s)
+2025-11-07T04:06:00.1825059Z PASS src/components/SelectionField/SelectionField.test.js
+2025-11-07T04:06:00.6892680Z PASS src/components/TagsMultiselect/StatelessTags.test.js
+2025-11-07T04:06:00.8513534Z PASS src/components/PageEditor/object-permission-composables.test.js
+2025-11-07T04:06:00.8702567Z FAIL src/components/ConfigTemplates/formUtil.test.ts
+2025-11-07T04:06:00.8707994Z   ● formUtils › createTemplateForm › should create a form from an object store templates
+2025-11-07T04:06:00.8711328Z 
+2025-11-07T04:06:00.8714377Z     expect(received).toBe(expected) // Object.is equality
+2025-11-07T04:06:00.8717618Z 
+2025-11-07T04:06:00.8720509Z     Expected: 4
+2025-11-07T04:06:00.8723735Z     Received: 6
+2025-11-07T04:06:00.8725535Z 
+2025-11-07T04:06:00.8726239Z       19 |         it("should create a form from an object store templates", () => {
+2025-11-07T04:06:00.8727191Z       20 |             const form = createTemplateForm(STANDARD_OBJECT_STORE_TEMPLATE, "storage location");
+2025-11-07T04:06:00.8728347Z     > 21 |             expect(form.length).toBe(4);
+2025-11-07T04:06:00.8729546Z          |                                 ^
+2025-11-07T04:06:00.8730664Z       22 |             const formEl0 = form[0];
+2025-11-07T04:06:00.8731124Z       23 |             expect(formEl0?.name).toEqual("_meta_name");
+2025-11-07T04:06:00.8731726Z       24 |             expect(formEl0?.help).toEqual("Label this new storage location with a name.");
+2025-11-07T04:06:00.8732123Z 
+2025-11-07T04:06:00.8732464Z       at Object.<anonymous> (src/components/ConfigTemplates/formUtil.test.ts:21:33)
+2025-11-07T04:06:00.8732857Z 
+2025-11-07T04:06:01.4641580Z PASS src/components/Form/Elements/FormNumber.test.js
+2025-11-07T04:06:01.5157518Z PASS src/components/JobInformation/JobOutputs.test.js
+2025-11-07T04:06:02.0202405Z PASS src/components/Form/Elements/FormCheck.test.js
+2025-11-07T04:06:02.0207280Z PASS src/components/Visualizations/VisualizationExamples.test.js
+2025-11-07T04:06:02.3175446Z PASS src/composables/shortTermStorageMonitor.test.ts
+2025-11-07T04:06:04.3022053Z PASS src/components/History/Content/ContentItem.test.js
+2025-11-07T04:06:04.5679693Z PASS src/components/History/CurrentHistory/SelectPreferredStore.test.ts
+2025-11-07T04:06:04.6889204Z PASS src/components/History/Export/HistoryExport.test.ts
+2025-11-07T04:06:05.1260086Z PASS src/components/Form/FormElement.test.js
+2025-11-07T04:06:06.1788342Z PASS src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
+2025-11-07T04:06:06.6625255Z PASS src/components/User/UserPreferredObjectStore.test.ts
+2025-11-07T04:06:07.4396719Z PASS src/components/Markdown/Editor/Configurations/ConfigureVitessce.test.js
+2025-11-07T04:06:07.4600226Z PASS src/api/index.test.ts
+2025-11-07T04:06:07.9885002Z PASS src/components/Markdown/Sections/MarkdownVitessce.test.js
+2025-11-07T04:06:09.5620983Z PASS src/components/Workflow/List/WorkflowList.test.ts
+2025-11-07T04:06:09.7564279Z PASS src/components/Workflow/Editor/NodeOutput.test.ts
+2025-11-07T04:06:10.2930395Z PASS src/components/Upload/DefaultBox.test.ts
+2025-11-07T04:06:10.8161293Z PASS src/watch/watchHistory.test.js
+2025-11-07T04:06:11.0392385Z PASS src/components/HistoryImport.test.js
+2025-11-07T04:06:11.4645579Z PASS src/components/RuleBuilder/SavedRulesSelector.test.js
+2025-11-07T04:06:13.6326298Z PASS src/components/History/Archiving/HistoryArchiveWizard.test.ts
+2025-11-07T04:06:14.4157302Z PASS src/composables/roundRobinSelector.test.ts
+2025-11-07T04:06:14.9157831Z PASS src/components/Citation/CitationsList.test.ts
+2025-11-07T04:06:15.0989556Z PASS src/stores/objectStoreTemplatesStore.test.ts
+2025-11-07T04:06:15.3771033Z PASS src/components/Workflow/Editor/RefactorConfirmationModal.test.js
+2025-11-07T04:06:16.4980504Z PASS src/components/DatasetInformation/DatasetAttributes.test.ts
+2025-11-07T04:06:17.1547757Z PASS src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
+2025-11-07T04:06:17.2632043Z PASS src/components/Form/Elements/FormSelect.test.js
+2025-11-07T04:06:18.0691903Z PASS src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
+2025-11-07T04:06:18.4884891Z PASS src/components/Markdown/Editor/Configurations/ConfigureHeader.test.js
+2025-11-07T04:06:18.8259601Z PASS src/components/WorkflowInvocationState/JobStepJobs.test.ts
+2025-11-07T04:06:19.5904738Z PASS src/components/admin/Notifications/BroadcastsList.test.ts
+2025-11-07T04:06:20.5447855Z PASS src/components/Common/BreadcrumbHeading.test.ts
+2025-11-07T04:06:20.7665493Z PASS src/components/DatasetInformation/DatasetInformation.test.ts
+2025-11-07T04:06:21.5044887Z PASS src/components/History/Multiple/MultipleView.test.js
+2025-11-07T04:06:21.8034723Z PASS src/components/Tool/ToolForm.test.js
+2025-11-07T04:06:22.2209641Z PASS src/components/JobInformation/JobInformation.test.js
+2025-11-07T04:06:22.5464932Z PASS src/components/JobParameters/JobParameters.test.ts
+2025-11-07T04:06:22.6415641Z PASS src/components/Panels/Common/ToolSection.test.js
+2025-11-07T04:06:23.7285216Z PASS src/components/Form/Elements/FormData/FormDataUri.test.ts
+2025-11-07T04:06:25.1328331Z PASS src/components/Upload/UploadModal.test.js
+2025-11-07T04:06:25.2668766Z PASS src/components/Markdown/Utilities/requirements.test.js
+2025-11-07T04:06:25.5601822Z PASS src/components/History/HistoryOptions.test.ts
+2025-11-07T04:06:26.0913928Z PASS src/components/Visualizations/VisualizationCreate.test.js
+2025-11-07T04:06:26.2346820Z PASS src/components/ToolsList/ToolsList.test.ts
+2025-11-07T04:06:28.1100165Z PASS src/composables/fileSources.test.ts
+2025-11-07T04:06:28.2514874Z PASS src/components/Workflow/Run/WorkflowRun.test.js
+2025-11-07T04:06:28.6394462Z PASS src/components/Workflow/Editor/WorkflowAttributes.test.ts
+2025-11-07T04:06:28.9020245Z PASS src/components/Workflow/Run/WorkflowStorageConfiguration.test.js
+2025-11-07T04:06:29.0532293Z PASS src/components/ToolEntryPoints/ToolEntryPoints.test.js
+2025-11-07T04:06:29.9213394Z PASS src/components/Common/ExportForm.test.ts
+2025-11-07T04:06:30.7047247Z PASS src/components/Tags/model.test.js
+2025-11-07T04:06:30.7866391Z PASS src/stores/activityStore.test.ts
+2025-11-07T04:06:31.3126972Z PASS src/components/TagsMultiselect/Tag.test.js
+2025-11-07T04:06:31.3685662Z PASS src/components/User/UserDeletion.test.ts
+2025-11-07T04:06:31.8148828Z PASS src/components/History/Content/GenericElement.test.js
+2025-11-07T04:06:32.1100794Z PASS src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
+2025-11-07T04:06:32.4727373Z PASS src/components/Form/Elements/FormText.test.js
+2025-11-07T04:06:32.6277035Z PASS src/components/Markdown/Editor/CellAdd.test.js
+2025-11-07T04:06:33.0568661Z PASS src/composables/persistentProgressMonitor.test.ts
+2025-11-07T04:06:33.3043499Z PASS src/components/Tool/ToolCard.test.js
+2025-11-07T04:06:33.5612902Z PASS src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
+2025-11-07T04:06:34.8008937Z PASS src/api/client/serverMock.test.ts
+2025-11-07T04:06:34.9691421Z PASS src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.js
+2025-11-07T04:06:35.2880606Z PASS src/components/History/Content/Collection/CollectionProgress.test.js
+2025-11-07T04:06:35.4955377Z PASS src/stores/workflowConnectionStore.test.ts
+2025-11-07T04:06:35.6784647Z PASS src/components/JobMetrics/AwsEstimate.test.js
+2025-11-07T04:06:35.9132339Z PASS src/components/Form/FormCardSticky.test.js
+2025-11-07T04:06:36.0259841Z PASS src/components/Visualizations/utilities.test.js
+2025-11-07T04:06:36.1937652Z PASS src/components/ObjectStore/ShowSelectedObjectStore.test.js
+2025-11-07T04:06:36.3161512Z PASS src/components/Markdown/Utilities/parseInvocation.test.js
+2025-11-07T04:06:36.5707042Z PASS src/components/Masthead/QuotaMeter.test.ts
+2025-11-07T04:06:36.6311557Z PASS src/entry/analysis/router-push.test.js
+2025-11-07T04:06:36.7159637Z PASS src/stores/entryPointStore.test.js
+2025-11-07T04:06:37.0317021Z PASS src/components/ObjectStore/DescribeObjectStore.test.js
+2025-11-07T04:06:37.1645149Z PASS src/components/StsDownloadButton.test.js
+2025-11-07T04:06:37.2142130Z PASS src/components/Workflow/Editor/Forms/FormTool.test.js
+2025-11-07T04:06:38.8342444Z PASS src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
+2025-11-07T04:06:39.3310887Z PASS src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
+2025-11-07T04:06:39.3805124Z PASS src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
+2025-11-07T04:06:39.5111335Z PASS src/components/Workflow/Run/model.test.js
+2025-11-07T04:06:39.5318890Z PASS src/entry/analysis/modules/Login.test.ts
+2025-11-07T04:06:39.9808941Z PASS src/components/ActivityBar/ActivityItem.test.js
+2025-11-07T04:06:40.7057111Z PASS src/components/ActivityBar/ActivityBar.test.js
+2025-11-07T04:06:41.1488014Z PASS src/components/Login/ChangePassword.test.ts
+2025-11-07T04:06:41.2339073Z PASS src/components/Register/RegisterForm.test.ts
+2025-11-07T04:06:42.9862706Z PASS src/components/Common/models/exportRecordModel.test.ts
+2025-11-07T04:06:42.9988637Z PASS src/components/History/Content/Collection/CollectionProgress.test.ts
+2025-11-07T04:06:43.1763058Z PASS src/components/Masthead/Masthead.test.js
+2025-11-07T04:06:43.3434641Z PASS src/components/Form/FormElementLabel.test.js
+2025-11-07T04:06:43.6164554Z PASS src/components/JobMetrics/JobMetrics.test.js
+2025-11-07T04:06:44.5589561Z PASS src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
+2025-11-07T04:06:44.6298255Z PASS src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
+2025-11-07T04:06:44.8970204Z PASS src/components/Visualizations/DisplayApplications.test.js
+2025-11-07T04:06:45.4471355Z PASS src/app/app.test.js
+2025-11-07T04:06:45.5182427Z PASS src/components/JobDestinationParams/JobDestinationParams.test.ts
+2025-11-07T04:06:45.8585176Z PASS src/components/Tool/ToolSuccessMessage.test.ts
+2025-11-07T04:06:46.9667839Z PASS src/components/User/ExternalIdentities/ExternalRegistration.test.ts
+2025-11-07T04:06:47.1141945Z PASS src/components/Popper/usePopper.test.js
+2025-11-07T04:06:47.2097301Z PASS src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
+2025-11-07T04:06:48.0046657Z PASS src/components/Notifications/NotificationsList.test.ts
+2025-11-07T04:06:48.3389804Z PASS src/stores/jobMetricsStore.test.ts
+2025-11-07T04:06:48.6202688Z PASS src/components/Grid/configs/adminUsers.test.js
+2025-11-07T04:06:48.8046796Z PASS src/components/Tool/extractEmbeddedJs.test.ts
+2025-11-07T04:06:49.5603265Z PASS src/components/Panels/Common/Tool.test.js
+2025-11-07T04:06:50.2949264Z PASS src/components/Workflow/Editor/StateUpgradeModal.test.js
+2025-11-07T04:06:50.3926831Z PASS src/components/Form/Elements/FormDrilldown/utilities.test.js
+2025-11-07T04:06:50.9667195Z PASS src/stores/workflowStepStore.test.ts
+2025-11-07T04:06:51.1606861Z PASS src/components/SelectionDialog/DatasetCollectionDialog.test.js
+2025-11-07T04:06:51.2821456Z PASS src/components/Citation/services.test.ts
+2025-11-07T04:06:51.9155602Z PASS src/components/Toolshed/InstalledList/Index.test.js
+2025-11-07T04:06:52.8128443Z PASS src/components/Workflow/Import/FromFileOrUrl.test.ts
+2025-11-07T04:06:52.8158042Z PASS src/components/Login/NewUserConfirmation.test.ts
+2025-11-07T04:06:53.3577177Z PASS src/components/History/Layout/DetailsLayout.test.js
+2025-11-07T04:06:53.7169661Z PASS src/stores/collectionAttributesStore.test.ts
+2025-11-07T04:06:54.0514818Z PASS src/components/Collections/wizard/fetchWorkbooks.test.ts
+2025-11-07T04:06:54.4962402Z PASS src/components/Tool/ToolFooter.test.js
+2025-11-07T04:06:55.2086189Z PASS src/components/HistoryExport/ToLink.test.js
+2025-11-07T04:06:55.4183258Z PASS src/stores/objectStoreInstancesStore.test.ts
+2025-11-07T04:06:55.4269113Z PASS src/entry/analysis/modules/Register.test.ts
+2025-11-07T04:06:55.8487261Z PASS src/components/Indices/filtersMixin.test.js
+2025-11-07T04:06:57.1126743Z PASS src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+2025-11-07T04:06:57.1517060Z PASS src/components/admin/Notifications/NotificationsManagement.test.ts
+2025-11-07T04:06:57.2051603Z PASS src/components/ObjectStore/ObjectStoreBadge.test.ts
+2025-11-07T04:06:57.5111823Z PASS src/components/Indices/SharingIndicators.test.js
+2025-11-07T04:06:57.5893279Z PASS src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
+2025-11-07T04:06:58.7537434Z PASS src/components/Tool/ToolSelectPreferredObjectStore.test.ts
+2025-11-07T04:06:58.8510108Z PASS tests/jest/standalone/RuleDefinitions.test.ts
+2025-11-07T04:06:59.0023773Z PASS src/components/Visualizations/VisualizationHeader.test.js
+2025-11-07T04:07:00.2281515Z PASS src/components/History/CurrentHistory/HistoryNavigation.test.ts
+2025-11-07T04:07:00.3982162Z PASS src/components/Panels/ToolBox.test.js
+2025-11-07T04:07:00.5168813Z PASS src/components/Form/Elements/FormData/collections.test.ts
+2025-11-07T04:07:00.7758277Z PASS src/components/Workflow/Editor/Node.test.ts
+2025-11-07T04:07:01.0282384Z PASS src/components/Toolshed/SearchList/Repositories.test.js
+2025-11-07T04:07:01.1986722Z PASS src/components/Toolshed/SearchList/Categories.test.js
+2025-11-07T04:07:01.3899327Z PASS src/components/Tags/StatelessTags.test.js
+2025-11-07T04:07:03.1087391Z PASS src/components/Dataset/DatasetName.test.ts
+2025-11-07T04:07:03.2923774Z PASS src/components/History/Content/Dataset/DatasetDownload.test.ts
+2025-11-07T04:07:03.8386776Z PASS src/components/admin/AdminPanel.test.js
+2025-11-07T04:07:04.2178578Z PASS src/components/admin/Notifications/NotificationForm.test.ts
+2025-11-07T04:07:04.9019977Z PASS src/components/Collections/common/stripExtension.test.ts
+2025-11-07T04:07:05.0277013Z PASS src/components/Workflow/Editor/Forms/FormDefault.test.js
+2025-11-07T04:07:05.6257903Z PASS src/components/Upload/CompositeBox.test.js
+2025-11-07T04:07:05.7991130Z PASS src/components/Toolshed/RepositoryDetails/Index.test.ts
+2025-11-07T04:07:06.1234592Z PASS src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
+2025-11-07T04:07:06.1819716Z PASS src/components/Form/FormMessage.test.js
+2025-11-07T04:07:06.2654939Z PASS src/components/HistoryExport/ToRemoteFile.test.js
+2025-11-07T04:07:06.5186196Z PASS src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
+2025-11-07T04:07:06.7627684Z PASS src/components/Toolshed/services.test.js
+2025-11-07T04:07:06.8974635Z PASS src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
+2025-11-07T04:07:06.9197924Z PASS src/components/Workflow/Editor/Comments/ColorSelector.test.js
+2025-11-07T04:07:07.2803448Z PASS src/components/Login/LoginIndex.test.js
+2025-11-07T04:07:07.3343260Z PASS src/components/Toolshed/InstalledList/Monitor.test.js
+2025-11-07T04:07:07.7787815Z PASS src/components/Workflow/WorkflowExport.test.js
+2025-11-07T04:07:07.9553434Z PASS src/components/ConfigTemplates/InstanceForm.test.ts
+2025-11-07T04:07:08.4180610Z PASS src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
+2025-11-07T04:07:08.5188022Z PASS src/stores/workflowEditorToolbarStore.test.ts
+2025-11-07T04:07:08.9100867Z PASS src/components/Toolshed/InstalledList/Details.test.js
+2025-11-07T04:07:09.0448270Z PASS src/components/SelectionDialog/SelectionDialog.test.js
+2025-11-07T04:07:09.3122217Z PASS src/components/ConfigTemplates/InstanceDropdown.test.ts
+2025-11-07T04:07:09.4586895Z PASS src/components/admin/BaseList.test.js
+2025-11-07T04:07:09.8083910Z PASS src/components/Panels/Buttons/FavoritesButton.test.js
+2025-11-07T04:07:10.3644535Z PASS src/components/ObjectStore/ObjectStoreBadges.test.ts
+2025-11-07T04:07:10.7123528Z PASS src/components/Markdown/Editor/CellButton.test.js
+2025-11-07T04:07:11.1881000Z PASS src/components/ConfigTemplates/EditSecretsForm.test.ts
+2025-11-07T04:07:12.0244716Z PASS src/components/providers/StoredWorkflowProvider.test.js
+2025-11-07T04:07:12.0248466Z PASS src/components/Form/Elements/FormOptionalText.test.js
+2025-11-07T04:07:12.1307304Z PASS src/components/GDateTime.test.ts
+2025-11-07T04:07:12.2338122Z PASS src/components/providers/InvocationsProvider.test.js
+2025-11-07T04:07:12.5649536Z PASS src/utils/lastQueue.test.js
+2025-11-07T04:07:12.5724848Z PASS src/components/Form/Elements/FormRadio.test.js
+2025-11-07T04:07:12.7334271Z PASS src/components/providers/PageProvider.test.js
+2025-11-07T04:07:12.7386614Z PASS src/components/providers/JobProvider.test.js
+2025-11-07T04:07:13.2817752Z PASS src/components/Form/Elements/FormBoolean.test.js
+2025-11-07T04:07:13.6930883Z PASS src/components/Form/Elements/FormInput.test.js
+2025-11-07T04:07:14.3000302Z PASS src/components/ObjectStore/ConfigurationMarkdown.test.ts
+2025-11-07T04:07:14.9282464Z PASS src/components/Upload/RulesInput.test.js
+2025-11-07T04:07:15.0743391Z PASS src/composables/keyedObjects.test.ts
+2025-11-07T04:07:15.4333739Z PASS src/components/Tour/Tour.test.js
+2025-11-07T04:07:15.5299962Z PASS src/components/Tool/utilities.test.ts
+2025-11-07T04:07:15.8902180Z PASS src/components/Toolshed/SearchList/ServerSelection.test.js
+2025-11-07T04:07:16.2220487Z PASS src/components/Form/Elements/FormUpload.test.js
+2025-11-07T04:07:16.5808045Z PASS src/components/ConfigTemplates/CreateInstance.test.ts
+2025-11-07T04:07:16.5873529Z PASS src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
+2025-11-07T04:07:16.6749986Z PASS src/components/providers/utils.test.js
+2025-11-07T04:07:16.7531439Z PASS src/composables/zipExplorer.test.ts
+2025-11-07T04:07:16.8085361Z PASS src/composables/markdown.test.js
+2025-11-07T04:07:17.1081991Z PASS src/components/Tool/ToolHelpRst.test.js
+2025-11-07T04:07:17.2085568Z PASS src/components/HistoryExport/Index.test.js
+2025-11-07T04:07:17.4335374Z PASS src/components/Markdown/Editor/CellOption.test.js
+2025-11-07T04:07:17.7872415Z PASS src/components/Form/FormCard.test.js
+2025-11-07T04:07:18.2481189Z PASS src/components/UtcDate.test.js
+2025-11-07T04:07:18.3909669Z PASS src/components/Datatypes/index.test.ts
+2025-11-07T04:07:18.6319672Z PASS src/components/Workflow/Editor/ZoomControl.test.js
+2025-11-07T04:07:18.7627152Z PASS src/components/ConfigTemplates/VaultSecret.test.ts
+2025-11-07T04:07:19.8458638Z PASS src/components/ConfigTemplates/TemplateSummaryPopover.test.ts
+2025-11-07T04:07:19.8515699Z PASS src/utils/redirect.test.ts
+2025-11-07T04:07:19.9821813Z PASS src/utils/url.test.js
+2025-11-07T04:07:20.1811003Z PASS src/components/Form/Elements/FormHidden.test.js
+2025-11-07T04:07:20.2117214Z PASS src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
+2025-11-07T04:07:20.3224924Z PASS src/utils/color.test.js
+2025-11-07T04:07:20.3282663Z PASS src/components/History/Content/model/states.test.js
+2025-11-07T04:07:20.7852236Z PASS src/app/utils.test.ts
+2025-11-07T04:07:21.2292806Z 
+2025-11-07T04:07:21.2294591Z Summary of all failing tests
+2025-11-07T04:07:21.2298596Z FAIL src/components/ConfigTemplates/formUtil.test.ts
+2025-11-07T04:07:21.2302732Z   ● formUtils › createTemplateForm › should create a form from an object store templates
+2025-11-07T04:07:21.2303325Z 
+2025-11-07T04:07:21.2304747Z     expect(received).toBe(expected) // Object.is equality
+2025-11-07T04:07:21.2305493Z 
+2025-11-07T04:07:21.2306031Z     Expected: 4
+2025-11-07T04:07:21.2306433Z     Received: 6
+2025-11-07T04:07:21.2306662Z 
+2025-11-07T04:07:21.2309406Z       19 |         it("should create a form from an object store templates", () => {
+2025-11-07T04:07:21.2313296Z       20 |             const form = createTemplateForm(STANDARD_OBJECT_STORE_TEMPLATE, "storage location");
+2025-11-07T04:07:21.2314811Z     > 21 |             expect(form.length).toBe(4);
+2025-11-07T04:07:21.2316936Z          |                                 ^
+2025-11-07T04:07:21.2318782Z       22 |             const formEl0 = form[0];
+2025-11-07T04:07:21.2321278Z       23 |             expect(formEl0?.name).toEqual("_meta_name");
+2025-11-07T04:07:21.2324972Z       24 |             expect(formEl0?.help).toEqual("Label this new storage location with a name.");
+2025-11-07T04:07:21.2325530Z 
+2025-11-07T04:07:21.2328410Z       at Object.<anonymous> (src/components/ConfigTemplates/formUtil.test.ts:21:33)
+2025-11-07T04:07:21.2328954Z 
+2025-11-07T04:07:21.2328977Z 
+2025-11-07T04:07:21.2331270Z Test Suites: 1 failed, 277 passed, 278 total
+2025-11-07T04:07:21.2331943Z Tests:       1 failed, 2 skipped, 1275 passed, 1278 total
+2025-11-07T04:07:21.2332453Z Snapshots:   0 total
+2025-11-07T04:07:21.2332814Z Time:        173.489 s
+2025-11-07T04:07:21.2333188Z Ran all test suites.
+2025-11-07T04:07:21.2399275Z Test results written to: ../jest-report.json
+2025-11-07T04:07:21.2586151Z error Command failed with exit code 1.
+2025-11-07T04:07:21.2587104Z info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+2025-11-07T04:07:21.2694061Z ##[error]Process completed with exit code 1.
+2025-11-07T04:07:21.2768963Z ##[group]Run actions/upload-artifact@v5
+2025-11-07T04:07:21.2769255Z with:
+2025-11-07T04:07:21.2769431Z   name: Jest report
+2025-11-07T04:07:21.2769622Z   path: jest-report.json
+2025-11-07T04:07:21.2769834Z   if-no-files-found: warn
+2025-11-07T04:07:21.2770040Z   compression-level: 6
+2025-11-07T04:07:21.2770222Z   overwrite: false
+2025-11-07T04:07:21.2770405Z   include-hidden-files: false
+2025-11-07T04:07:21.2770614Z ##[endgroup]
+2025-11-07T04:07:21.4836870Z With the provided path, there will be 1 file uploaded
+2025-11-07T04:07:21.4841434Z Artifact name is valid!
+2025-11-07T04:07:21.4841949Z Root directory input is valid!
+2025-11-07T04:07:21.7162325Z Beginning upload of artifact content to blob storage
+2025-11-07T04:07:22.0364431Z Uploaded bytes 45348
+2025-11-07T04:07:22.0956626Z Finished uploading artifact content to blob storage!
+2025-11-07T04:07:22.0960472Z SHA256 digest of uploaded artifact zip is cf1d5f78ae6af2a1dbf4ee8da71a5337a0caaec4b42c28c000475277fc7d9e73
+2025-11-07T04:07:22.0961975Z Finalizing artifact upload
+2025-11-07T04:07:22.2115422Z Artifact Jest report.zip successfully finalized. Artifact ID 4495374583
+2025-11-07T04:07:22.2117037Z Artifact Jest report has been successfully uploaded! Final size is 45348 bytes. Artifact ID is 4495374583
+2025-11-07T04:07:22.2123645Z Artifact download URL: https://github.com/jmchilton/galaxy/actions/runs/19157774990/artifacts/4495374583
+2025-11-07T04:07:22.2247971Z Post job cleanup.
+2025-11-07T04:07:22.3011057Z [command]/usr/bin/git version
+2025-11-07T04:07:22.3077846Z git version 2.51.2
+2025-11-07T04:07:22.3114778Z Temporarily overriding HOME='/home/runner/work/_temp/b5c674b3-f020-4fae-9b8a-a2e25b1ebb57' before making global git config changes
+2025-11-07T04:07:22.3116538Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-07T04:07:22.3120947Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/galaxy/galaxy
+2025-11-07T04:07:22.3155303Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-07T04:07:22.3186678Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-07T04:07:22.3422407Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-07T04:07:22.3457313Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-07T04:07:22.3830228Z Cleaning up orphan processes

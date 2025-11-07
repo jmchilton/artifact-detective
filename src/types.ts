@@ -3,6 +3,7 @@ export type ArtifactType =
   | 'playwright-json'
   | 'jest-json'
   | 'jest-html'
+  | 'jest-txt'
   | 'pytest-json'
   | 'pytest-html'
   | 'junit-xml'

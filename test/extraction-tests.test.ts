@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
 import type { ArtifactType, ExtractorConfig } from '../src/index.js';
-import { extractArtifactFromLog, extractArtifactToJson } from '../src/validators/index.js';
+import { extract, extractArtifactToJson } from '../src/validators/index.js';
 
 type PatternRule = { string: string } | { regex: string } | { lint: string };
 
@@ -93,12 +93,12 @@ describe('Extraction Tests', () => {
           };
         }
 
-        // Run extraction
-        extractedContent = extractArtifactFromLog(
-          test['artifact-type'],
-          logContent,
-          extractorConfig,
-        );
+        // Run extraction using extract() instead of deprecated extractArtifactFromLog()
+        const result = extract(test['artifact-type'], logContent, {
+          normalize: false,
+          config: extractorConfig,
+        });
+        extractedContent = result?.content ?? null;
       });
 
       it('log file exists', () => {

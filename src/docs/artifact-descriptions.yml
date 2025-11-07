@@ -22,6 +22,18 @@ playwright-json:
 
     Success indicators: config object present, suites array exists and is non-empty, each suite has tests array, test objects have required fields (title, status). Common errors: Missing config or suites, status values that aren't passed/failed/skipped/skipped, duration values that aren't numbers, missing test titles. Validate that all status values are lowercase and match expected enum values.
 
+jest-txt:
+  fileExtension: 'txt'
+  shortDescription: 'Jest JavaScript test framework plain text output with test results and summaries'
+  toolUrl: 'https://jestjs.io/'
+  formatUrl: 'https://jestjs.io/docs/cli#--no-coverage'
+  parsingGuide: |
+    Jest text output is plain text formatted human-readably. The output contains test file paths with PASS/FAIL status, individual test results, summary sections showing test suite counts, and detailed failure information for any failing tests. The format includes timing information and a summary of total test counts.
+
+    Parse lines containing PASS/FAIL markers to identify test files and their status. Look for summary sections starting with 'Test Suites:' and 'Tests:' showing counts. For failed tests, look for 'Summary of all failing tests' sections containing error details with 'Expected:' and 'Received:' markers. Extract the relevant Jest output while filtering out CI environment metadata (timestamps, GitHub Actions markers, etc).
+
+    Success indicators: PASS/FAIL markers present for test files, summary lines with test/suite counts, failure detail sections with Expected/Received markers when tests fail. Common errors: CI environment metadata included in output, timestamps and GitHub Actions markers not filtered, test file paths missing extensions, summary counts not matching actual test lines. Clean extracted output carefully to remove non-Jest content.
+
 jest-html:
   fileExtension: 'html'
   shortDescription: 'Jest HTML test report with test results rendered in HTML format'
