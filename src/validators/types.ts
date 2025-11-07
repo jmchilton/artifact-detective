@@ -5,6 +5,7 @@ import type { ExtractorConfig } from '../parsers/linters/extractors.js';
  */
 export interface ArtifactDescription {
   type: string;
+  fileExtension?: string;
   shortDescription: string;
   toolUrl?: string;
   formatUrl?: string;
@@ -48,6 +49,7 @@ export interface ArtifactTypeCapabilities {
  */
 export interface ArtifactDescriptor {
   artifactType: ArtifactType;
+  fileExtension?: string;
   shortDescription: string;
   toolUrl?: string;
   formatUrl?: string;

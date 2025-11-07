@@ -88,7 +88,7 @@ This documentation covers:
       const toolName = extractToolName(type);
 
       // Determine capabilities from type name and format
-      const format = getFormatFromType(type);
+      const format = desc.fileExtension || 'other';
       const autoDetect = '✓'; // Most types support auto-detection
       const extract = shouldExtract(type) ? '✓' : '—';
       const normalize = shouldNormalize(type) ? '✓' : '—';
@@ -108,15 +108,6 @@ This documentation covers:
 - Browse [Fixtures](../fixtures/) for real-world artifact examples\n`;
 
   writeMarkdown(join(docsDir, 'artifact-types', 'README.md'), markdown);
-}
-
-function getFormatFromType(type) {
-  if (type.includes('json') || type.includes('ndjson')) return 'json';
-  if (type.includes('xml')) return 'xml';
-  if (type.includes('html')) return 'html';
-  if (type.includes('txt')) return 'txt';
-  if (type.includes('sarif')) return 'json';
-  return 'other';
 }
 
 function shouldExtract(type) {
@@ -481,7 +472,7 @@ This section covers detailed information for each artifact type in the **${categ
 
       const desc = descriptions[type];
       const toolName = extractToolName(type);
-      const format = getFormatFromType(type);
+      const format = desc.fileExtension || 'other';
 
       // Get capabilities
       const autoDetect = '✓'; // Most types support auto-detection

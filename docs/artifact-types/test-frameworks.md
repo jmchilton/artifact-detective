@@ -262,12 +262,12 @@ Success indicators: Summary section with test counts and percentage, detailed te
 | Auto-Detect | ✓ |
 | Extract from Log | — |
 | Convert to JSON | — |
-| Format | json |
+| Format | ndjson |
 
 ### Tool Information
 
 - **Tool**: [Go Test](https://golang.org/cmd/go/)
-- **Format Spec**: [JSON Format](https://golang.org/cmd/go/#hdr-Test_binary_flag)
+- **Format Spec**: [NDJSON Format](https://golang.org/cmd/go/#hdr-Test_binary_flag)
 
 ### Parsing Guide
 

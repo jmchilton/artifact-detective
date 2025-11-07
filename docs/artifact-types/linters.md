@@ -157,12 +157,12 @@ Success indicators: Lines match filename:line:column: severity: message pattern,
 | Auto-Detect | ✓ |
 | Extract from Log | — |
 | Convert to JSON | — |
-| Format | json |
+| Format | ndjson |
 
 ### Tool Information
 
 - **Tool**: [Mypy](https://www.mypy-lang.org/)
-- **Format Spec**: [JSON Format](https://mypy.readthedocs.io/en/stable/command_line.html#how-to-run-mypy)
+- **Format Spec**: [NDJSON Format](https://mypy.readthedocs.io/en/stable/command_line.html#how-to-run-mypy)
 
 ### Parsing Guide
 
@@ -297,12 +297,12 @@ Success indicators: Warning/error lines identifiable by prefix, lint rule names 
 | Auto-Detect | ✓ |
 | Extract from Log | — |
 | Convert to JSON | — |
-| Format | json |
+| Format | ndjson |
 
 ### Tool Information
 
 - **Tool**: [Clippy](https://github.com/rust-lang/rust-clippy)
-- **Format Spec**: [JSON Format](https://docs.rust-embedded.org/book/static/clippy.html)
+- **Format Spec**: [NDJSON Format](https://docs.rust-embedded.org/book/static/clippy.html)
 
 ### Parsing Guide
 
