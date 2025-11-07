@@ -76,10 +76,22 @@ if (normalized) {
   console.log(`Extracted ${errors.length} type errors`);
   console.log('Normalized from:', normalized.artifact.normalizedFrom);
 }
+
+// Extract with validation
+const validated = extract('eslint-txt', logContent, { validate: true });
+if (validated) {
+  if (validated.validationResult?.valid) {
+    console.log('✓ Extraction validated successfully');
+    console.log('File extension:', validated.artifact.fileExtension);
+  } else {
+    console.log('✗ Validation failed:', validated.validationResult?.error);
+  }
+}
 ```
 
 **Options:**
 - `normalize` (boolean, default: false): If true, attempt to convert to JSON format
+- `validate` (boolean, default: false): If true, run validation on extracted content
 - `config` (ExtractorConfig): Extraction configuration with custom markers
   - `startMarker`: RegExp to detect section start
   - `endMarker`: RegExp to detect section end
@@ -94,8 +106,13 @@ if (normalized) {
     - `toolUrl`: Link to tool documentation
     - `formatUrl`: Link to format documentation
     - `parsingGuide`: Detailed parsing guide
+    - `fileExtension`: File extension (json, xml, html, txt, ndjson, other)
     - `isJSON`: Whether format is JSON
     - `normalizedFrom`: Original type if normalized (undefined if raw)
+  - `validationResult` (optional): ValidationResult if validate option was true
+    - `valid`: Whether validation passed
+    - `error`: Error message if invalid
+    - `artifact`: Full ArtifactDescriptor if valid
 
 ### File-based Normalization
 
