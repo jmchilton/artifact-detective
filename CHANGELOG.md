@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/jmchilton/artifact-detective/compare/v1.13.0...v1.14.0) (2025-11-07)
+
+
+### Features
+
+* add artifact descriptor and validate to detectArtifactType ([2c236e3](https://github.com/jmchilton/artifact-detective/commit/2c236e36edd90aa4332847e8e47245639e6220c4))
+
 # [1.13.0](https://github.com/jmchilton/artifact-detective/compare/v1.12.1...v1.13.0) (2025-11-07)
 
 
