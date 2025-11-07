@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/jmchilton/artifact-detective/compare/v1.10.4...v1.11.0) (2025-11-07)
+
+
+### Bug Fixes
+
+* add missing type imports for ArtifactDescriptor and ExtractResult ([e1a2a23](https://github.com/jmchilton/artifact-detective/commit/e1a2a236b25d434caba201c9f36198cf5a1f7f51))
+
+
+### Features
+
+* unify extraction API with optional normalization ([d481b3f](https://github.com/jmchilton/artifact-detective/commit/d481b3f46c667fc11fdc8003561870c23a84b1ad))
+
 ## [1.10.4](https://github.com/jmchilton/artifact-detective/compare/v1.10.3...v1.10.4) (2025-11-06)
 
 
