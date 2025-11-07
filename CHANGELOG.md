@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/jmchilton/artifact-detective/compare/v1.11.0...v1.12.0) (2025-11-07)
+
+
+### Features
+
+* add explicit fileExtension field to artifact types ([feefcad](https://github.com/jmchilton/artifact-detective/commit/feefcadbc145c440464a1c45879284930a1d6007))
+
 # [1.11.0](https://github.com/jmchilton/artifact-detective/compare/v1.10.4...v1.11.0) (2025-11-07)
 
 
