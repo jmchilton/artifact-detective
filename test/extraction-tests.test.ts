@@ -385,4 +385,59 @@ this is not json
       expect(result!.validationResult!.artifact?.artifactType).toBe('eslint-json');
     });
   });
+
+  describe('Normalizer: jest-txt → jest-json', () => {
+    it('normalizes jest-txt to valid jest-json structure', async () => {
+      const { normalize } = await import('../src/validators/index.js');
+      const sourcePath = join(FIXTURES_DIR, 'jest-txt/logs.txt');
+      const result = normalize('jest-txt', sourcePath);
+
+      expect(result).toBeTruthy();
+      expect(result).toContain('numTotalTests');
+      expect(result).toContain('testResults');
+
+      const json = JSON.parse(result!);
+      expect(json.numTotalTests).toBeGreaterThan(0);
+      expect(Array.isArray(json.testResults)).toBe(true);
+    });
+
+    it('preserves test counts from jest-txt', async () => {
+      const { normalize } = await import('../src/validators/index.js');
+      const sourcePath = join(FIXTURES_DIR, 'jest-txt/logs.txt');
+      const result = normalize('jest-txt', sourcePath);
+
+      const json = JSON.parse(result!);
+
+      // From fixture: 1 failed, 277 passed, 278 total suites
+      // From fixture: 1 failed, 2 skipped, 1275 passed, 1278 total tests
+      expect(json.numTotalTestSuites).toBe(278);
+      expect(json.numPassedTestSuites).toBe(277);
+      expect(json.numFailedTestSuites).toBe(1);
+      expect(json.numTotalTests).toBe(1278);
+      expect(json.numPassedTests).toBe(1275);
+      expect(json.numFailedTests).toBe(1);
+      expect(json.numPendingTests).toBe(2);
+    });
+
+    it('normalizes with lenient validation (incomplete data acceptable)', async () => {
+      const { normalize, validateJestJSON } = await import('../src/validators/index.js');
+      const sourcePath = join(FIXTURES_DIR, 'jest-txt/logs.txt');
+      const result = normalize('jest-txt', sourcePath);
+
+      expect(result).toBeTruthy();
+
+      // Validation should pass - testResults exists and numTotalTests is present
+      const validation = validateJestJSON(result!);
+      expect(validation.valid).toBe(true);
+    });
+
+    it('produces json string (not parsed object)', async () => {
+      const { normalize } = await import('../src/validators/index.js');
+      const sourcePath = join(FIXTURES_DIR, 'jest-txt/logs.txt');
+      const result = normalize('jest-txt', sourcePath);
+
+      expect(typeof result).toBe('string');
+      expect(() => JSON.parse(result!)).not.toThrow();
+    });
+  });
 });

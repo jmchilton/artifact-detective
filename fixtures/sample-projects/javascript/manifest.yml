@@ -25,6 +25,12 @@ artifacts:
     description: "Jest HTML reporter: test summary with details"
     coverage_target: "validators/jest-validator.ts"
 
+  - file: "jest-output.txt"
+    type: jest-txt
+    format: txt
+    description: "Jest text output: plain text format with test results"
+    coverage_target: "validators/jest-validator.ts"
+
   - file: "playwright-results.json"
     type: playwright-json
     format: json

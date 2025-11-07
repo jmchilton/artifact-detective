@@ -155,6 +155,124 @@ function normalizeMypyText(filePath: string): string | null {
 }
 
 /**
+ * Normalize jest text output to Jest JSON format
+ *
+ * Converts jest-txt (plain text from CI logs) to jest-json structure.
+ *
+ * What IS preserved:
+ * - Test suite counts (passed, failed, total)
+ * - Test counts (passed, failed, skipped, total)
+ * - File-level pass/fail status
+ * - Basic error messages from failure summaries
+ *
+ * What IS NOT available (jest-txt doesn't contain):
+ * - Full stack traces (only summary lines available in text format)
+ * - Test hierarchy details (only file-level status, no individual test results)
+ * - Per-test duration information
+ * - Assertion result details
+ * - Snapshot information
+ * - File names in assertionResults (text format doesn't provide structure)
+ */
+function normalizeJestText(filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const lines = content.split('\n');
+
+    let testSuites = 0;
+    let passedTestSuites = 0;
+    let failedTestSuites = 0;
+    let totalTests = 0;
+    let passedTests = 0;
+    let failedTests = 0;
+    let skippedTests = 0;
+
+    // Parse summary lines
+    for (const line of lines) {
+      const testSuitesMatch = line.match(/Test Suites:\s*(\d+)\s+failed,\s*(\d+)\s+passed,\s*(\d+)\s+total/);
+      if (testSuitesMatch) {
+        failedTestSuites = parseInt(testSuitesMatch[1], 10);
+        passedTestSuites = parseInt(testSuitesMatch[2], 10);
+        testSuites = parseInt(testSuitesMatch[3], 10);
+        continue;
+      }
+
+      const testsMatch = line.match(/Tests:\s*(\d+)\s+failed,\s*(\d+)\s+skipped,\s*(\d+)\s+passed,\s*(\d+)\s+total/);
+      if (testsMatch) {
+        failedTests = parseInt(testsMatch[1], 10);
+        skippedTests = parseInt(testsMatch[2], 10);
+        passedTests = parseInt(testsMatch[3], 10);
+        totalTests = parseInt(testsMatch[4], 10);
+      }
+    }
+
+    // Extract test files (lines with PASS/FAIL prefix)
+    const testResults = [];
+    for (const line of lines) {
+      const passMatch = line.match(/^(.*?PASS\s+)(.+)$/);
+      const failMatch = line.match(/^(.*?FAIL\s+)(.+)$/);
+
+      if (passMatch) {
+        const filePath = passMatch[2].trim();
+        testResults.push({
+          name: filePath,
+          status: 'passed',
+          assertionResults: [],
+          numPassingTests: 1,
+          numFailingTests: 0,
+          numPendingTests: 0,
+        });
+      } else if (failMatch) {
+        const filePath = failMatch[2].trim();
+        testResults.push({
+          name: filePath,
+          status: 'failed',
+          assertionResults: [],
+          numPassingTests: 0,
+          numFailingTests: 1,
+          numPendingTests: 0,
+        });
+      }
+    }
+
+    // Build jest-json structure
+    const jestResult = {
+      numTotalTestSuites: testSuites,
+      numPassedTestSuites: passedTestSuites,
+      numFailedTestSuites: failedTestSuites,
+      numPendingTestSuites: 0,
+      numTotalTests: totalTests,
+      numPassedTests: passedTests,
+      numFailedTests: failedTests,
+      numPendingTests: skippedTests,
+      numRuntimeErrorTestSuites: 0,
+      testResults: testResults,
+      snapshot: {
+        added: 0,
+        didUpdate: false,
+        failure: false,
+        filesAdded: 0,
+        filesRemoved: 0,
+        filesRemovedList: [],
+        filesUnmatched: 0,
+        filesUpdated: 0,
+        matched: 0,
+        total: 0,
+        unchecked: 0,
+        uncheckedKeysByFile: [],
+        unmatched: 0,
+        updated: 0,
+      },
+      wasInterrupted: false,
+      success: failedTests === 0,
+    };
+
+    return JSON.stringify(jestResult, null, 2);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Specific extractor functions for linter output from CI logs
  */
 function extractESLintFromLog(logContents: string, config?: ExtractorConfig): string | null {
@@ -261,8 +379,8 @@ export const ARTIFACT_TYPE_REGISTRY: Record<ArtifactType, ArtifactTypeCapabiliti
     supportsAutoDetection: false,
     validator: null,
     extract: extractJestFromLog,
-    normalize: null,
-    normalizesTo: null,
+    normalize: normalizeJestText,
+    normalizesTo: 'jest-json',
     artificialType: false,
     isJSON: false,
   },
@@ -725,6 +843,26 @@ export function extractArtifactToJson(
       parsingGuide: result.artifact.parsingGuide,
     },
   };
+}
+
+/**
+ * Normalize artifact from one type to another using registered normalizers
+ *
+ * @param sourceType - Source artifact type (e.g., 'jest-txt')
+ * @param filePath - Path to file to normalize
+ * @returns JSON string from normalizer, or null if not available/failed
+ */
+export function normalize(sourceType: ArtifactType, filePath: string): string | null {
+  const capabilities = ARTIFACT_TYPE_REGISTRY[sourceType];
+  if (!capabilities || !capabilities.normalize) {
+    return null;
+  }
+
+  try {
+    return capabilities.normalize(filePath);
+  } catch {
+    return null;
+  }
 }
 
 /**

@@ -10,6 +10,8 @@ services:
       echo 'Running Jest with HTML reporter...' &&
       npm run test:jest -- --reporters='jest-html-reporter' 2>/dev/null || true &&
       mv test-report.html /output/jest-report.html 2>/dev/null || true &&
+      echo 'Running Jest with text output...' &&
+      npm run test:jest 2>&1 | tee /output/jest-output.txt || true &&
       echo 'Running Playwright tests (JSON)...' &&
       npx playwright test --reporter=json > /output/playwright-results.json 2>&1 || true &&
       echo 'Running ESLint (text)...' &&
