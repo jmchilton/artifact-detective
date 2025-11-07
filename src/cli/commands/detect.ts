@@ -8,9 +8,23 @@ export interface DetectCoreResult {
   detectedType: string;
   originalFormat: string;
   isBinary: boolean;
+  artifact?: {
+    artifactType: string;
+    fileExtension?: string;
+    shortDescription: string;
+    toolUrl?: string;
+    formatUrl?: string;
+    parsingGuide: string;
+    isJSON: boolean;
+  };
+  validationResult?: {
+    valid: boolean;
+    error?: string;
+    artifact?: unknown;
+  };
 }
 
-export async function detectCore(filePath: string): Promise<{ success: true; data: DetectCoreResult } | { success: false; error: string }> {
+export async function detectCore(filePath: string, validate?: boolean): Promise<{ success: true; data: DetectCoreResult } | { success: false; error: string }> {
   try {
     // Read input from file or stdin
     const content = await readInput(filePath);
@@ -26,7 +40,7 @@ export async function detectCore(filePath: string): Promise<{ success: true; dat
       detectionPath = tmpFile;
     }
 
-    const result = detectArtifactType(detectionPath);
+    const result = detectArtifactType(detectionPath, { validate });
 
     // Clean up temp file if created
     if (filePath === '-') {
@@ -48,21 +62,49 @@ export async function detectCore(filePath: string): Promise<{ success: true; dat
 /**
  * Detect artifact type from file - CLI wrapper
  */
-export async function detect(filePath: string, options: { json?: boolean }): Promise<void> {
-  const result = await detectCore(filePath);
+export async function detect(filePath: string, options: { json?: boolean; validate?: boolean; showDescription?: boolean }): Promise<void> {
+  const result = await detectCore(filePath, options.validate);
 
   if (!result.success) {
     exitError(result.error);
   }
 
+  const data = result.data;
+
   if (options.json) {
-    writeOutput(formatJSON(result.data), null);
+    const output: Record<string, unknown> = {
+      detectedType: data.detectedType,
+      originalFormat: data.originalFormat,
+      isBinary: data.isBinary,
+    };
+    if (data.artifact) {
+      output.artifact = data.artifact;
+    }
+    if (data.validationResult) {
+      output.validationResult = data.validationResult;
+    }
+    writeOutput(formatJSON(output), null);
   } else {
     const output = formatKeyValue({
-      'Detected Type': result.data.detectedType,
-      Format: result.data.originalFormat,
-      Binary: result.data.isBinary ? 'yes' : 'no',
+      'Detected Type': data.detectedType,
+      Format: data.originalFormat,
+      Binary: data.isBinary ? 'yes' : 'no',
     });
     writeOutput(output, null);
+
+    if (data.artifact && options.showDescription) {
+      writeOutput('', null);
+      writeOutput(`Tool: ${data.artifact.toolUrl || 'unknown'}`, null);
+      writeOutput(`Format: .${data.artifact.fileExtension}`, null);
+    }
+
+    if (data.validationResult) {
+      writeOutput('', null);
+      const validStatus = data.validationResult.valid ? 'Valid' : 'Invalid';
+      writeOutput(`Validation: ${validStatus}`, null);
+      if (!data.validationResult.valid && data.validationResult.error) {
+        writeOutput(`  ${data.validationResult.error}`, null);
+      }
+    }
   }
 }

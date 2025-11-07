@@ -20,15 +20,29 @@ Complete reference for artifact-detective command-line interface.
 # Detect artifact type
 artifact-detective detect results.json
 
+# Detect with validation and metadata
+artifact-detective detect results.json --validate --show-description
+
 # Validate artifact
 artifact-detective validate jest-json results.json
 
 # Extract from CI log
 artifact-detective extract eslint-txt build.log
 
+# Extract with validation and JSON output
+artifact-detective extract eslint-txt build.log --validate --json
+
 # Convert to JSON
 artifact-detective normalize pytest-report.html
 ```
+
+## Features
+
+- **Auto-detection**: Automatically identify artifact types from file content
+- **Validation**: Verify detected/extracted content matches expected format
+- **Metadata**: Get artifact tool URLs, format info, and parsing guides
+- **Flexible I/O**: Read from files or stdin, write to stdout or files
+- **JSON output**: Machine-readable output with artifact descriptors
 
 ## More Information
 

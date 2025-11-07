@@ -23,7 +23,9 @@ export function createProgram(): Command {
     .command('detect <file>')
     .description('Detect artifact type from file (use "-" for stdin)')
     .option('--json', 'Output as JSON')
-    .action(async (file: string, options: { json?: boolean }) => {
+    .option('--validate', 'Validate detected type matches content')
+    .option('--show-description', 'Include tool and format info')
+    .action(async (file: string, options: { json?: boolean; validate?: boolean; showDescription?: boolean }) => {
       await detect(file, options);
     });
 
@@ -47,14 +49,17 @@ export function createProgram(): Command {
     .description(
       'Extract artifact from CI log (use "-" for stdin)\nUse custom markers for specific CI formats',
     )
+    .option('--json', 'Output as JSON with artifact metadata')
     .option('--output <file>', 'Write to file instead of stdout')
+    .option('--validate', 'Validate extracted content')
+    .option('--show-description', 'Include extraction metadata')
     .option('--start-marker <regex>', 'Regex to detect start of section')
     .option('--end-marker <regex>', 'Regex to detect end of section')
     .action(
       async (
         type: string,
         log: string,
-        options: { output?: string; startMarker?: string; endMarker?: string },
+        options: { json?: boolean; output?: string; validate?: boolean; showDescription?: boolean; startMarker?: string; endMarker?: string },
       ) => {
         await extract(type, log, options);
       },
