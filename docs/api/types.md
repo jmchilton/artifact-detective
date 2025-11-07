@@ -48,13 +48,15 @@ type OriginalFormat = 'json' | 'xml' | 'html' | 'txt' | 'binary'
 
 ### DetectionResult
 
-Result of artifact type detection.
+Result of artifact type detection with optional artifact metadata and validation.
 
 ```typescript
 interface DetectionResult {
-  detectedType: ArtifactType;      // Detected artifact type
-  originalFormat: OriginalFormat;   // File format (by extension)
-  isBinary: boolean;                // Whether file is binary
+  detectedType: ArtifactType;           // Detected artifact type
+  originalFormat: OriginalFormat;        // File format (by extension)
+  isBinary: boolean;                     // Whether file is binary
+  artifact?: ArtifactDescriptor;         // Full artifact metadata (non-binary only)
+  validationResult?: ValidationResult;   // Validation result if validate option was true
 }
 ```
 
@@ -62,12 +64,20 @@ interface DetectionResult {
 ```typescript
 import { detectArtifactType } from 'artifact-detective';
 
+// Basic detection
 const result = detectArtifactType('./report.html');
 // {
 //   detectedType: 'pytest-html',
 //   originalFormat: 'html',
-//   isBinary: false
+//   isBinary: false,
+//   artifact: { artifactType: 'pytest-html', fileExtension: 'html', ... }
 // }
+
+// With validation
+const validated = detectArtifactType('./report.html', { validate: true });
+if (validated.validationResult?.valid) {
+  console.log('Detected and validated:', validated.artifact?.shortDescription);
+}
 ```
 
 ---

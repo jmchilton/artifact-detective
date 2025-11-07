@@ -12,23 +12,38 @@ npm install artifact-detective
 
 ### Detection
 
-#### `detectArtifactType(filePath: string)`
+#### `detectArtifactType(filePath: string, options?: { validate?: boolean })`
 
-Automatically detect the artifact type from file contents.
+Automatically detect the artifact type from file contents with optional validation.
 
 ```typescript
 import { detectArtifactType } from 'artifact-detective';
 
+// Basic detection
 const result = detectArtifactType('results.json');
-// {
-//   detectedType: 'jest-json',
-//   confidence: 'high'
-// }
+console.log(result.detectedType);     // 'jest-json'
+console.log(result.artifact?.fileExtension);  // 'json'
+console.log(result.artifact?.toolUrl);        // https://jestjs.io/
+
+// Detection with validation
+const validated = detectArtifactType('results.json', { validate: true });
+if (validated.validationResult?.valid) {
+  console.log('✓ Detected and validated');
+  console.log('Tool:', validated.artifact?.toolUrl);
+} else {
+  console.log('✗ Validation failed:', validated.validationResult?.error);
+}
 ```
 
-**Returns:**
-- `detectedType`: The detected artifact type (or null if not detected)
-- `confidence`: Detection confidence level
+**Options:**
+- `validate` (boolean, default: false): If true, validate detected type matches content
+
+**Returns:** `DetectionResult` with:
+- `detectedType`: The detected artifact type
+- `originalFormat`: Format determined by file extension
+- `isBinary`: Whether file is binary
+- `artifact`: ArtifactDescriptor with full metadata (for non-binary types)
+- `validationResult` (optional): ValidationResult if validate option was true
 
 ### Validation
 
