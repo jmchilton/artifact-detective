@@ -16,6 +16,22 @@ Create and configure test fixtures for artifact log extraction. This command tak
 /setup-extraction-fixture go-test-ndjson results.log "Go test results in NDJSON format"
 ```
 
+**IMPORTANT: Use Real CI Logs, Not Modified Data**
+
+⚠️  **DO NOT modify or clean the supplied log file to make extraction look good.**
+
+The fixture should contain the actual, unmodified CI log with all its noise:
+- Timestamps (ISO format with Z suffix)
+- GitHub Actions markers (##[error], ##[group], etc.)
+- Other tool outputs (mypy, pytest, etc.)
+- CI runner info (version numbers, metadata)
+
+**Why?** The extraction tests verify your extractor actually removes CI noise. If you pre-clean the log, you're testing fake data, not real functionality. Tests should fail if the extractor doesn't work—that's the whole point.
+
+**Manifest `exclude` patterns verify cleanup:** They check that timestamps, markers, and other tools are NOT in extracted output. If the fixture is already clean, these patterns won't test anything real.
+
+---
+
 **Workflow:**
 
 1. **Validate inputs**
@@ -23,8 +39,8 @@ Create and configure test fixtures for artifact log extraction. This command tak
    - Verifies log file exists and is readable
    - Confirms type isn't already in manifest (asks to update)
 
-2. **Extract content**
-   - Reads the full CI log file
+2. **Extract content** (from REAL CI log)
+   - Reads the full CI log file WITHOUT MODIFICATION
    - Runs extractArtifactFromLog for that artifact type
    - Shows preview of extracted content (first 1500 chars)
 
@@ -89,10 +105,12 @@ extraction-tests:
 
 **Tips:**
 
-- **Include patterns**: Use specific error messages, file paths, line/column numbers
-- **Exclude patterns**: Use CI boilerplate, npm warnings, timestamps, headers
+- **Real CI logs**: Use unmodified logs with timestamps, markers, and noise. Extract should clean them
+- **Include patterns**: Use specific error messages, file paths, line/column numbers from cleaned output
+- **Exclude patterns**: Use to verify CI boilerplate is REMOVED (timestamps, ##[...], runners, other tools)
 - **Regex**: Use `^` for line start, `$` for line end, `.*` for flexible matching
-- Test patterns against extraction before confirming
+- **Pattern testing**: If exclude patterns don't match extracted output, extractor is working correctly
+- **Extractor bugs**: If exclude patterns DO match, your extractor isn't cleaning noise—fix it, don't modify fixture
 - Can manually edit patterns in manifest after setup
 
 **Multiple fixtures:**
