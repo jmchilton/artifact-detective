@@ -83,6 +83,26 @@ extraction-tests:
       # GitHub Actions markers should be removed
       - string: "##["
 
+  - artifact-type: mypy-txt
+    description: "Mypy Python type checker output from CI log - success message"
+    log-file: "mypy-txt/logs.txt"
+    include:
+      # Success message from mypy (indicates no type errors found)
+      - string: "Success: no issues found"
+      # Number of source files checked
+      - string: "source files"
+    exclude:
+      # Timestamps should be cleaned from extracted output (CI log markers)
+      - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z'
+      # GitHub Actions markers should be removed
+      - string: "##["
+      # CI runner info should not appear
+      - string: "Current runner version"
+      - string: "Runner Image"
+      # Other tool commands should not appear in extracted mypy output
+      - string: "+ ruff"
+      - string: "apt-get"
+
   - artifact-type: ruff-txt
     description: "Ruff Python linter output with code quality violations"
     log-file: "ruff-txt/logs.txt"

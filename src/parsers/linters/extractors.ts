@@ -83,7 +83,7 @@ export function extractLinterOutput(
       return extractFormatterOutput(lines, normalizedType);
 
     case 'mypy':
-      return extractMypyOutput(lines);
+      return extractMypyText(lines);
 
     case 'clippy':
       return extractClippyOutput(lines);
@@ -210,6 +210,66 @@ function extractPrettierOutput(lines: string[]): string | null {
       // End marker
       if (line.match(/^##\[/)) {
         break;
+      }
+    }
+  }
+
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
+}
+
+/**
+ * Extract mypy output from CI logs, cleaning timestamps and CI markers.
+ * Handles both raw mypy output and mypy embedded in larger CI logs.
+ * Captures both success messages and error output.
+ */
+function extractMypyText(lines: string[]): string | null {
+  // If this looks like raw mypy output (error pattern or success pattern),
+  // return as-is without expecting CI log structure
+  const hasMypyPattern = lines.some(
+    (line) =>
+      /^[a-zA-Z0-9_\-/.]+\.py:\d+:\s*(error|warning|note):/.test(line) ||
+      /^Success:/.test(line),
+  );
+
+  if (hasMypyPattern) {
+    return lines.join('\n').trim();
+  }
+
+  // Extract from CI logs with timestamps and CI markers
+  const outputLines: string[] = [];
+  let inMypyOutput = false;
+
+  for (const line of lines) {
+    const cleaned = cleanLogLine(line);
+
+    // Detect start: look for "mypy" command (usually "+ mypy")
+    if (!inMypyOutput && line.includes('+ mypy')) {
+      inMypyOutput = true;
+      continue;
+    }
+
+    if (inMypyOutput) {
+      // End markers: another tool starting or GitHub Actions error marker
+      if (
+        cleaned.match(/^##\[error\]/) ||
+        line.includes('+ ruff') ||
+        line.includes('+ pytest') ||
+        line.includes('+ black')
+      ) {
+        break;
+      }
+
+      // Capture mypy output lines
+      if (cleaned.match(/^Success:/)) {
+        // Success message
+        outputLines.push(cleaned);
+        break;
+      } else if (cleaned.match(/^[a-zA-Z0-9_\-/.]+\.py:\d+:\s*(error|warning|note):/)) {
+        // Error/warning line
+        outputLines.push(cleaned);
+      } else if (cleaned.trim() && outputLines.length > 0) {
+        // Continuation of error or additional message
+        outputLines.push(cleaned);
       }
     }
   }
@@ -356,40 +416,6 @@ function extractFormatterOutput(lines: string[], formatterType: string): string 
       }
 
       if (line.match(/^##\[/)) {
-        break;
-      }
-    }
-  }
-
-  return outputLines.length > 0 ? outputLines.join('\n') : null;
-}
-
-function extractMypyOutput(lines: string[]): string | null {
-  // If this looks like raw mypy output (not embedded in logs), return as-is
-  const hasMypyPattern = lines.some((line) =>
-    /^[a-zA-Z0-9_\-/.]+\.py:\d+:\s*(error|warning|note):/.test(line),
-  );
-
-  if (hasMypyPattern) {
-    return lines.join('\n').trim();
-  }
-
-  // Otherwise, extract from CI logs
-  const outputLines: string[] = [];
-  let inOutput = false;
-
-  for (const line of lines) {
-    if (line.includes('mypy')) {
-      inOutput = true;
-      continue;
-    }
-
-    if (inOutput) {
-      // Mypy errors: file.py:line: error:
-      if (line.match(/^[a-zA-Z0-9_\-/.]+\.py:\d+:\s*(error|warning):/)) {
-        outputLines.push(line);
-      } else if (line.match(/Found \d+ error/)) {
-        outputLines.push(line);
         break;
       }
     }
