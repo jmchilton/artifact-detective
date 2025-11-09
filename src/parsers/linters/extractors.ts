@@ -69,6 +69,8 @@ export function extractLinterOutput(
       return extractPrettierOutput(lines);
 
     case 'ruff':
+      return extractRuffOutput(lines);
+
     case 'flake8':
     case 'pylint':
       return extractPythonLinterOutput(lines, normalizedType);
@@ -208,6 +210,56 @@ function extractPrettierOutput(lines: string[]): string | null {
       // End marker
       if (line.match(/^##\[/)) {
         break;
+      }
+    }
+  }
+
+  return outputLines.length > 0 ? outputLines.join('\n') : null;
+}
+
+/**
+ * Extract ruff output from CI logs, cleaning timestamps and CI markers.
+ * Handles both raw ruff output and ruff embedded in larger CI logs.
+ */
+function extractRuffOutput(lines: string[]): string | null {
+  // If this looks like raw ruff output (file:line:col: CODE message pattern),
+  // return as-is without expecting CI log structure
+  const hasRuffPattern = lines.some((line) => /^[a-zA-Z0-9_\-/.]+\.py:\d+:\d+:/.test(line));
+
+  if (hasRuffPattern) {
+    return lines.join('\n').trim();
+  }
+
+  // Extract from CI logs with timestamps and CI markers
+  const outputLines: string[] = [];
+  let inRuffOutput = false;
+
+  for (const line of lines) {
+    const cleaned = cleanLogLine(line);
+
+    // Detect start: look for "ruff check" or "ruff " command
+    if (!inRuffOutput && (line.includes('ruff check') || (line.includes('+ ruff') && !line.includes('ruff')))) {
+      inRuffOutput = true;
+      continue;
+    }
+
+    if (inRuffOutput) {
+      // End markers: GitHub Actions error marker or another tool starting
+      if (cleaned.match(/^##\[error\]/) || line.includes('+ mypy') || line.includes('+ pytest')) {
+        break;
+      }
+
+      // Capture lines that are part of ruff output
+      if (cleaned.match(/^[a-zA-Z0-9_\-/.]+\.py:\d+:\d+:/)) {
+        // Error line
+        outputLines.push(cleaned);
+      } else if (cleaned.match(/^Found \d+ error/i)) {
+        // Summary line
+        outputLines.push(cleaned);
+        break;
+      } else if (cleaned.trim() && outputLines.length > 0) {
+        // Continuation of error (context, help text, etc.)
+        outputLines.push(cleaned);
       }
     }
   }

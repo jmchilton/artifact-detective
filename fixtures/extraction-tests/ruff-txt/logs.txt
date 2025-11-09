@@ -1,0 +1,234 @@
+﻿2025-11-09T14:49:23.8239846Z Current runner version: '2.329.0'
+2025-11-09T14:49:23.8265065Z ##[group]Runner Image Provisioner
+2025-11-09T14:49:23.8265952Z Hosted Compute Agent
+2025-11-09T14:49:23.8266536Z Version: 20251016.436
+2025-11-09T14:49:23.8267113Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-09T14:49:23.8267859Z Build Date: 2025-10-15T20:44:12Z
+2025-11-09T14:49:23.8268425Z ##[endgroup]
+2025-11-09T14:49:23.8268973Z ##[group]Operating System
+2025-11-09T14:49:23.8269474Z Ubuntu
+2025-11-09T14:49:23.8270000Z 24.04.3
+2025-11-09T14:49:23.8270417Z LTS
+2025-11-09T14:49:23.8270850Z ##[endgroup]
+2025-11-09T14:49:23.8271424Z ##[group]Runner Image
+2025-11-09T14:49:23.8272107Z Image: ubuntu-24.04
+2025-11-09T14:49:23.8272608Z Version: 20251102.99.1
+2025-11-09T14:49:23.8273670Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251102.99/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-09T14:49:23.8275259Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251102.99
+2025-11-09T14:49:23.8276323Z ##[endgroup]
+2025-11-09T14:49:23.8277357Z ##[group]GITHUB_TOKEN Permissions
+2025-11-09T14:49:23.8279330Z Contents: read
+2025-11-09T14:49:23.8279850Z Metadata: read
+2025-11-09T14:49:23.8280345Z Packages: read
+2025-11-09T14:49:23.8280854Z ##[endgroup]
+2025-11-09T14:49:23.8283126Z Secret source: Actions
+2025-11-09T14:49:23.8283827Z Prepare workflow directory
+2025-11-09T14:49:23.8601278Z Prepare all required actions
+2025-11-09T14:49:23.8640201Z Getting action download info
+2025-11-09T14:49:24.3449392Z Download action repository 'actions/checkout@v5' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2025-11-09T14:49:24.5225216Z Download action repository 'actions/setup-python@v6' (SHA:e797f83bcb11b83ae66e0230d6156d7c80228e7c)
+2025-11-09T14:49:24.6516939Z Download action repository 'astral-sh/setup-uv@v7' (SHA:85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41)
+2025-11-09T14:49:25.3164477Z Complete job name: lint-backend
+2025-11-09T14:49:25.3853721Z ##[group]Run actions/checkout@v5
+2025-11-09T14:49:25.3854609Z with:
+2025-11-09T14:49:25.3855235Z   repository: jmchilton/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:25.3856115Z   token: ***
+2025-11-09T14:49:25.3856539Z   ssh-strict: true
+2025-11-09T14:49:25.3856959Z   ssh-user: git
+2025-11-09T14:49:25.3857380Z   persist-credentials: true
+2025-11-09T14:49:25.3857864Z   clean: true
+2025-11-09T14:49:25.3858290Z   sparse-checkout-cone-mode: true
+2025-11-09T14:49:25.3858791Z   fetch-depth: 1
+2025-11-09T14:49:25.3859202Z   fetch-tags: false
+2025-11-09T14:49:25.3859636Z   show-progress: true
+2025-11-09T14:49:25.3860051Z   lfs: false
+2025-11-09T14:49:25.3860429Z   submodules: false
+2025-11-09T14:49:25.3860854Z   set-safe-directory: true
+2025-11-09T14:49:25.3861526Z ##[endgroup]
+2025-11-09T14:49:25.4769547Z Syncing repository: jmchilton/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:25.4771826Z ##[group]Getting Git version info
+2025-11-09T14:49:25.4773285Z Working directory is '/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi'
+2025-11-09T14:49:25.4774791Z [command]/usr/bin/git version
+2025-11-09T14:49:25.4828481Z git version 2.51.2
+2025-11-09T14:49:25.4880117Z ##[endgroup]
+2025-11-09T14:49:25.4894582Z Temporarily overriding HOME='/home/runner/work/_temp/b28daeab-75c9-4437-aa0a-ce21669ba50c' before making global git config changes
+2025-11-09T14:49:25.4896891Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-09T14:49:25.4899725Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:25.4936538Z Deleting the contents of '/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi'
+2025-11-09T14:49:25.4939235Z ##[group]Initializing the repository
+2025-11-09T14:49:25.4944246Z [command]/usr/bin/git init /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:25.5049973Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-09T14:49:25.5052172Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-09T14:49:25.5053378Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-09T14:49:25.5054062Z hint:
+2025-11-09T14:49:25.5054671Z hint: 	git config --global init.defaultBranch <name>
+2025-11-09T14:49:25.5055737Z hint:
+2025-11-09T14:49:25.5056524Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-09T14:49:25.5058011Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-09T14:49:25.5058821Z hint:
+2025-11-09T14:49:25.5059224Z hint: 	git branch -m <name>
+2025-11-09T14:49:25.5059685Z hint:
+2025-11-09T14:49:25.5060309Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-09T14:49:25.5062475Z Initialized empty Git repository in /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/.git/
+2025-11-09T14:49:25.5066560Z [command]/usr/bin/git remote add origin https://github.com/jmchilton/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:25.5099755Z ##[endgroup]
+2025-11-09T14:49:25.5100533Z ##[group]Disabling automatic garbage collection
+2025-11-09T14:49:25.5103328Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-09T14:49:25.5130676Z ##[endgroup]
+2025-11-09T14:49:25.5131449Z ##[group]Setting up auth
+2025-11-09T14:49:25.5137617Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-09T14:49:25.5168604Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-09T14:49:25.5533641Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-09T14:49:25.5563194Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-09T14:49:25.5780517Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-09T14:49:25.5813255Z ##[endgroup]
+2025-11-09T14:49:25.5814252Z ##[group]Fetching the repository
+2025-11-09T14:49:25.5823536Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6c7a803a88341093d343b6c2cba916bfc774eebe:refs/remotes/pull/18/merge
+2025-11-09T14:49:26.0311269Z From https://github.com/jmchilton/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:26.0312665Z  * [new ref]         6c7a803a88341093d343b6c2cba916bfc774eebe -> pull/18/merge
+2025-11-09T14:49:26.0342571Z ##[endgroup]
+2025-11-09T14:49:26.0344032Z ##[group]Determining the checkout info
+2025-11-09T14:49:26.0345760Z ##[endgroup]
+2025-11-09T14:49:26.0350553Z [command]/usr/bin/git sparse-checkout disable
+2025-11-09T14:49:26.0392054Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-09T14:49:26.0417457Z ##[group]Checking out the ref
+2025-11-09T14:49:26.0421255Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/18/merge
+2025-11-09T14:49:26.0589643Z Note: switching to 'refs/remotes/pull/18/merge'.
+2025-11-09T14:49:26.0590305Z 
+2025-11-09T14:49:26.0590778Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-11-09T14:49:26.0592117Z changes and commit them, and you can discard any commits you make in this
+2025-11-09T14:49:26.0593357Z state without impacting any branches by switching back to a branch.
+2025-11-09T14:49:26.0594678Z 
+2025-11-09T14:49:26.0595589Z If you want to create a new branch to retain commits you create, you may
+2025-11-09T14:49:26.0597651Z do so (now or later) by using -c with the switch command. Example:
+2025-11-09T14:49:26.0598885Z 
+2025-11-09T14:49:26.0599388Z   git switch -c <new-branch-name>
+2025-11-09T14:49:26.0600494Z 
+2025-11-09T14:49:26.0600863Z Or undo this operation with:
+2025-11-09T14:49:26.0601468Z 
+2025-11-09T14:49:26.0602029Z   git switch -
+2025-11-09T14:49:26.0602498Z 
+2025-11-09T14:49:26.0603219Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-11-09T14:49:26.0604333Z 
+2025-11-09T14:49:26.0605654Z HEAD is now at 6c7a803 Merge f995e02ae2c9f1d05fda2786283fe3487dc5eee3 into 5a2b204060226d7ca0971a7e93cb45fecec6fc7e
+2025-11-09T14:49:26.0609171Z ##[endgroup]
+2025-11-09T14:49:26.0638479Z [command]/usr/bin/git log -1 --format=%H
+2025-11-09T14:49:26.0660512Z 6c7a803a88341093d343b6c2cba916bfc774eebe
+2025-11-09T14:49:26.0923489Z ##[group]Run actions/setup-python@v6
+2025-11-09T14:49:26.0924082Z with:
+2025-11-09T14:49:26.0924467Z   python-version: 3.10
+2025-11-09T14:49:26.0924913Z   check-latest: false
+2025-11-09T14:49:26.0925507Z   token: ***
+2025-11-09T14:49:26.0925913Z   update-environment: true
+2025-11-09T14:49:26.0926389Z   allow-prereleases: false
+2025-11-09T14:49:26.0926864Z   freethreaded: false
+2025-11-09T14:49:26.0927292Z ##[endgroup]
+2025-11-09T14:49:26.2175957Z ##[group]Installed versions
+2025-11-09T14:49:26.2284814Z (node:2055) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-09T14:49:26.2287296Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-09T14:49:26.2288699Z Successfully set up CPython (3.10.19)
+2025-11-09T14:49:26.2290114Z ##[endgroup]
+2025-11-09T14:49:26.2556572Z ##[group]Run astral-sh/setup-uv@v7
+2025-11-09T14:49:26.2557160Z with:
+2025-11-09T14:49:26.2557536Z   version: 0.4.15
+2025-11-09T14:49:26.2557952Z   enable-cache: true
+2025-11-09T14:49:26.2558399Z   activate-environment: false
+2025-11-09T14:49:26.2559493Z   working-directory: /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:26.2560839Z   github-token: ***
+2025-11-09T14:49:26.2562058Z   cache-dependency-glob: **/*requirements*.txt
+**/*requirements*.in
+**/*constraints*.txt
+**/*constraints*.in
+**/pyproject.toml
+**/uv.lock
+**/*.py.lock
+
+2025-11-09T14:49:26.2563237Z   restore-cache: true
+2025-11-09T14:49:26.2563670Z   save-cache: true
+2025-11-09T14:49:26.2564082Z   prune-cache: true
+2025-11-09T14:49:26.2564510Z   cache-python: false
+2025-11-09T14:49:26.2564967Z   ignore-nothing-to-cache: false
+2025-11-09T14:49:26.2565483Z   ignore-empty-workdir: false
+2025-11-09T14:49:26.2565984Z   add-problem-matchers: true
+2025-11-09T14:49:26.2566515Z   resolution-strategy: highest
+2025-11-09T14:49:26.2566993Z env:
+2025-11-09T14:49:26.2567497Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:26.2568344Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib/pkgconfig
+2025-11-09T14:49:26.2569174Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:26.2569927Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:26.2570675Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:26.2571433Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib
+2025-11-09T14:49:26.2572187Z ##[endgroup]
+2025-11-09T14:49:26.4373192Z (node:2062) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2025-11-09T14:49:26.4374843Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2025-11-09T14:49:26.4514139Z manifest-file not provided, reading from local file.
+2025-11-09T14:49:26.4553158Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.4.15/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+2025-11-09T14:49:26.8171770Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/7f66938f-4a6c-49d7-aa5d-ee27641d5ef7 -f /home/runner/work/_temp/44065a32-8087-4a2b-ba79-9c3f86ee56bd
+2025-11-09T14:49:27.0618855Z Added /home/runner/.local/bin to the path
+2025-11-09T14:49:27.0623738Z Added /opt/hostedtoolcache/uv/0.4.15/x86_64 to the path
+2025-11-09T14:49:27.0626588Z Set UV_PYTHON_INSTALL_DIR to /home/runner/work/_temp/uv-python-dir
+2025-11-09T14:49:27.0628932Z Added /home/runner/work/_temp/uv-python-dir to the path
+2025-11-09T14:49:27.0641343Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+2025-11-09T14:49:27.0643531Z Successfully installed uv version 0.4.15
+2025-11-09T14:49:27.0669518Z Searching files using cache dependency glob: /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/*requirements*.txt,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/*requirements*.in,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/*constraints*.txt,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/*constraints*.in,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/pyproject.toml,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/uv.lock,/home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/**/*.py.lock
+2025-11-09T14:49:27.0920582Z /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/backend/pyproject.toml
+2025-11-09T14:49:27.0973677Z /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi/backend/uv.lock
+2025-11-09T14:49:27.1170830Z Found 2 files to hash.
+2025-11-09T14:49:28.4440584Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.10.19-pruned-4aa1b05daffe0b63fac8547944cedb7f290bb564f7cceebc63b35b79e4443ff1
+2025-11-09T14:49:28.6749111Z No GitHub Actions cache found for key: setup-uv-1-x86_64-unknown-linux-gnu-3.10.19-pruned-4aa1b05daffe0b63fac8547944cedb7f290bb564f7cceebc63b35b79e4443ff1
+2025-11-09T14:49:28.6907021Z ##[group]Run uv run bash scripts/lint.sh
+2025-11-09T14:49:28.6907408Z [36;1muv run bash scripts/lint.sh[0m
+2025-11-09T14:49:28.6946273Z shell: /usr/bin/bash -e {0}
+2025-11-09T14:49:28.6946553Z env:
+2025-11-09T14:49:28.6946819Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:28.6947260Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib/pkgconfig
+2025-11-09T14:49:28.6947682Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:28.6948050Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:28.6948429Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.19/x64
+2025-11-09T14:49:28.6948800Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.19/x64/lib
+2025-11-09T14:49:28.6949190Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+2025-11-09T14:49:28.6949557Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2025-11-09T14:49:28.6949857Z ##[endgroup]
+2025-11-09T14:49:28.7106307Z Using Python 3.10.19 interpreter at: /opt/hostedtoolcache/Python/3.10.19/x64/bin/python3
+2025-11-09T14:49:28.7107231Z Creating virtual environment at: .venv
+2025-11-09T14:49:29.9302596Z Installed 80 packages in 55ms
+2025-11-09T14:49:29.9345811Z + mypy app
+2025-11-09T14:49:48.9166654Z Success: no issues found in 21 source files
+2025-11-09T14:49:48.9523357Z + ruff check app
+2025-11-09T14:49:48.9618596Z app/utils.py:2:8: F401 [*] `os` imported but unused
+2025-11-09T14:49:48.9619178Z   |
+2025-11-09T14:49:48.9619471Z 1 | import logging
+2025-11-09T14:49:48.9619823Z 2 | import os
+2025-11-09T14:49:48.9620122Z   |        ^^ F401
+2025-11-09T14:49:48.9620499Z 3 | from dataclasses import dataclass
+2025-11-09T14:49:48.9621017Z 4 | from datetime import datetime, timedelta, timezone
+2025-11-09T14:49:48.9621549Z   |
+2025-11-09T14:49:48.9622223Z   = help: Remove unused import: `os`
+2025-11-09T14:49:48.9622595Z 
+2025-11-09T14:49:48.9623003Z app/utils.py:41:5: F841 Local variable `unused_var` is assigned to but never used
+2025-11-09T14:49:48.9624025Z    |
+2025-11-09T14:49:48.9624343Z 39 | ) -> None:
+2025-11-09T14:49:48.9624945Z 40 |     assert settings.emails_enabled, "no provided configuration for email variables"
+2025-11-09T14:49:48.9625725Z 41 |     unused_var = "this should trigger a linter warning"
+2025-11-09T14:49:48.9626298Z    |     ^^^^^^^^^^ F841
+2025-11-09T14:49:48.9626670Z 42 |     message = emails.Message(
+2025-11-09T14:49:48.9627070Z 43 |         subject=subject,
+2025-11-09T14:49:48.9627422Z    |
+2025-11-09T14:49:48.9627802Z    = help: Remove assignment to unused variable `unused_var`
+2025-11-09T14:49:48.9628191Z 
+2025-11-09T14:49:48.9628317Z Found 2 errors.
+2025-11-09T14:49:48.9628908Z [*] 1 fixable with the `--fix` option (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+2025-11-09T14:49:48.9696995Z ##[error]Process completed with exit code 1.
+2025-11-09T14:49:48.9795273Z Post job cleanup.
+2025-11-09T14:49:49.0589908Z [command]/usr/bin/git version
+2025-11-09T14:49:49.0626001Z git version 2.51.2
+2025-11-09T14:49:49.0663981Z Temporarily overriding HOME='/home/runner/work/_temp/55286d43-62db-4b19-816f-94322bfbedae' before making global git config changes
+2025-11-09T14:49:49.0665377Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-09T14:49:49.0670463Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/gh-ci-artifacts-example-full-stack-fastapi/gh-ci-artifacts-example-full-stack-fastapi
+2025-11-09T14:49:49.0705577Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-09T14:49:49.0736767Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-09T14:49:49.0963759Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-09T14:49:49.0986587Z http.https://github.com/.extraheader
+2025-11-09T14:49:49.0996676Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-11-09T14:49:49.1028020Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-09T14:49:49.1360885Z Cleaning up orphan processes

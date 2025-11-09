@@ -82,3 +82,28 @@ extraction-tests:
       - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
       # GitHub Actions markers should be removed
       - string: "##["
+
+  - artifact-type: ruff-txt
+    description: "Ruff Python linter output with code quality violations"
+    log-file: "ruff-txt/logs.txt"
+    include:
+      # Error line pattern: file:line:col: CODE message
+      - regex: '^[a-z]+/[a-z_]+\.py:\d+:\d+:'
+      # Error codes (F = PyFlakes, E = Error, etc)
+      - string: "F401"
+      - string: "F841"
+      # Help text
+      - string: "help:"
+      # Summary line
+      - string: "Found 2 errors"
+    exclude:
+      # Timestamps should be cleaned from extracted output (CI log markers)
+      - regex: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z'
+      # GitHub Actions markers should be removed
+      - string: "##["
+      # CI runner info should not appear
+      - string: "Current runner version"
+      - string: "Runner Image"
+      # Other tool commands should not appear in extracted ruff output
+      - string: "+ mypy"
+      - string: "apt-get"
