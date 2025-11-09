@@ -22,6 +22,8 @@ This documentation covers:
 | Test Frameworks | [`surefire-html`](./test-frameworks.md#surefire-html) | Maven Surefire HTML test report with JUnit test results rendered in HTML | ✓ | — | — | html | [Surefire](https://maven.apache.org/surefire/maven-surefire-plugin/) |
 | Test Frameworks | [`go-test-ndjson`](./test-frameworks.md#go-test-ndjson) | Go test runner JSON output in newline-delimited JSON format with test execution events | ✓ | — | — | ndjson | [Go Test](https://golang.org/cmd/go/) |
 | Test Frameworks | [`cargo-test-txt`](./test-frameworks.md#cargo-test-txt) | Cargo test plain text output from Rust test runner with test results and summary | ✓ | — | — | txt | [Cargo](https://doc.rust-lang.org/cargo/) |
+| Test Frameworks | [`rspec-json`](./test-frameworks.md#rspec-json) | RSpec Ruby testing framework JSON report with test execution results | ✓ | — | — | json | [RSpec](https://rspec.info/) |
+| Test Frameworks | [`rspec-html`](./test-frameworks.md#rspec-html) | RSpec Ruby testing framework HTML report with test results rendered in HTML | ✓ | — | ✓ | html | [RSpec](https://rspec.info/) |
 | Linters | [`eslint-txt`](./linters.md#eslint-txt) | ESLint JavaScript linter plain text output with code quality violations and error messages | ✓ | ✓ | — | txt | [ESLint](https://eslint.org/) |
 | Linters | [`eslint-json`](./linters.md#eslint-json) | ESLint JavaScript linter JSON report with code quality violations and rule violations | ✓ | — | — | json | [ESLint](https://eslint.org/) |
 | Linters | [`tsc-txt`](./linters.md#tsc-txt) | TypeScript compiler (tsc) text output with type checking errors and diagnostics | ✓ | ✓ | — | txt | [TypeScript](https://www.typescriptlang.org/) |

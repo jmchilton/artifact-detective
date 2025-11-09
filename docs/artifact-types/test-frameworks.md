@@ -321,6 +321,76 @@ Success indicators: Test lines are identifiable with 'test' prefix, status (ok/F
 
 ---
 
+## rspec-json
+
+**RSpec Ruby testing framework JSON report with test execution results**
+
+### Capabilities
+
+| Feature | Support |
+|---------|---------|
+| Auto-Detect | ✓ |
+| Extract from Log | — |
+| Convert to JSON | — |
+| Format | json |
+
+### Tool Information
+
+- **Tool**: [RSpec](https://rspec.info/)
+- **Format Spec**: [JSON Format](https://github.com/rspec/rspec_json_formatter)
+
+### Parsing Guide
+
+RSpec JSON reports are complete JSON objects with examples array and summary statistics. The root object contains examples (array of test cases), summary (counts and timings), and messages (any notifications). Each example has id, description, full_description, status (passed/failed/pending), run_time, and exception details for failures.
+
+Look for examples array at root level containing test objects. Each example should have status (passed/failed/pending), description (test name), and full_description (full test path). Failed examples include exception object with class (error type) and message (error description). Summary provides counts for total, passed, failed, and pending tests.
+
+Success indicators: examples array exists and non-empty, each example has status/description/full_description, status is valid enum, run_time is numeric. Common errors: Missing examples array, status not in valid values, exception missing for failed tests, summary counts not matching actual examples, run_time as string instead of number.
+
+
+### Related Information
+
+- See [CLI Reference](../cli/) for command-line usage
+- See [API Functions](../api/functions.md) for programmatic usage
+- See [Fixtures](../fixtures/) for real-world examples
+
+---
+
+## rspec-html
+
+**RSpec Ruby testing framework HTML report with test results rendered in HTML**
+
+### Capabilities
+
+| Feature | Support |
+|---------|---------|
+| Auto-Detect | ✓ |
+| Extract from Log | — |
+| Convert to JSON | ✓ |
+| Format | html |
+
+### Tool Information
+
+- **Tool**: [RSpec](https://rspec.info/)
+- **Format Spec**: [HTML Format](https://github.com/rspec/rspec-html-formatter)
+
+### Parsing Guide
+
+RSpec HTML reports are HTML documents with test results rendered as DOM elements. The report contains summary sections showing total examples, counts of passed/failed/pending, and detailed sections showing individual test results with pass/fail status, timing, and error messages. JavaScript and CSS provide interactivity and styling.
+
+Parse the HTML to find summary sections with test counts and success statistics. Then locate detailed test result sections typically organized by test class/module. Each test entry should have a status indicator (pass/fail/pending), test name/description, duration, and error message (for failed tests). Error details are often in expandable sections.
+
+Success indicators: Summary section with test counts visible, detailed test results with status indicators, test names and descriptions present, duration times shown. Common errors: HTML structure varies between formatter versions, summary section missing or in unexpected location, test names not clearly identifiable, error messages truncated or missing, status indicators hard to parse.
+
+
+### Related Information
+
+- See [CLI Reference](../cli/) for command-line usage
+- See [API Functions](../api/functions.md) for programmatic usage
+- See [Fixtures](../fixtures/) for real-world examples
+
+---
+
 ## Other Categories
 
 - [Test Frameworks](./test-frameworks.md)
