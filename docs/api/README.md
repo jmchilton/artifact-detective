@@ -144,7 +144,9 @@ if (canConvertToJSON(detected)) {
   if (result) {
     const data = JSON.parse(result.json);
     console.log(data.tests);
-    console.log('Guide:', result.description.parsingGuide);
+    console.log('Type:', result.artifact.artifactType); // 'pytest-json'
+    console.log('Guide:', result.artifact.parsingGuide);
+    console.log('From:', result.artifact.normalizedFrom); // 'pytest-html'
   }
 }
 ```
@@ -152,7 +154,7 @@ if (canConvertToJSON(detected)) {
 **Returns:**
 - `ConversionResult` with:
   - `json`: The JSON content as a string
-  - `description`: ArtifactDescription with metadata
+  - `artifact`: ArtifactDescriptor with full type info, `isJSON: true`, and `normalizedFrom` if applicable
 
 ## Type Definitions
 

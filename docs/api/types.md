@@ -114,10 +114,15 @@ Result of converting artifact to JSON.
 
 ```typescript
 interface ConversionResult {
-  json: string;                     // JSON content as string
-  description: ArtifactDescription; // Artifact information
+  json: string;              // JSON content as string
+  artifact: ArtifactDescriptor; // Full artifact descriptor with type info
 }
 ```
+
+The `artifact` field contains the full `ArtifactDescriptor` with:
+- `artifactType`: The type after any normalization (e.g., `pytest-json` not `pytest-html`)
+- `isJSON`: Always `true` for conversion results
+- `normalizedFrom`: Source type if normalization occurred (e.g., `pytest-html`)
 
 ---
 

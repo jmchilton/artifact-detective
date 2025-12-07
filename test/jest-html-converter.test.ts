@@ -95,7 +95,7 @@ describe('Jest HTML converter', () => {
     const conversionResult = convertToJSON({ detectedType: 'jest-html' }, jestHtmlPath);
 
     expect(conversionResult).toBeTruthy();
-    expect(conversionResult?.description).toBeTruthy();
+    expect(conversionResult?.artifact).toBeTruthy();
     expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
 
     const report = JSON.parse(conversionResult!.json);

@@ -82,7 +82,7 @@ export async function normalizeCore(
       }
     }
 
-    return { success: true, data: { json: conversionResult.json, artifact: conversionResult.description } };
+    return { success: true, data: { json: conversionResult.json, artifact: conversionResult.artifact } };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return { success: false, error: `Failed to normalize artifact: ${message}` };

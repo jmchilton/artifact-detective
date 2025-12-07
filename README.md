@@ -133,7 +133,8 @@ if (canConvertToJSON(result)) {
   if (conversion) {
     const data = JSON.parse(conversion.json);
     console.log(`Found ${data.tests.length} tests`);
-    console.log('Parsing guide:', conversion.description.parsingGuide);
+    console.log('Type:', conversion.artifact.artifactType); // 'pytest-json'
+    console.log('Guide:', conversion.artifact.parsingGuide);
   }
 }
 ```

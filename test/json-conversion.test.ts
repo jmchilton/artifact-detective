@@ -144,8 +144,8 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
-      expect(conversionResult?.description.type).toBe('jest-json');
+      expect(conversionResult?.artifact).toBeTruthy();
+      expect(conversionResult?.artifact.artifactType).toBe('jest-json');
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('testResults');
@@ -161,7 +161,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('tests');
@@ -177,7 +177,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('tests');
@@ -193,7 +193,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(parsed).toHaveProperty('testResults');
@@ -210,7 +210,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
     });
 
@@ -224,7 +224,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
     });
 
@@ -238,7 +238,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(parsed.version).toBe('2.1.0');
@@ -256,7 +256,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(Array.isArray(parsed)).toBe(true);
@@ -278,7 +278,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
       const parsed = JSON.parse(conversionResult!.json);
       expect(Array.isArray(parsed)).toBe(true);
@@ -344,7 +344,7 @@ describe('JSON conversion utilities', () => {
       const conversionResult = convertToJSON(result, fixture.path);
 
       expect(conversionResult).toBeTruthy();
-      expect(conversionResult?.description).toBeTruthy();
+      expect(conversionResult?.artifact).toBeTruthy();
       expect(() => JSON.parse(conversionResult!.json)).not.toThrow();
 
       const array = JSON.parse(conversionResult!.json);
@@ -395,7 +395,7 @@ describe('JSON conversion utilities', () => {
 
       expect(conversionResult).toBeTruthy();
       // Description should be for target type (pytest-json), not source (pytest-html)
-      expect(conversionResult?.description.type).toBe('pytest-json');
+      expect(conversionResult?.artifact.artifactType).toBe('pytest-json');
     });
 
     it('description type reflects target type after normalization (jest-html → jest-json)', () => {
@@ -409,7 +409,7 @@ describe('JSON conversion utilities', () => {
 
       expect(conversionResult).toBeTruthy();
       // Description should be for target type (jest-json), not source (jest-html)
-      expect(conversionResult?.description.type).toBe('jest-json');
+      expect(conversionResult?.artifact.artifactType).toBe('jest-json');
     });
 
     it('description type reflects target type after normalization (mypy-ndjson → mypy-json)', () => {
@@ -423,7 +423,7 @@ describe('JSON conversion utilities', () => {
 
       expect(conversionResult).toBeTruthy();
       // Description should be for target type (mypy-json), not source (mypy-ndjson)
-      expect(conversionResult?.description.type).toBe('mypy-json');
+      expect(conversionResult?.artifact.artifactType).toBe('mypy-json');
     });
 
     it('description type remains same for native JSON types (no normalization)', () => {
@@ -437,7 +437,41 @@ describe('JSON conversion utilities', () => {
 
       expect(conversionResult).toBeTruthy();
       // Description should remain jest-json since no normalization occurred
-      expect(conversionResult?.description.type).toBe('jest-json');
+      expect(conversionResult?.artifact.artifactType).toBe('jest-json');
+    });
+
+    it('artifact.isJSON is always true for conversion results', () => {
+      const jsonFixture = fixtures.find((f) => f.type === 'jest-json');
+      const htmlFixture = fixtures.find((f) => f.type === 'pytest-html');
+
+      if (!jsonFixture || !htmlFixture) {
+        throw new Error('Required fixtures not found');
+      }
+
+      // Native JSON type
+      const jsonResult = convertToJSON({ detectedType: 'jest-json' }, jsonFixture.path);
+      expect(jsonResult?.artifact.isJSON).toBe(true);
+
+      // Normalized type
+      const normalizedResult = convertToJSON({ detectedType: 'pytest-html' }, htmlFixture.path);
+      expect(normalizedResult?.artifact.isJSON).toBe(true);
+    });
+
+    it('artifact.normalizedFrom tracks source type after normalization', () => {
+      const htmlFixture = fixtures.find((f) => f.type === 'pytest-html');
+      const jsonFixture = fixtures.find((f) => f.type === 'jest-json');
+
+      if (!htmlFixture || !jsonFixture) {
+        throw new Error('Required fixtures not found');
+      }
+
+      // Normalized type should have normalizedFrom set
+      const normalizedResult = convertToJSON({ detectedType: 'pytest-html' }, htmlFixture.path);
+      expect(normalizedResult?.artifact.normalizedFrom).toBe('pytest-html');
+
+      // Native JSON type should not have normalizedFrom
+      const jsonResult = convertToJSON({ detectedType: 'jest-json' }, jsonFixture.path);
+      expect(jsonResult?.artifact.normalizedFrom).toBeUndefined();
     });
   });
 });

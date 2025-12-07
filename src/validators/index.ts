@@ -809,11 +809,10 @@ export interface ArtifactJsonResult {
 
 /**
  * Result of converting artifact to JSON format
- * @deprecated Use ExtractResult from extract() instead
  */
 export interface ConversionResult {
   json: string;
-  description: ArtifactDescription;
+  artifact: ArtifactDescriptor;
 }
 
 /**
@@ -892,7 +891,7 @@ export function canConvertToJSON(result: { detectedType: ArtifactType }): boolea
  *
  * @param result - The detection result from detectArtifactType
  * @param filePath - Path to the artifact file
- * @returns ConversionResult with JSON and description if conversion is possible, null otherwise
+ * @returns ConversionResult with JSON and artifact descriptor if conversion is possible, null otherwise
  */
 export function convertToJSON(
   result: { detectedType: ArtifactType },
@@ -911,7 +910,16 @@ export function convertToJSON(
       const content = readFileSync(filePath, 'utf-8');
       // Validate it's valid JSON
       JSON.parse(content);
-      return { json: content, description };
+      const artifact: ArtifactDescriptor = {
+        artifactType: result.detectedType,
+        fileExtension: description.fileExtension,
+        shortDescription: description.shortDescription,
+        toolUrl: description.toolUrl,
+        formatUrl: description.formatUrl,
+        parsingGuide: description.parsingGuide,
+        isJSON: true,
+      };
+      return { json: content, artifact };
     } catch {
       return null;
     }
@@ -922,10 +930,21 @@ export function convertToJSON(
     const json = capabilities.normalize(filePath);
     if (json) {
       // Use target type's description after normalization
+      const targetType = capabilities.normalizesTo ?? result.detectedType;
       const targetDescription = capabilities.normalizesTo
         ? getArtifactDescription(capabilities.normalizesTo) ?? description
         : description;
-      return { json, description: targetDescription };
+      const artifact: ArtifactDescriptor = {
+        artifactType: targetType,
+        fileExtension: targetDescription.fileExtension,
+        shortDescription: targetDescription.shortDescription,
+        toolUrl: targetDescription.toolUrl,
+        formatUrl: targetDescription.formatUrl,
+        parsingGuide: targetDescription.parsingGuide,
+        isJSON: true,
+        normalizedFrom: capabilities.normalizesTo ? result.detectedType : undefined,
+      };
+      return { json, artifact };
     }
   }
 
