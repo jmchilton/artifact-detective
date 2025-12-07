@@ -1,3 +1,25 @@
+# [2.0.0](https://github.com/jmchilton/artifact-detective/compare/v1.16.0...v2.0.0) (2025-12-07)
+
+
+* feat!: convertToJSON returns ArtifactDescriptor instead of ArtifactDescription ([d6d7092](https://github.com/jmchilton/artifact-detective/commit/d6d7092dfa311516b21d198f9f4340d7b57d98d3))
+
+
+### BREAKING CHANGES
+
+* ConversionResult.description renamed to ConversionResult.artifact
+and now returns ArtifactDescriptor type which includes:
+- artifactType (typed, not string)
+- isJSON (always true for conversion results)
+- normalizedFrom (source type if normalization occurred)
+
+Consumers should update:
+- result.description → result.artifact
+- result.description.type → result.artifact.artifactType
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
 # [1.16.0](https://github.com/jmchilton/artifact-detective/compare/v1.15.0...v1.16.0) (2025-12-07)
 
 
