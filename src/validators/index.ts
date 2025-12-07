@@ -921,7 +921,11 @@ export function convertToJSON(
   if (capabilities?.normalize) {
     const json = capabilities.normalize(filePath);
     if (json) {
-      return { json, description };
+      // Use target type's description after normalization
+      const targetDescription = capabilities.normalizesTo
+        ? getArtifactDescription(capabilities.normalizesTo) ?? description
+        : description;
+      return { json, description: targetDescription };
     }
   }
 

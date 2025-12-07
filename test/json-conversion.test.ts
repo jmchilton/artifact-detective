@@ -383,5 +383,61 @@ describe('JSON conversion utilities', () => {
       expect(typeof hinted.hint).toBe('string');
       expect(hinted.hint.length).toBeGreaterThan(0);
     });
+
+    it('description type reflects target type after normalization (pytest-html → pytest-json)', () => {
+      const fixture = fixtures.find((f) => f.type === 'pytest-html');
+      if (!fixture) {
+        throw new Error('pytest-html fixture not found');
+      }
+
+      const result = { detectedType: 'pytest-html' as ArtifactType };
+      const conversionResult = convertToJSON(result, fixture.path);
+
+      expect(conversionResult).toBeTruthy();
+      // Description should be for target type (pytest-json), not source (pytest-html)
+      expect(conversionResult?.description.type).toBe('pytest-json');
+    });
+
+    it('description type reflects target type after normalization (jest-html → jest-json)', () => {
+      const fixture = fixtures.find((f) => f.type === 'jest-html');
+      if (!fixture) {
+        throw new Error('jest-html fixture not found');
+      }
+
+      const result = { detectedType: 'jest-html' as ArtifactType };
+      const conversionResult = convertToJSON(result, fixture.path);
+
+      expect(conversionResult).toBeTruthy();
+      // Description should be for target type (jest-json), not source (jest-html)
+      expect(conversionResult?.description.type).toBe('jest-json');
+    });
+
+    it('description type reflects target type after normalization (mypy-ndjson → mypy-json)', () => {
+      const fixture = fixtures.find((f) => f.type === 'mypy-ndjson');
+      if (!fixture) {
+        throw new Error('mypy-ndjson fixture not found');
+      }
+
+      const result = { detectedType: 'mypy-ndjson' as ArtifactType };
+      const conversionResult = convertToJSON(result, fixture.path);
+
+      expect(conversionResult).toBeTruthy();
+      // Description should be for target type (mypy-json), not source (mypy-ndjson)
+      expect(conversionResult?.description.type).toBe('mypy-json');
+    });
+
+    it('description type remains same for native JSON types (no normalization)', () => {
+      const fixture = fixtures.find((f) => f.type === 'jest-json');
+      if (!fixture) {
+        throw new Error('jest-json fixture not found');
+      }
+
+      const result = { detectedType: 'jest-json' as ArtifactType };
+      const conversionResult = convertToJSON(result, fixture.path);
+
+      expect(conversionResult).toBeTruthy();
+      // Description should remain jest-json since no normalization occurred
+      expect(conversionResult?.description.type).toBe('jest-json');
+    });
   });
 });
