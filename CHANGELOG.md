@@ -1,3 +1,21 @@
+# [1.16.0](https://github.com/jmchilton/artifact-detective/compare/v1.15.0...v1.16.0) (2025-12-07)
+
+
+### Bug Fixes
+
+* return target type description after normalization ([c6a4621](https://github.com/jmchilton/artifact-detective/commit/c6a46210668be1ecd1efce4f4459351d99f84ee7))
+* use extract() instead of deprecated extractArtifactFromLog() in tests ([644f700](https://github.com/jmchilton/artifact-detective/commit/644f700501757d173e1fe340f7b197f95f1ba0bd))
+
+
+### Features
+
+* add /implement-normalizer claude command ([1fcecb9](https://github.com/jmchilton/artifact-detective/commit/1fcecb9075c111fd2da15dccc04c161deeba2277))
+* add developer tooling for adding new artifact types ([525e1bc](https://github.com/jmchilton/artifact-detective/commit/525e1bc18721bc699672ff1656474772b9751021))
+* add jest-txt normalizer to jest-json with JavaScript project fixture ([6a47c54](https://github.com/jmchilton/artifact-detective/commit/6a47c540e1e85764b74ea93c6c010dc88e9830f8))
+* add mypy-txt extraction with dedicated extractor ([f968694](https://github.com/jmchilton/artifact-detective/commit/f968694154e4ad7d8cfd2278d9299a3dd5e031ca))
+* add normalizer implementation infrastructure ([333cd87](https://github.com/jmchilton/artifact-detective/commit/333cd87d16fee176aff4ba4a06630e495e803cf4))
+* add ruff-txt extraction fixture with dedicated extractor ([3bbdcc9](https://github.com/jmchilton/artifact-detective/commit/3bbdcc97fdb55698c53bb9bbae1ad960cf09a007))
+
 # [1.15.0](https://github.com/jmchilton/artifact-detective/compare/v1.14.0...v1.15.0) (2025-11-07)
 
 
