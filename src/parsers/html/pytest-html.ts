@@ -64,15 +64,19 @@ function convertEmbeddedData(data: EmbeddedTestData): PytestReport {
         // Map pytest result to outcome
         const resultValue = lastResult.result || lastResult.outcome || '';
         const result = String(resultValue).toLowerCase();
-        const outcome = result.includes('pass')
-          ? 'passed'
-          : result.includes('fail')
-            ? 'failed'
-            : result.includes('skip')
-              ? 'skipped'
-              : result.includes('error')
-                ? 'error'
-                : result;
+        const outcome = result.startsWith('xfail')
+          ? 'xfailed'
+          : result.startsWith('xpass')
+            ? 'xpassed'
+            : result.includes('pass')
+              ? 'passed'
+              : result.includes('fail')
+                ? 'failed'
+                : result.includes('skip')
+                  ? 'skipped'
+                  : result.includes('error')
+                    ? 'error'
+                    : result;
 
         if (outcome === 'failed' || outcome === 'error') {
           hasFailed = true;
@@ -85,7 +89,7 @@ function convertEmbeddedData(data: EmbeddedTestData): PytestReport {
 
         // Include log output (stack traces, captured stdout/stderr, etc.)
         if (lastResult.log && typeof lastResult.log === 'string') {
-          test.log = lastResult.log;
+          test.log = decodeHtmlEntities(lastResult.log);
         }
 
         // Include extras (screenshots, videos, other media)
@@ -112,4 +116,15 @@ function convertEmbeddedData(data: EmbeddedTestData): PytestReport {
   }
 
   return report;
+}
+
+// pytest-html escapes logs for innerHTML rendering.
+function decodeHtmlEntities(text: string): string {
+  const named: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+  return text.replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos);/gi, (entity, code: string) => {
+    if (code[0] !== '#') return named[code.toLowerCase()];
+    const point =
+      code[1].toLowerCase() === 'x' ? parseInt(code.slice(2), 16) : parseInt(code.slice(1), 10);
+    return point <= 0x10ffff ? String.fromCodePoint(point) : entity;
+  });
 }

@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { mkdtempSync, writeFileSync } from 'fs';
+import { tmpdir } from 'os';
 import { join } from 'path';
 import { extractPytestJSON } from '../src/parsers/html/pytest-html.js';
 import { FIXTURES_DIR } from './fixtures-helper.js';
@@ -93,6 +95,51 @@ describe('extractPytestJSON', () => {
       const report = extractPytestJSON(htmlPath);
 
       // Report has failures, so exit code should be 1
+      expect(report!.exitCode).toBe(1);
+    });
+  });
+
+  describe('pytest-html data blobs', () => {
+    function reportFile(tests: Record<string, Array<{ result: string; log?: string }>>): string {
+      const blob = JSON.stringify({ environment: {}, tests })
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;');
+      const path = join(mkdtempSync(join(tmpdir(), 'pytest-html-')), 'report.html');
+      writeFileSync(
+        path,
+        `<html><body><div id="data-container" data-jsonblob="${blob}"></div></body></html>`,
+      );
+      return path;
+    }
+
+    it('keeps xfailed and xpassed distinct from failed and passed', () => {
+      const report = extractPytestJSON(
+        reportFile({
+          't.py::xf': [{ result: 'XFailed' }],
+          't.py::xp': [{ result: 'XPassed' }],
+          't.py::p': [{ result: 'Passed' }],
+        }),
+      );
+      expect(Object.fromEntries(report!.tests.map((t) => [t.nodeid, t.outcome]))).toEqual({
+        't.py::xf': 'xfailed',
+        't.py::xp': 'xpassed',
+        't.py::p': 'passed',
+      });
+      expect(report!.exitCode).toBe(0);
+    });
+
+    it('decodes the HTML escaping pytest-html applies to logs', () => {
+      const report = extractPytestJSON(
+        reportFile({
+          't.py::f': [
+            {
+              result: 'Failed',
+              log: 'E   TypeError: got &#x27;url&#x27; &amp; &lt;x&gt; &quot;y&quot;',
+            },
+          ],
+        }),
+      );
+      expect(report!.tests[0].log).toBe(`E   TypeError: got 'url' & <x> "y"`);
       expect(report!.exitCode).toBe(1);
     });
   });
