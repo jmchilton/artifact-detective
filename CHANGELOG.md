@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/jmchilton/artifact-detective/compare/v2.0.0...v2.0.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* keep pytest-html xfail/xpass outcomes and decode log entities ([beb2460](https://github.com/jmchilton/artifact-detective/commit/beb246067d15948f2fae34075c7bca9d60bc3f8a)), closes [#x27](https://github.com/jmchilton/artifact-detective/issues/x27)
+
 # [2.0.0](https://github.com/jmchilton/artifact-detective/compare/v1.16.0...v2.0.0) (2025-12-07)
 
 
